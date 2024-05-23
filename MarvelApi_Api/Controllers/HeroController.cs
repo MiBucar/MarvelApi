@@ -24,17 +24,20 @@ namespace MarvelApi_Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetHeroes(){
+        public async Task<IActionResult> GetHeroes()
+        {
             var heroes = await _heroRepository.GetAllAsync();
             return Ok(heroes);
         }
 
         [HttpGet("{id:int}")]
         [ServiceFilter(typeof(ValidateHeroExistsAttribute))]
-        public async Task<IActionResult> GetHero(int id){
+        public async Task<IActionResult> GetHero(int id)
+        {
             var hero = await _heroRepository.GetAsync(x => x.Id == id);
 
-            var response = new ApiResponse{
+            var response = new ApiResponse
+            {
                 Result = hero,
                 StatusCode = HttpStatusCode.OK,
                 IsSuccess = true
@@ -44,21 +47,37 @@ namespace MarvelApi_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateHero([FromBody] HeroCreateDTO hero){
+        [ServiceFilter(typeof(ValidateHeroPropertiesAttribute))]
+        public async Task<IActionResult> CreateHero([FromBody] HeroCreateDTO hero)
+        {
             var mappedHero = _autoMapper.Map<HeroCreateDTO, Hero>(hero);
             await _heroRepository.CreateAsync(mappedHero);
-            return CreatedAtAction(nameof(GetHero),new {id = mappedHero.Id}, mappedHero);
+
+            var response = new ApiResponse
+            {
+                IsSuccess = true,
+                StatusCode = HttpStatusCode.Created,
+                Result = mappedHero
+            };
+
+            return CreatedAtAction(nameof(GetHero), new { id = mappedHero.Id }, response);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateHero(int id, [FromBody] HeroUpdateDTO hero){
-            var mappedHero = _autoMapper.Map<HeroUpdateDTO, Hero>(hero);
-            await _heroRepository.UpdateAsync(mappedHero);
+        [ServiceFilter(typeof(ValidateHeroExistsAttribute))]
+        [ServiceFilter(typeof(ValidateHeroPropertiesAttribute))]
+        public async Task<IActionResult> UpdateHero(int id, [FromBody] HeroUpdateDTO hero)
+        {
+            var existingHero = await _heroRepository.GetAsync(x => x.Id == id);
+            _autoMapper.Map(hero, existingHero);
+            await _heroRepository.UpdateAsync(existingHero);
             return NoContent();
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteHero(int id){
+        [ServiceFilter(typeof(ValidateHeroExistsAttribute))]
+        public async Task<IActionResult> DeleteHero(int id)
+        {
             var hero = await _heroRepository.GetAsync(x => x.Id == id);
             await _heroRepository.DeleteAsync(id);
             return Ok(hero);
