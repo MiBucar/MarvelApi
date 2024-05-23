@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MarvelApi_Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0f041285d714c430331b7ac88a5ebc432aea8da0")]
 [assembly: System.Reflection.AssemblyProductAttribute("MarvelApi_Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MarvelApi_Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

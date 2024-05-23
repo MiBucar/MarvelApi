@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IHeroRepository, HeroRepository>();
 builder.Services.AddScoped<ValidateHeroExistsAttribute>();
+builder.Services.AddScoped<ValidateHeroPropertiesAttribute>();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
 var app = builder.Build();
