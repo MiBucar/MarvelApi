@@ -75,6 +75,7 @@ namespace MarvelApi_Api.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [ServiceFilter(typeof(ValidateHeroExistsAttribute))]
         public async Task<IActionResult> DeleteHero(int id)
         {
             var hero = await _heroRepository.GetAsync(x => x.Id == id);
