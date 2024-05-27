@@ -24,7 +24,7 @@ namespace MarvelApi_Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCharacters()
         {
-            var characters = await _characterRepository.GetAllAsync(includeProperties: "Allies,Enemies");
+            var characters = await _characterRepository.GetAllAsync(includeProperties: "CharacterRelationships");
             var mappedCharacters = _autoMapper.Map<IEnumerable<Character>, IEnumerable<CharacterDTO>>(characters);
             return Ok(mappedCharacters);
         }
@@ -33,20 +33,23 @@ namespace MarvelApi_Api.Controllers
         [ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
         public async Task<IActionResult> GetCharacter(int id)
         {
-            var character = await _characterRepository.GetAsync(x => x.Id == id, includeProperties: "Allies,Enemies");
+            var character = await _characterRepository.GetAsync(x => x.Id == id, includeProperties: "CharacterRelationships");
+            var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
             var response = new ApiResponse
             {
-                Result = character,
+                Result = mappedCharacter,
                 StatusCode = HttpStatusCode.OK,
                 IsSuccess = true
             };
 
-            return Ok(response);
+            return Ok(response);           
         }
 
         [HttpPost]
         [ServiceFilter(typeof(ValidateCharacterPropertiesAttribute))]
+        // Validate entered allies and enemies exist
+        // Override CreateCharacter method in repo
         public async Task<IActionResult> CreateCharacter([FromBody] CharacterCreateDTO character)
         {
             var allyIds = character.AllyIds.ToList();
@@ -60,14 +63,16 @@ namespace MarvelApi_Api.Controllers
             if (enemyIds.Any())
                 await _characterRepository.AddEnemyAsync(mappedCharacter.Id, enemyIds);
 
+            var characterToReturn = _autoMapper.Map<CharacterDTO>(mappedCharacter);
+
             var response = new ApiResponse
             {
                 IsSuccess = true,
                 StatusCode = HttpStatusCode.Created,
-                Result = character
+                Result = characterToReturn
             };
 
-            return CreatedAtAction(nameof(GetCharacter), new { id = mappedCharacter.Id }, response);
+            return CreatedAtAction(nameof(GetCharacter), new { id = characterToReturn.Id }, response);
         }
 
         [HttpPost("{id:int}/allies")]
@@ -75,14 +80,14 @@ namespace MarvelApi_Api.Controllers
         [ServiceFilter(typeof(ValidateCharactersNotRelatedAttribute))]
         public async Task<IActionResult> AddAllies(int id, [FromBody] List<int> allyIds)
         {
-            await _characterRepository.AddAllyAsync(id, allyIds);
-            var character = _characterRepository.GetAsync(x => x.Id == id);
+            var character = await _characterRepository.AddAllyAsync(id, allyIds);
+            var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
             var response = new ApiResponse
             {
                 IsSuccess = true,
                 StatusCode = HttpStatusCode.OK,
-                Result = character
+                Result = mappedCharacter
             };
 
             return Ok(response);
@@ -93,14 +98,14 @@ namespace MarvelApi_Api.Controllers
         [ServiceFilter(typeof(ValidateCharactersNotRelatedAttribute))]
         public async Task<IActionResult> AddEnemies(int id, [FromBody] List<int> enemyIds)
         {
-            await _characterRepository.AddEnemyAsync(id, enemyIds);
-            var character = _characterRepository.GetAsync(x => x.Id == id);
+            var character = await _characterRepository.AddEnemyAsync(id, enemyIds);
+            var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
             var response = new ApiResponse
             {
                 IsSuccess = true,
                 StatusCode = HttpStatusCode.OK,
-                Result = character
+                Result = mappedCharacter
             };
 
             return Ok(response);
@@ -111,19 +116,34 @@ namespace MarvelApi_Api.Controllers
         [ServiceFilter(typeof(ValidateCharacterPropertiesAttribute))]
         public async Task<IActionResult> UpdateCharacter(int id, [FromBody] CharacterUpdateDTO character)
         {
-            var existingCharacter = await _characterRepository.GetAsync(x => x.Id == id);
-            _autoMapper.Map(character, existingCharacter);
-            await _characterRepository.UpdateAsync(existingCharacter);
-            return NoContent();
+            var updatedCharacter = await _characterRepository.UpdateAsync(character);
+            var characterToReturn = _autoMapper.Map<CharacterDTO>(updatedCharacter);
+
+            var response = new ApiResponse()
+            {
+                StatusCode = HttpStatusCode.OK,
+                IsSuccess = true,
+                Result = characterToReturn
+            };
+
+            return Ok(response);
         }
 
         [HttpDelete("{id:int}")]
         [ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
         public async Task<IActionResult> DeleteCharacter(int id)
         {
-            var character = await _characterRepository.GetAsync(x => x.Id == id, includeProperties: "Allies,Enemies");
-            await _characterRepository.DeleteAsync(id);
-            return Ok(character);
+            var character = await _characterRepository.DeleteAsync(id);
+            var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
+
+            var response = new ApiResponse()
+            {
+                IsSuccess = true,
+                StatusCode = HttpStatusCode.OK,
+                Result = mappedCharacter
+            };
+
+            return Ok(response);
         }
     }
 }

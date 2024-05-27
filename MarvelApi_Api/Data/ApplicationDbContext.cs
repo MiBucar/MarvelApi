@@ -9,43 +9,27 @@ namespace MarvelApi_Api.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptions) : base(dbContextOptions) { }
 
         public DbSet<Character> Characters { get; set; }
+        public DbSet<CharacterRelationship> CharacterRelationships { get; set; }
         // public DbSet<Team> Teams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Character>()
-                        .HasMany(c => c.Allies)
-                        .WithMany()
-                        .UsingEntity<Dictionary<string, object>>(
-                            "CharacterAllies",
-                            j => j
-                                .HasOne<Character>()
-                                .WithMany()
-                                .HasForeignKey("AllyId")
-                                .OnDelete(DeleteBehavior.Cascade),
-                            j => j
-                                .HasOne<Character>()
-                                .WithMany()
-                                .HasForeignKey("CharacterId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                        );
+            base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Character>()
-                        .HasMany(c => c.Enemies)
-                        .WithMany()
-                        .UsingEntity<Dictionary<string, object>>(
-                            "CharacterEnemies",
-                            j => j
-                                .HasOne<Character>()
-                                .WithMany()
-                                .HasForeignKey("EnemyId")
-                                .OnDelete(DeleteBehavior.Cascade),
-                            j => j
-                                .HasOne<Character>()
-                                .WithMany()
-                                .HasForeignKey("CharacterId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                        );
+            modelBuilder.Entity<CharacterRelationship>()
+            .HasKey(cr => new { cr.CharacterId, cr.RelatedCharacterId });
+
+            modelBuilder.Entity<CharacterRelationship>()
+                .HasOne(cr => cr.Character)
+                .WithMany(c => c.CharacterRelationships)
+                .HasForeignKey(cr => cr.CharacterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CharacterRelationship>()
+                .HasOne(cr => cr.RelatedCharacter)
+                .WithMany()
+                .HasForeignKey(cr => cr.RelatedCharacterId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Character>().HasData(
                 new Character
@@ -92,8 +76,6 @@ namespace MarvelApi_Api.Data
             //         Description = "Team trying to destroy the world.",
             //     }
             // );
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }
