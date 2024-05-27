@@ -17,7 +17,7 @@ namespace MarvelApi_Api.Models.DTOs.Character
         [Required]
         public string Origin { get; set; }
         public List<string> Powers { get; set; }
-        public List<string> Allies { get; set; }
-        public List<int> Enemies { get; set; }
+        public List<int> AllyIds { get; set; } = new List<int>();
+        public List<int> EnemyIds { get; set; } = new List<int>();
     }
 }
