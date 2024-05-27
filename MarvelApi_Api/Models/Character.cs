@@ -18,17 +18,7 @@ namespace MarvelApi_Api.Models
         public List<string> Powers { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public DateTime DateUpdated { get; set; }
-        public virtual ICollection<CharacterRelationship> CharacterRelationships { get; set; } = new List<CharacterRelationship>();
-    }
-
-    public class CharacterRelationship
-    {
-        public int CharacterId { get; set; }
-        public Character Character { get; set; }
-
-        public int RelatedCharacterId { get; set; }
-        public Character RelatedCharacter { get; set; }
-
-        public bool IsEnemy { get; set; }
+        public ICollection<Character> Enemies { get; set; } = new List<Character>();
+        public ICollection<Character> Allies { get; set; } = new List<Character>();
     }
 }

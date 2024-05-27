@@ -8,19 +8,19 @@ namespace MarvelApi_Api
     {
         public AutoMapperConfig()
         {
-            CreateMap<CharacterCreateDTO, Character>().ReverseMap();
+            CreateMap<CharacterCreateDTO, Character>()
+            .ForMember(dest => dest.Enemies, opt => opt.Ignore())
+            .ForMember(dest => dest.Allies, opt => opt.Ignore());
+
             CreateMap<CharacterUpdateDTO, Character>().ReverseMap();
 
-            CreateMap<CharacterUpdateDTO, Character>()
-            .ForMember(dest => dest.CharacterRelationships, opt => opt.Ignore());
-
             CreateMap<Character, CharacterDTO>()
-            .ForMember(dest => dest.EnemyIds, opt => opt.MapFrom(src => src.CharacterRelationships
-                .Where(cr => cr.IsEnemy)
-                .Select(cr => cr.RelatedCharacterId)))
-            .ForMember(dest => dest.AllyIds, opt => opt.MapFrom(src => src.CharacterRelationships
-                .Where(cr => !cr.IsEnemy)
-                .Select(cr => cr.RelatedCharacterId)));
+            .ForMember(dest => dest.Enemies, opt => opt.MapFrom(src => src.Enemies.Select(e => e.Name)))
+            .ForMember(dest => dest.Allies, opt => opt.MapFrom(src => src.Allies.Select(a => a.Name)));
+
+        CreateMap<CharacterDTO, Character>()
+            .ForMember(dest => dest.Enemies, opt => opt.Ignore())
+            .ForMember(dest => dest.Allies, opt => opt.Ignore());
         }
     }
 }

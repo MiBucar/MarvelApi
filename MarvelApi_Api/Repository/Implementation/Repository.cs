@@ -14,14 +14,13 @@ namespace MarvelApi_Api.Repository.Implementation
             _db = db;
             _dbSet = _db.Set<T>();
         }
-        public virtual async Task<T> CreateAsync(T obj)
+        public async Task CreateAsync(T obj)
         {
             await _dbSet.AddAsync(obj);
             await SaveChangesAsync();
-            return obj;
         }
 
-        public virtual async Task<T> DeleteAsync(int id)
+        public async Task<T> DeleteAsync(int id)
         {
             var itemToRemove = await _dbSet.FindAsync(id);
             if (itemToRemove != null)

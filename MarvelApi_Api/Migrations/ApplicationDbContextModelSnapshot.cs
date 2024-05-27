@@ -22,6 +22,36 @@ namespace MarvelApi_Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CharacterAllies", b =>
+                {
+                    b.Property<int>("AllyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AllyId", "CharacterId");
+
+                    b.HasIndex("CharacterId");
+
+                    b.ToTable("CharacterAllies");
+                });
+
+            modelBuilder.Entity("CharacterEnemies", b =>
+                {
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EnemyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CharacterId", "EnemyId");
+
+                    b.HasIndex("EnemyId");
+
+                    b.ToTable("CharacterEnemies");
+                });
+
             modelBuilder.Entity("MarvelApi_Api.Models.Character", b =>
                 {
                     b.Property<int>("Id")
@@ -72,7 +102,7 @@ namespace MarvelApi_Api.Migrations
                             Id = 1,
                             Appearance = "Avengers",
                             Backstory = "Was  rich man",
-                            DateCreated = new DateTime(2024, 5, 27, 12, 20, 40, 38, DateTimeKind.Utc).AddTicks(4765),
+                            DateCreated = new DateTime(2024, 5, 27, 11, 10, 38, 401, DateTimeKind.Utc).AddTicks(8190),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsVillain = false,
                             Name = "Iron man",
@@ -84,7 +114,7 @@ namespace MarvelApi_Api.Migrations
                             Id = 2,
                             Appearance = "Avengers",
                             Backstory = "Was  rich man",
-                            DateCreated = new DateTime(2024, 5, 27, 12, 20, 40, 38, DateTimeKind.Utc).AddTicks(4770),
+                            DateCreated = new DateTime(2024, 5, 27, 11, 10, 38, 401, DateTimeKind.Utc).AddTicks(8190),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsVillain = true,
                             Name = "Thanos",
@@ -96,7 +126,7 @@ namespace MarvelApi_Api.Migrations
                             Id = 3,
                             Appearance = "Avengers",
                             Backstory = "Was  rich man",
-                            DateCreated = new DateTime(2024, 5, 27, 12, 20, 40, 38, DateTimeKind.Utc).AddTicks(4772),
+                            DateCreated = new DateTime(2024, 5, 27, 11, 10, 38, 401, DateTimeKind.Utc).AddTicks(8190),
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsVillain = false,
                             Name = "Daredevil",
@@ -105,46 +135,34 @@ namespace MarvelApi_Api.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MarvelApi_Api.Models.CharacterRelationship", b =>
+            modelBuilder.Entity("CharacterAllies", b =>
                 {
-                    b.Property<int>("CharacterId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RelatedCharacterId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsEnemy")
-                        .HasColumnType("bit");
-
-                    b.HasKey("CharacterId", "RelatedCharacterId");
-
-                    b.HasIndex("RelatedCharacterId");
-
-                    b.ToTable("CharacterRelationships");
-                });
-
-            modelBuilder.Entity("MarvelApi_Api.Models.CharacterRelationship", b =>
-                {
-                    b.HasOne("MarvelApi_Api.Models.Character", "Character")
-                        .WithMany("CharacterRelationships")
-                        .HasForeignKey("CharacterId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("MarvelApi_Api.Models.Character", "RelatedCharacter")
+                    b.HasOne("MarvelApi_Api.Models.Character", null)
                         .WithMany()
-                        .HasForeignKey("RelatedCharacterId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("AllyId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Character");
-
-                    b.Navigation("RelatedCharacter");
+                    b.HasOne("MarvelApi_Api.Models.Character", null)
+                        .WithMany()
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("MarvelApi_Api.Models.Character", b =>
+            modelBuilder.Entity("CharacterEnemies", b =>
                 {
-                    b.Navigation("CharacterRelationships");
+                    b.HasOne("MarvelApi_Api.Models.Character", null)
+                        .WithMany()
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MarvelApi_Api.Models.Character", null)
+                        .WithMany()
+                        .HasForeignKey("EnemyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
