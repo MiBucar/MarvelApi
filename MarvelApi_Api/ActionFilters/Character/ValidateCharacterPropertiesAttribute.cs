@@ -1,17 +1,17 @@
 using System.Net;
 using MarvelApi_Api.Data;
 using MarvelApi_Api.Models;
-using MarvelApi_Api.Models.DTOs.Hero;
+using MarvelApi_Api.Models.DTOs.Character;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace MarvelApi_Api.ActionFilters.Hero
+namespace MarvelApi_Api.ActionFilters.Character
 {
-    public class ValidateHeroPropertiesAttribute : ActionFilterAttribute
+    public class ValidateCharacterPropertiesAttribute : ActionFilterAttribute
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public ValidateHeroPropertiesAttribute(ApplicationDbContext db)
+        public ValidateCharacterPropertiesAttribute(ApplicationDbContext db)
         {
             _dbContext = db;
         }
@@ -31,22 +31,22 @@ namespace MarvelApi_Api.ActionFilters.Hero
                 context.Result = new JsonResult(response) { StatusCode = (int)HttpStatusCode.BadRequest };
                 return;
             }
-            if (context.ActionArguments["hero"] is HeroCreateDTO heroCreate && _dbContext.Heroes.Any(x => x.Name == heroCreate.Name))
+            if (context.ActionArguments["character"] is CharacterCreateDTO characterCreate && _dbContext.Characters.Any(x => x.Name == characterCreate.Name))
             {
-                SetBadRequestResult(context, heroCreate.Name);
+                SetBadRequestResult(context, characterCreate.Name);
             }
-            else if (context.ActionArguments["hero"] is HeroUpdateDTO heroUpdate && _dbContext.Heroes.Any(x => x.Name == heroUpdate.Name))
+            else if (context.ActionArguments["character"] is CharacterUpdateDTO characterUpdate && _dbContext.Characters.Any(x => x.Name == characterUpdate.Name))
             {
-                SetBadRequestResult(context, heroUpdate.Name);
+                SetBadRequestResult(context, characterUpdate.Name);
             }
         }
 
-        public void SetBadRequestResult(ActionExecutingContext context, string heroName){
+        public void SetBadRequestResult(ActionExecutingContext context, string characterName){
             var response = new ApiResponse
                 {
                     IsSuccess = false,
                     StatusCode = HttpStatusCode.BadRequest,
-                    ErrorMessages = new List<string> {$"Character already exists: {heroName}"}
+                    ErrorMessages = new List<string> {$"Character already exists: {characterName}"}
                 };
 
                 context.Result = new JsonResult(response) {StatusCode = (int)HttpStatusCode.BadRequest};
