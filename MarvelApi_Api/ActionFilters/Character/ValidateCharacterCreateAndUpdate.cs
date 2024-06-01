@@ -12,37 +12,50 @@ namespace MarvelApi_Api.ActionFilters.Character
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly ApiFilterResponseHelper _responseHelper;
+        private readonly ILogger<ValidateCharacterCreateAndUpdateAttribute> _logger;
 
-        public ValidateCharacterCreateAndUpdateAttribute(ApplicationDbContext db, ApiFilterResponseHelper resposeHelper)
+        public ValidateCharacterCreateAndUpdateAttribute(ApplicationDbContext db, ApiFilterResponseHelper resposeHelper,
+            ILogger<ValidateCharacterCreateAndUpdateAttribute> logger)
         {
             _dbContext = db;
             _responseHelper = resposeHelper;
+            _logger = logger;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            _logger.LogInformation("Entering {FilterName}", nameof(ValidateCharacterCreateAndUpdateAttribute));
+
             if (!context.ModelState.IsValid)
             {
-                context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.BadRequest, "Information enetered was not valid.");
+                context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.BadRequest, "Information entered was not valid.");
                 return;
             }
-            if (context.ActionArguments["character"] is CharacterCreateDTO characterCreate && await _dbContext.Characters.AnyAsync(x => x.Name == characterCreate.Name))
+
+            if (context.ActionArguments["character"] is CharacterCreateDTO characterCreate)
             {
+                if (await _dbContext.Characters.AnyAsync(x => x.Name == characterCreate.Name))
+                {
+                    context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.BadRequest, $"{characterCreate.Name} already exists.");
+                    return;
+                }
+
                 var characterIds = characterCreate.AllyIds.Union(characterCreate.EnemyIds).ToList();
                 if (!await CharacterIdsExist(context, characterIds))
-                    return;
-
-                context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.BadRequest, characterCreate.Name);
-                return;
+                    return;                
             }
-            else if (context.ActionArguments["character"] is CharacterUpdateDTO characterUpdate && await _dbContext.Characters.AnyAsync(x => x.Id != characterUpdate.Id && x.Name == characterUpdate.Name))
+
+            else if (context.ActionArguments["character"] is CharacterUpdateDTO characterUpdate)
             {
+                if (await _dbContext.Characters.AnyAsync(x => x.Id != characterUpdate.Id && x.Name == characterUpdate.Name))
+                {
+                    context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.BadRequest, $"{characterUpdate.Name} already exists.");
+                    return;
+                }
+
                 var characterIds = characterUpdate.AllyIds.Union(characterUpdate.EnemyIds).ToList();
                 if (!await CharacterIdsExist(context, characterIds))
-                    return;
-
-                context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.BadRequest, characterUpdate.Name);
-                return;
+                    return;                
             }
             await next();
         }

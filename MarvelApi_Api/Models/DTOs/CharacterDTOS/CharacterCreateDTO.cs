@@ -17,7 +17,6 @@ namespace MarvelApi_Api.Models.DTOs.CharacterDTOS
         public string Origin { get; set; }
         public List<string> Powers { get; set; }
         public int? TeamId { get; set; }
-        public TeamDTO Team { get; set; }
         public ICollection<int> EnemyIds { get; set; } = new List<int>();
         public ICollection<int> AllyIds { get; set; } = new List<int>();
     }

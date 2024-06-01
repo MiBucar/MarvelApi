@@ -10,15 +10,19 @@ namespace MarvelApi_Api.ActionFilters.Character
     {
         private readonly ApplicationDbContext _db;
         private readonly ApiFilterResponseHelper _responseHelper;
+        private readonly ILogger<ValidateCharacterExistsAttribute> _logger;
 
-        public ValidateCharacterExistsAttribute(ApplicationDbContext db, ApiFilterResponseHelper resposeHelper)
+        public ValidateCharacterExistsAttribute(ApplicationDbContext db, ApiFilterResponseHelper resposeHelper, ILogger<ValidateCharacterExistsAttribute> logger)
         {
             _db = db;
             _responseHelper = resposeHelper;
+            _logger = logger;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            _logger.LogInformation("Entering {FilterName}", nameof(ValidateCharacterExistsAttribute));
+
             var idsToCheck = new List<int>();
 
             if (context.ActionArguments.TryGetValue("id", out var idObj) && idObj is int id)

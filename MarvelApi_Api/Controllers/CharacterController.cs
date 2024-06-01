@@ -6,6 +6,7 @@ using MarvelApi_Api.Models;
 using MarvelApi_Api.Models.DTOs.CharacterDTOS;
 using MarvelApi_Api.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace MarvelApi_Api.Controllers
 {
@@ -16,12 +17,15 @@ namespace MarvelApi_Api.Controllers
         private readonly ICharacterRepository _characterRepository;
         private readonly IMapper _autoMapper;
         private readonly ApiResponseHelper _responseHelper;
+        private readonly ILogger<CharacterController> _logger; 
 
-        public CharacterController(ICharacterRepository characterRepository, IMapper autoMapper, ApiResponseHelper responseHelper)
+        public CharacterController(ICharacterRepository characterRepository, IMapper autoMapper, ApiResponseHelper responseHelper,
+            ILogger<CharacterController> logger)
         {
             _characterRepository = characterRepository;
             _autoMapper = autoMapper;
             _responseHelper = responseHelper;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -29,6 +33,8 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetCharacters));
+
                 var characters = await _characterRepository.GetAllAsync(includeProperties: "CharacterRelationships,Team");
                 var mappedCharacters = _autoMapper.Map<IEnumerable<Character>, IEnumerable<CharacterDTO>>(characters);
 
@@ -37,8 +43,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _responseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -48,6 +53,8 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetCharacter));
+
                 var character = await _characterRepository.GetAsync(x => x.Id == id, includeProperties: "CharacterRelationships");
                 var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
@@ -56,8 +63,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _responseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -67,6 +73,8 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(CreateCharacter));
+
                 var allyIds = character.AllyIds.ToList();
                 var enemyIds = character.EnemyIds.ToList();
 
@@ -85,8 +93,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _responseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -97,6 +104,8 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(AddAllies));
+
                 var character = await _characterRepository.AddAllyAsync(id, allyIds);
                 var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
@@ -105,8 +114,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _responseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -117,6 +125,8 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(AddEnemies));
+
                 var character = await _characterRepository.AddEnemyAsync(id, enemyIds);
                 var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
@@ -125,8 +135,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _responseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -135,6 +144,8 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(AddTeamToCharacter));
+
                 var character = await _characterRepository.AddTeamToCharacter(teamId, id);
                 var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
@@ -143,8 +154,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _responseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -155,6 +165,8 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(UpdateCharacter));
+
                 var updatedCharacter = await _characterRepository.UpdateAsync(character);
                 var characterToReturn = _autoMapper.Map<CharacterDTO>(updatedCharacter);
 
@@ -163,8 +175,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _responseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -174,6 +185,8 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(DeleteCharacter));
+
                 var character = await _characterRepository.DeleteAsync(id);
                 var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
@@ -182,9 +195,15 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _responseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
+        }
+
+        private IActionResult HandleException(Exception ex)
+        {
+            _logger.LogError("{message}", ex.Message);
+            var response = _responseHelper.GetApiReponseNotSuccess(ex.Message);
+            return StatusCode((int)HttpStatusCode.InternalServerError, response);
         }
     }
 }

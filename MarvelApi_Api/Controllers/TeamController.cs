@@ -17,13 +17,15 @@ namespace MarvelApi_Api.Controllers
         private readonly ICharacterRepository _characterRepository;
         private readonly IMapper _autoMapper;
         private readonly ApiResponseHelper _apiResponseHelper;
+        private readonly ILogger<TeamController> _logger;
         public TeamController(ITeamRepository teamRepository, ICharacterRepository characterRepository, IMapper autoMapper,
-                                                ApiResponseHelper apiResponseHelper)
+                                                ApiResponseHelper apiResponseHelper, ILogger<TeamController> logger)
         {
             _teamRepository = teamRepository;
             _characterRepository = characterRepository;
             _autoMapper = autoMapper;
             _apiResponseHelper = apiResponseHelper;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -31,6 +33,7 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetTeams));
                 var teams = await _teamRepository.GetAllAsync(includeProperties: "Members");
                 var mappedTeam = _autoMapper.Map<IEnumerable<TeamDTO>>(teams);
 
@@ -39,8 +42,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _apiResponseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -50,6 +52,7 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetTeam));
                 var team = await _teamRepository.GetAsync(x => x.Id == id);
                 var mappedTeam = _autoMapper.Map<TeamDTO>(team);
 
@@ -57,8 +60,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _apiResponseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -68,6 +70,7 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(CreateTeam));
                 var team = _autoMapper.Map<Team>(teamCreateDTO);
                 await _teamRepository.CreateAsync(team);
 
@@ -81,8 +84,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _apiResponseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -92,6 +94,7 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(UpdateTeam));
                 var team = await _teamRepository.UpdateAsync(teamUpdateDTO);
                 var mappedTeam = _autoMapper.Map<TeamDTO>(team);
 
@@ -99,8 +102,7 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _apiResponseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
         }
 
@@ -110,6 +112,7 @@ namespace MarvelApi_Api.Controllers
         {
             try
             {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(DeleteTeam));
                 var deletedTeam = await _teamRepository.DeleteAsync(id);
                 var mappedTeam = _autoMapper.Map<TeamDTO>(deletedTeam);
 
@@ -118,9 +121,15 @@ namespace MarvelApi_Api.Controllers
             }
             catch (Exception ex)
             {
-                var response = _apiResponseHelper.GetApiReponseNotSuccess(ex.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return HandleException(ex);
             }
+        }
+
+        private IActionResult HandleException(Exception ex)
+        {
+            _logger.LogError("{message}", ex.Message);
+            var response = _apiResponseHelper.GetApiReponseNotSuccess(ex.Message);
+            return StatusCode((int)HttpStatusCode.InternalServerError, response);
         }
     }
 }

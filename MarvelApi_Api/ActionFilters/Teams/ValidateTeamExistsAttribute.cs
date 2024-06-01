@@ -1,4 +1,5 @@
 using System.Net;
+using MarvelApi_Api.ActionFilters.Character;
 using MarvelApi_Api.Data;
 using MarvelApi_Api.Helpers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -10,15 +11,19 @@ namespace MarvelApi_Api.ActionFilters.Teams
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly ApiFilterResponseHelper _responseHelper;
+        private readonly ILogger<ValidateTeamExistsAttribute> _logger;
 
-        public ValidateTeamExistsAttribute(ApplicationDbContext dbContext, ApiFilterResponseHelper resposeHelper)
+        public ValidateTeamExistsAttribute(ApplicationDbContext dbContext, ApiFilterResponseHelper resposeHelper, ILogger<ValidateTeamExistsAttribute> logger)
         {
             _dbContext = dbContext;
             _responseHelper = resposeHelper;
+            _logger = logger;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            _logger.LogInformation("Entering {FilterName}", nameof(ValidateCharactersNotRelatedAttribute));
+
             if (context.ActionArguments.ContainsKey("id") && context.ActionArguments["id"] is int id)
             {
                 var existingTeam = await _dbContext.Teams.FirstOrDefaultAsync(x => x.Id == id);
