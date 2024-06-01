@@ -1,4 +1,5 @@
 using System.Net;
+using MarvelApi_Api.ActionFilters.Character;
 using MarvelApi_Api.Data;
 using MarvelApi_Api.Helpers;
 using MarvelApi_Api.Models.DTOs.Team;
@@ -11,15 +12,19 @@ namespace MarvelApi_Api.ActionFilters.Teams
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly ApiFilterResponseHelper _responseHelper;
+        private readonly ILogger<ValidateTeamCreateAndUpdate> _logger;
 
-        public ValidateTeamCreateAndUpdate(ApplicationDbContext dbContext, ApiFilterResponseHelper responseHelper)
+        public ValidateTeamCreateAndUpdate(ApplicationDbContext dbContext, ApiFilterResponseHelper responseHelper, ILogger<ValidateTeamCreateAndUpdate> logger)
         {
             _dbContext = dbContext;
             _responseHelper = responseHelper;
+            _logger = logger;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            _logger.LogInformation("Entering {FilterName}", nameof(ValidateCharactersNotRelatedAttribute));
+
             if (!context.ModelState.IsValid)
             {
                 context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.BadRequest, "Entered properties are not valid.");

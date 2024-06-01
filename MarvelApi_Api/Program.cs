@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using System.Text.Json.Serialization;
 using MarvelApi_Api;
 using MarvelApi_Api.ActionFilters.Character;
 using MarvelApi_Api.ActionFilters.Teams;
@@ -9,6 +8,8 @@ using MarvelApi_Api.Helpers;
 using MarvelApi_Api.Repository;
 using MarvelApi_Api.Repository.Implementation;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,33 @@ else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 {
     builder.Configuration.AddJsonFile("appsettings.PC.json", optional: true, reloadOnChange: true);
 }
+
+var customLogTheme = new AnsiConsoleTheme(new Dictionary<ConsoleThemeStyle, string>
+{
+    [ConsoleThemeStyle.Text] = "\x1b[37m",
+    [ConsoleThemeStyle.SecondaryText] = "\x1b[37m",
+    [ConsoleThemeStyle.TertiaryText] = "\x1b[30m",
+    [ConsoleThemeStyle.Invalid] = "\x1b[31m",
+    [ConsoleThemeStyle.Null] = "\x1b[31m",
+    [ConsoleThemeStyle.Name] = "\x1b[37m",
+    [ConsoleThemeStyle.String] = "\x1b[32m",
+    [ConsoleThemeStyle.Number] = "\x1b[33m",
+    [ConsoleThemeStyle.Boolean] = "\x1b[33m",
+    [ConsoleThemeStyle.Scalar] = "\x1b[33m",
+    [ConsoleThemeStyle.LevelVerbose] = "\x1b[30m",
+    [ConsoleThemeStyle.LevelDebug] = "\x1b[30m",
+    [ConsoleThemeStyle.LevelInformation] = "\x1b[34m",
+    [ConsoleThemeStyle.LevelWarning] = "\x1b[33m",
+    [ConsoleThemeStyle.LevelError] = "\x1b[31m",
+    [ConsoleThemeStyle.LevelFatal] = "\x1b[35m"
+});
+
+Log.Logger = new LoggerConfiguration().MinimumLevel.Information()
+    .WriteTo.Console(theme: customLogTheme)
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MarvelApi")));
 builder.Services.AddEndpointsApiExplorer();
@@ -51,6 +79,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.MapControllers();
 

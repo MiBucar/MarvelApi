@@ -2,6 +2,7 @@ using System.Net;
 using MarvelApi_Api.Data;
 using MarvelApi_Api.Helpers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarvelApi_Api.ActionFilters.Character
@@ -10,15 +11,19 @@ namespace MarvelApi_Api.ActionFilters.Character
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly ApiFilterResponseHelper _responseHelper;
+        private readonly ILogger<ValidateCharactersNotRelatedAttribute> _logger;
 
-        public ValidateCharactersNotRelatedAttribute(ApplicationDbContext dbContext, ApiFilterResponseHelper responseHelper)
+        public ValidateCharactersNotRelatedAttribute(ApplicationDbContext dbContext, ApiFilterResponseHelper responseHelper,
+            ILogger<ValidateCharactersNotRelatedAttribute> logger)
         {
             _dbContext = dbContext;
             _responseHelper = responseHelper;
+            _logger = logger;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            _logger.LogInformation("Entering {FilterName}", nameof(ValidateCharactersNotRelatedAttribute));
             if (context.ActionArguments.ContainsKey("id"))
             {
                 var characterId = (int)context.ActionArguments["id"];
