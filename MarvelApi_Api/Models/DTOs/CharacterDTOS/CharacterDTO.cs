@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using MarvelApi_Api.Models.DTOs.Team;
 
-namespace MarvelApi_Api.Models.DTOs.Character
+namespace MarvelApi_Api.Models.DTOs.CharacterDTOS
 {
     public class CharacterDTO
     {
@@ -16,6 +17,8 @@ namespace MarvelApi_Api.Models.DTOs.Character
         public string Appearance { get; set; }
         [Required]
         public string Origin { get; set; }
+        public int? TeamId { get; set; }
+        public string Team { get; set; }
         public List<string> Powers { get; set; }
         public List<int> AllyIds { get; set; } = new List<int>();
         public List<int> EnemyIds { get; set; } = new List<int>();

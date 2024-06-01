@@ -1,7 +1,6 @@
 using System.Net;
 using MarvelApi_Api.Data;
-using MarvelApi_Api.Models;
-using Microsoft.AspNetCore.Mvc;
+using MarvelApi_Api.Helpers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +9,12 @@ namespace MarvelApi_Api.ActionFilters.Character
     public class ValidateCharacterExistsAttribute : ActionFilterAttribute
     {
         private readonly ApplicationDbContext _db;
+        private readonly ApiFilterResponseHelper _responseHelper;
 
-        public ValidateCharacterExistsAttribute(ApplicationDbContext db)
+        public ValidateCharacterExistsAttribute(ApplicationDbContext db, ApiFilterResponseHelper resposeHelper)
         {
             _db = db;
+            _responseHelper = resposeHelper;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -39,23 +40,12 @@ namespace MarvelApi_Api.ActionFilters.Character
             {
                 if (!await _db.Characters.AnyAsync(x => x.Id == charId))
                 {
-                    ReturnNotFoundContext(context ,charId);
+                    context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.NotFound, $"Character with id {charId} not found.");
                     return;
                 }
             }
 
             await next();
-        }
-
-        private void ReturnNotFoundContext(ActionExecutingContext context, int id)
-        {
-            var response = new ApiResponse
-            {
-                StatusCode = HttpStatusCode.NotFound,
-                IsSuccess = false,
-                ErrorMessages = new List<string> { $"Character with id {id} not found." }
-            };
-            context.Result = new JsonResult(response) { StatusCode = (int)HttpStatusCode.NotFound };
         }
     }
 }

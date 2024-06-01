@@ -1,8 +1,9 @@
+using System.Runtime.InteropServices;
 using AutoMapper;
 using MarvelApi_Api.Data;
 using MarvelApi_Api.Models;
 using MarvelApi_Api.Models.DTOs;
-using MarvelApi_Api.Models.DTOs.Character;
+using MarvelApi_Api.Models.DTOs.CharacterDTOS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Validations;
 
@@ -32,11 +33,11 @@ namespace MarvelApi_Api.Repository.Implementation
             return character;
         }
 
-        public  async Task<Character> AddEnemyAsync(int characterId, List<int> enemyIds)
+        public async Task<Character> AddEnemyAsync(int characterId, List<int> enemyIds)
         {
             var character = await _dbContext.Characters.FindAsync(characterId);
 
-            if ( character != null)
+            if (character != null)
             {
                 await AddRelationshipAsync(character, enemyIds, true);
                 await SaveChangesAsync();
@@ -76,6 +77,34 @@ namespace MarvelApi_Api.Repository.Implementation
             await SaveChangesAsync();
             return existingCharacter;
         }
+
+        public async Task<Character> AddTeamToCharacter(int teamId, int characterId)
+        {
+            var existingCharacter = await _dbContext.Characters.FirstOrDefaultAsync(x => x.Id == characterId);
+
+            if (existingCharacter != null)
+            {
+                existingCharacter.TeamId = teamId;
+                await SaveChangesAsync();
+                return existingCharacter;
+            }
+
+            return new Character();
+        }
+
+        public async Task AddTeamsToCharacter(int teamId, List<int> characterIds)
+        {
+            var characters = _dbContext.Characters.Where(x => characterIds.Contains(x.Id));
+
+            foreach (var character in characters)
+            {
+                character.TeamId = teamId;
+                character.DateUpdated = DateTime.UtcNow;
+            }
+
+            await SaveChangesAsync();
+        }
+
         #region Helper Functions
         private async Task AddRelationshipAsync(Character character, List<int> relatedCharacterIds, bool isEnemy)
         {
@@ -135,6 +164,6 @@ namespace MarvelApi_Api.Repository.Implementation
                 _dbContext.CharacterRelationships.Remove(relationship);
             }
         }
-        #endregion        
+        #endregion
     }
 }

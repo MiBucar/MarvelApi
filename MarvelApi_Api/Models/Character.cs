@@ -19,6 +19,9 @@ namespace MarvelApi_Api.Models
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public DateTime DateUpdated { get; set; }
         public virtual ICollection<CharacterRelationship> CharacterRelationships { get; set; } = new List<CharacterRelationship>();
+        public int? TeamId { get; set; }
+        [ForeignKey("TeamId")]
+        public Team Team { get; set; }
     }
 
     public class CharacterRelationship

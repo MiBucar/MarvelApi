@@ -1,6 +1,7 @@
 using AutoMapper;
 using MarvelApi_Api.Models;
-using MarvelApi_Api.Models.DTOs.Character;
+using MarvelApi_Api.Models.DTOs.CharacterDTOS;
+using MarvelApi_Api.Models.DTOs.Team;
 
 namespace MarvelApi_Api
 {
@@ -20,7 +21,17 @@ namespace MarvelApi_Api
                 .Select(cr => cr.RelatedCharacterId)))
             .ForMember(dest => dest.AllyIds, opt => opt.MapFrom(src => src.CharacterRelationships
                 .Where(cr => !cr.IsEnemy)
-                .Select(cr => cr.RelatedCharacterId)));
+                .Select(cr => cr.RelatedCharacterId)))
+            .ForMember(dest => dest.Team, opt => opt.MapFrom(src => src.Team.Name));
+
+                CreateMap<Team, TeamDTO>()
+                .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.Members.Select(x => x.Name)));
+
+                CreateMap<TeamCreateDTO, Team>()
+                .ForMember(dest => dest.Members, opt => opt.Ignore());
+
+                CreateMap<TeamUpdateDTO, Team>()
+                .ForMember(dest => dest.Members, opt => opt.Ignore());
         }
     }
 }
