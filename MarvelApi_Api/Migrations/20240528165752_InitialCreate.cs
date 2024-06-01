@@ -14,6 +14,22 @@ namespace MarvelApi_Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Teams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teams", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Characters",
                 columns: table => new
                 {
@@ -27,11 +43,17 @@ namespace MarvelApi_Api.Migrations
                     Origin = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Powers = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Characters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Characters_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -61,18 +83,32 @@ namespace MarvelApi_Api.Migrations
 
             migrationBuilder.InsertData(
                 table: "Characters",
-                columns: new[] { "Id", "Appearance", "Backstory", "DateCreated", "DateUpdated", "Image", "IsVillain", "Name", "Origin", "Powers" },
+                columns: new[] { "Id", "Appearance", "Backstory", "DateCreated", "DateUpdated", "Image", "IsVillain", "Name", "Origin", "Powers", "TeamId" },
                 values: new object[,]
                 {
-                    { 1, "Avengers", "Was  rich man", new DateTime(2024, 5, 27, 12, 20, 40, 38, DateTimeKind.Utc).AddTicks(4765), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "Iron man", "New York", "[\"laser\",\"Big laser\"]" },
-                    { 2, "Avengers", "Was  rich man", new DateTime(2024, 5, 27, 12, 20, 40, 38, DateTimeKind.Utc).AddTicks(4770), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, "Thanos", "New York", "[\"laser\",\"Big laser\"]" },
-                    { 3, "Avengers", "Was  rich man", new DateTime(2024, 5, 27, 12, 20, 40, 38, DateTimeKind.Utc).AddTicks(4772), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "Daredevil", "New York", "[\"laser\",\"Big laser\"]" }
+                    { 1, "Avengers", "Was  rich man", new DateTime(2024, 5, 28, 16, 57, 52, 381, DateTimeKind.Utc).AddTicks(9360), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "Iron man", "New York", "[\"laser\",\"Big laser\"]", null },
+                    { 2, "Avengers", "Was  rich man", new DateTime(2024, 5, 28, 16, 57, 52, 381, DateTimeKind.Utc).AddTicks(9370), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, "Thanos", "New York", "[\"laser\",\"Big laser\"]", null },
+                    { 3, "Avengers", "Was  rich man", new DateTime(2024, 5, 28, 16, 57, 52, 381, DateTimeKind.Utc).AddTicks(9370), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "Daredevil", "New York", "[\"laser\",\"Big laser\"]", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Teams",
+                columns: new[] { "Id", "DateCreated", "DateUpdated", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2024, 5, 28, 16, 57, 52, 381, DateTimeKind.Utc).AddTicks(9410), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hero team.", "Avengers" },
+                    { 2, new DateTime(2024, 5, 28, 16, 57, 52, 381, DateTimeKind.Utc).AddTicks(9410), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Team trying to destroy the world.", "Children of Thanos" }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CharacterRelationships_RelatedCharacterId",
                 table: "CharacterRelationships",
                 column: "RelatedCharacterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Characters_TeamId",
+                table: "Characters",
+                column: "TeamId");
         }
 
         /// <inheritdoc />
@@ -83,6 +119,9 @@ namespace MarvelApi_Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Characters");
+
+            migrationBuilder.DropTable(
+                name: "Teams");
         }
     }
 }

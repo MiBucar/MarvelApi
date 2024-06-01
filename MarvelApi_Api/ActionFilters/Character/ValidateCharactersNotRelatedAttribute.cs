@@ -1,7 +1,6 @@
 using System.Net;
 using MarvelApi_Api.Data;
-using MarvelApi_Api.Models;
-using Microsoft.AspNetCore.Mvc;
+using MarvelApi_Api.Helpers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +9,12 @@ namespace MarvelApi_Api.ActionFilters.Character
     public class ValidateCharactersNotRelatedAttribute : ActionFilterAttribute
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly ApiFilterResponseHelper _responseHelper;
 
-        public ValidateCharactersNotRelatedAttribute(ApplicationDbContext dbContext)
+        public ValidateCharactersNotRelatedAttribute(ApplicationDbContext dbContext, ApiFilterResponseHelper responseHelper)
         {
             _dbContext = dbContext;
+            _responseHelper = responseHelper;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -25,26 +26,31 @@ namespace MarvelApi_Api.ActionFilters.Character
 
                 if (context.ActionArguments.ContainsKey("allyIds") && context.ActionArguments["allyIds"] is List<int> allyIds)
                 {
-                    
+                    var existingRelations = _dbContext.CharacterRelationships.Where(x => x.CharacterId == characterId &&
+                                                                                                                                        allyIds.Contains(x.RelatedCharacterId)).ToList();
+                   if (existingRelations.Any()){
+                        CreateConflictResult(context, existingRelations.Select(x => x.RelatedCharacterId).ToList());
+                        return;
+                   }
                 }
 
                 if (context.ActionArguments.ContainsKey("enemyIds") && context.ActionArguments["enemyIds"] is List<int> enemyIds)
                 {
-                    
+                    var existingRelations = _dbContext.CharacterRelationships.Where(x => x.CharacterId == characterId &&
+                                                                                                                                        enemyIds.Contains(x.RelatedCharacterId)).ToList();
+                   if (existingRelations.Any()){
+                        CreateConflictResult(context, existingRelations.Select(x => x.RelatedCharacterId).ToList());
+                        return;
+                   }
                 }
             }
             await next();
         }
 
-        private void CreateConflictResult(ActionExecutingContext context, string charOne, string charTwo, string relationType)
+        private void CreateConflictResult(ActionExecutingContext context, List<int> ids)
         {
-            var response = new ApiResponse
-            {
-                IsSuccess = false,
-                StatusCode = HttpStatusCode.NotAcceptable,
-                ErrorMessages = new List<string> { $"{charOne} and {charTwo} are already {relationType}." }
-            };
-            context.Result = new JsonResult(response) { StatusCode = (int)HttpStatusCode.NotAcceptable };
+            context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.Conflict, 
+                                                    ids.Select(x => $"Relation already exists with character of id: {x}").ToList());
         }
     }
 }
