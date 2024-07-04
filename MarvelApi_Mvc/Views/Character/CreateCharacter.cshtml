@@ -1,5 +1,89 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using MarvelApi_Mvc.Models.ViewModels;
+@model CharacterCreateViewModel
+<br />
+
+<form asp-controller="Character" asp-action="CreateCharacter" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <!-- Name -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterCreateDTO.Name" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterCreateDTO.Name" class="form-control" />
+            <span asp-validation-for="CharacterCreateDTO.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Checkbox -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterCreateDTO.IsVillain" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            @Html.CheckBoxFor(x => x.CharacterCreateDTO.IsVillain)
+        </div>
+    </div>
+    <!-- Backstory -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterCreateDTO.Backstory" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterCreateDTO.Backstory" class="form-control" />
+            <span asp-validation-for="CharacterCreateDTO.Backstory" class="text-danger"></span>
+        </div>
+    </div>
+    <!--Appearance  -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterCreateDTO.Appearance" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterCreateDTO.Appearance" class="form-control" />
+            <span asp-validation-for="CharacterCreateDTO.Appearance" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Origin -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterCreateDTO.Origin" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterCreateDTO.Origin" class="form-control" />
+            <span asp-validation-for="CharacterCreateDTO.Origin" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Powers -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterCreateDTO.Powers" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-4">
+            <input asp-for="NewPower" class="form-control" />
+        </div>
+        <div class="col-2">
+            <button type="submit" name="action" value="addnewpower" class="btn btn-primary">Add New Power</button>
+        </div>
+    </div>
+    <!-- Powers -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label class="control-label pt-2" style="font-size: 20px">Powers</label>
+        </div>
+        <div class="col-6">
+            <ul>
+                @for (int i = 0; i < Model.CharacterCreateDTO.Powers.Count; i++)
+                {
+                    <li>
+                        @Model.CharacterCreateDTO.Powers[i]
+                        <input type="hidden" name="CharacterCreateDTO.Powers[@i]" value="@Model.CharacterCreateDTO.Powers[i]" />
+                        <form asp-action="CreateCharacter" method="post" class="d-inline">
+                            <input type="hidden" name="PowerToDelete" value="@Model.CharacterCreateDTO.Powers[i]" />
+                            <button type="submit" name="action" value="deletepower" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</form>
