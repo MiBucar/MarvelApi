@@ -47,6 +47,28 @@ namespace MarvelApi_Api.Controllers
             }
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(string query)
+        {
+            try
+            {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(Search));
+
+                if (string.IsNullOrEmpty(query))
+                    return Ok(new List<Character>());
+
+                var characters = await _characterRepository.GetAllAsync(x => x.Name.Contains(query), includeProperties: "CharacterRelationships,Team");
+                var mappedCharacters = _autoMapper.Map<IEnumerable<Character>, IEnumerable<CharacterDTO>>(characters);
+
+                var response = _responseHelper.GetApiResponseSuccess(mappedCharacters, HttpStatusCode.OK);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
         [HttpGet("{id:int}")]
         [ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
         public async Task<IActionResult> GetCharacter(int id)

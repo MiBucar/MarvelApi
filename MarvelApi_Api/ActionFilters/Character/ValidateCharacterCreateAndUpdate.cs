@@ -62,6 +62,9 @@ namespace MarvelApi_Api.ActionFilters.Character
 
         private async Task<bool> CharacterIdsExist(ActionExecutingContext context, List<int> characterIds)
         {
+            if (characterIds.Count == 1 && characterIds.First() == 0)
+                return true;
+
             var existingCharacters = await _dbContext.Characters.Where(x => characterIds.Contains(x.Id)).Select(y => y.Id).ToListAsync();
             var missingIds = characterIds.Except(existingCharacters).ToList();
 
