@@ -16,8 +16,8 @@ namespace MarvelApi_Mvc.Services.Implementation
         {
             ApiRequest apiRequest = new ApiRequest{
                 ApiData = characterCreateDTO,
-                ApiType = ApiType.GET,
-                ApiUrl = _marvelUrl
+                ApiType = ApiType.POST,
+                ApiUrl = _marvelUrl + "/api/Character"
             };
             return await SendAsync<T>(apiRequest);
         }
@@ -27,7 +27,7 @@ namespace MarvelApi_Mvc.Services.Implementation
             ApiRequest apiRequest = new ApiRequest{
                 ApiData = id,
                 ApiType = ApiType.DELETE,
-                ApiUrl = _marvelUrl
+                ApiUrl = _marvelUrl + $"/api/Character/{id}"
             };
             return await SendAsync<T>(apiRequest);
         }
@@ -46,7 +46,7 @@ namespace MarvelApi_Mvc.Services.Implementation
             ApiRequest apiRequest = new ApiRequest{
                 ApiData = id,
                 ApiType = ApiType.GET,
-                ApiUrl = _marvelUrl
+                ApiUrl = _marvelUrl + $"/api/Character/{id}"
             };
             return await SendAsync<T>(apiRequest);
         }
@@ -56,7 +56,7 @@ namespace MarvelApi_Mvc.Services.Implementation
             ApiRequest apiRequest = new ApiRequest{
                 ApiData = characterUpdateDTO,
                 ApiType = ApiType.PUT,
-                ApiUrl = _marvelUrl
+                ApiUrl = _marvelUrl + $"/api/Character/{characterUpdateDTO.Id}"
             };
             return await SendAsync<T>(apiRequest);
         }

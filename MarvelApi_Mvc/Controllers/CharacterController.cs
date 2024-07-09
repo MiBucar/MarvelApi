@@ -1,19 +1,24 @@
 ﻿using MarvelApi_Mvc.Models;
 using MarvelApi_Mvc.Models.DTOs.CharacterDTOs;
+using MarvelApi_Mvc.Models.DTOs.TeamDTOs;
 using MarvelApi_Mvc.Models.ViewModels;
 using MarvelApi_Mvc.Services.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.Text.Json.Nodes;
 
 namespace MarvelApi_Mvc.Controllers
 {
     public class CharacterController : Controller
     {
         private readonly ICharacterService _characterService;
-        public CharacterController(ICharacterService characterService)
+        private readonly ITeamService _teamService;
+        public CharacterController(ICharacterService characterService, ITeamService teamService)
         {
             _characterService = characterService;
+            _teamService = teamService;
         }
 
         public async Task<ActionResult> IndexCharacter()
@@ -27,38 +32,38 @@ namespace MarvelApi_Mvc.Controllers
             return View();
         }
 
-        public ActionResult CreateCharacter()
+        public async Task<ActionResult> CreateCharacter()
         {
-            var characterCreateViewModel = new CharacterCreateViewModel();
-            return View(characterCreateViewModel);
-        }
+            var availableCharacters = await GetAvailableCharacters();
+            var availableTeams = await GetAvailableTeams();
+
+            CharacterCreateViewModel characterCreateVM = new CharacterCreateViewModel();
+            characterCreateVM.CharacterCreateDTO = new CharacterCreateDTO();
+            characterCreateVM.AvailableCharacters = availableCharacters;
+            characterCreateVM.AvailableTeams = availableTeams;
+            return View(characterCreateVM);
+        }        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateCharacter(CharacterCreateViewModel viewModel, string action)
+        public async Task<ActionResult> CreateCharacter(CharacterCreateViewModel characterCreateViewModel)
         {
             try
             {
-                if (action == "addnewpower")
-                {
-                    viewModel.AddNewPower();
-                    return View(viewModel);
-                }
-                if (action == "deletepower")
-                {
-                    viewModel.DeletePower();
-                    return View(viewModel);
-                }
                 if (ModelState.IsValid)
                 {
-                    var characterCreateDto = viewModel.CharacterCreateDTO;
-                    var response = await _characterService.CreateAsync<ApiResponse>(characterCreateDto);
+                    var response = await _characterService.CreateAsync<ApiResponse>(characterCreateViewModel.CharacterCreateDTO);
                     if (response != null && response.IsSuccess)
                     {
                         return RedirectToAction(nameof(IndexCharacter));
                     }
                 }
-                return View(viewModel);
+
+                var availableCharacters = await GetAvailableCharacters();
+                var availableTeams = await GetAvailableTeams();
+                characterCreateViewModel.AvailableCharacters = availableCharacters;
+                characterCreateViewModel.AvailableTeams = availableTeams;
+                return View(characterCreateViewModel);
             }
             catch
             {
@@ -66,18 +71,37 @@ namespace MarvelApi_Mvc.Controllers
             }
         }
 
-        public ActionResult UpdateCharacter(int id)
+        public async Task<ActionResult> UpdateCharacter(int id)
         {
-            return View();
+            var availableCharacters = await GetAvailableCharacters();
+            var availableTeams = await GetAvailableTeams();
+            var characterForUpdate = await GetCharacterForUpdate(id);
+
+            CharacterUpdateViewModel characterUpdateVM = new CharacterUpdateViewModel();
+            characterUpdateVM.CharacterUpdateDTO = characterForUpdate;
+            characterUpdateVM.AvailableCharacters = availableCharacters;
+            characterUpdateVM.AvailableTeams = availableTeams;
+            return View(characterUpdateVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateCharacter(int id, IFormCollection collection)
+        public async Task<ActionResult> UpdateCharacter(CharacterUpdateViewModel characterUpdateViewModel)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var response = await _characterService.UpdateAsync<ApiResponse>(characterUpdateViewModel.CharacterUpdateDTO);
+                    if (response.IsSuccess)
+                        return RedirectToAction(nameof(IndexCharacter));
+                }
+
+                var availableCharacters = await GetAvailableCharacters();
+                var availableTeams = await GetAvailableTeams();
+                characterUpdateViewModel.AvailableTeams = availableTeams;
+                characterUpdateViewModel.AvailableCharacters = availableCharacters;
+                return View(characterUpdateViewModel);
             }
             catch
             {
@@ -85,23 +109,70 @@ namespace MarvelApi_Mvc.Controllers
             }
         }
 
-        public ActionResult DeleteCharacter(int id)
+        public async Task<ActionResult> DeleteCharacter(int id)
         {
-            return View();
+            var response = await _characterService.DeleteAsync<ApiResponse>(id);
+            return RedirectToAction(nameof(IndexCharacter));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteCharacter(int id, IFormCollection collection)
+        private async Task<CharacterUpdateDTO> GetCharacterForUpdate(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var response = await _characterService.GetAsync<ApiResponse>(id);
+                if (response != null && response.IsSuccess)
+                {
+                    var character = JsonConvert.DeserializeObject<CharacterUpdateDTO>(Convert.ToString(response.Result));
+                    return character;
+                }
+
+                return new CharacterUpdateDTO();
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return new CharacterUpdateDTO();
             }
+        }
+
+        private async Task<List<SelectListItem>> GetAvailableCharacters()
+        {
+            var response = await _characterService.GetAllAsync<ApiResponse>();
+            if (response != null && response.IsSuccess)
+            {
+                var availableCharacters = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(response.Result));
+                var availableCharactersListItems = availableCharacters.Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name,
+                }).ToList();
+                return availableCharactersListItems;
+            }
+            return new List<SelectListItem>();
+        }
+
+        private async Task<List<SelectListItem>> GetAvailableTeams()
+        {
+            var response = await _teamService.GetAllAsync<ApiResponse>();
+            if (response != null && response.IsSuccess)
+            {
+                var availableTeams = JsonConvert.DeserializeObject<List<TeamDTO>>(Convert.ToString(response.Result));
+                var availableTeamsListItems = availableTeams.Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name,
+                }).ToList();
+
+                availableTeamsListItems.Insert(0,
+                    new SelectListItem
+                    {
+                        Value = "",
+                        Text = "Select a team"
+                    }
+                );
+
+                return availableTeamsListItems;
+            }
+            return new List<SelectListItem>();
         }
     }
 }

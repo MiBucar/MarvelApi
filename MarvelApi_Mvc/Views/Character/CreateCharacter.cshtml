@@ -1,6 +1,7 @@
-﻿@using MarvelApi_Mvc.Models.ViewModels;
+﻿@using MarvelApi_Mvc.Models.ViewModels
 @model CharacterCreateViewModel
 <br />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <form asp-controller="Character" asp-action="CreateCharacter" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -56,34 +57,86 @@
     <!-- Powers -->
     <div class="row m-2">
         <div class="col-2">
-            <label asp-for="CharacterCreateDTO.Powers" class="control-label pt-2" style="font-size: 20px"></label>
+            <label asp-for="CharacterCreateDTO.Powers" class="control-label pt-2" style="font-size: 20px">Powers</label>
         </div>
-        <div class="col-4">
-            <input asp-for="NewPower" class="form-control" />
+        <div class="col-6" id="power-inputs">
+            @for (var i = 0; i < Model.CharacterCreateDTO.Powers.Count; i++)
+            {
+                <div class="input-group mb-2">
+                    <input type="text" name="CharacterCreateDTO.Powers[@i]" class="form-control" value="@Model.CharacterCreateDTO.Powers[i]" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-danger" onclick="removePowerInput(this)">Remove</button>
+                    </div>
+                </div>
+            }
         </div>
         <div class="col-2">
-            <button type="submit" name="action" value="addnewpower" class="btn btn-primary">Add New Power</button>
+            <button type="button" class="btn btn-primary" onclick="addPowerInput()">Add Power</button>
         </div>
     </div>
-    <!-- Powers -->
+    <!-- Team -->
     <div class="row m-2">
         <div class="col-2">
-            <label class="control-label pt-2" style="font-size: 20px">Powers</label>
+            <label class="control-label pt-2" style="font-size: 20px">Team</label>
         </div>
         <div class="col-6">
-            <ul>
-                @for (int i = 0; i < Model.CharacterCreateDTO.Powers.Count; i++)
-                {
-                    <li>
-                        @Model.CharacterCreateDTO.Powers[i]
-                        <input type="hidden" name="CharacterCreateDTO.Powers[@i]" value="@Model.CharacterCreateDTO.Powers[i]" />
-                        <form asp-action="CreateCharacter" method="post" class="d-inline">
-                            <input type="hidden" name="PowerToDelete" value="@Model.CharacterCreateDTO.Powers[i]" />
-                            <button type="submit" name="action" value="deletepower" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    </li>
-                }
-            </ul>
+            <select asp-for="CharacterCreateDTO.TeamId" asp-items="Model.AvailableTeams" class="form-control"></select>
+            <span asp-validation-for="CharacterCreateDTO.TeamId" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- EnemyIds -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterCreateDTO.EnemyIds" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <select asp-for="CharacterCreateDTO.EnemyIds" asp-items="Model.AvailableCharacters" class="form-control" multiple="multiple"></select>
+            <span asp-validation-for="CharacterCreateDTO.EnemyIds" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- AllyIds -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterCreateDTO.AllyIds" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <select asp-for="CharacterCreateDTO.AllyIds" asp-items="Model.AvailableCharacters" class="form-control" multiple="multiple"></select>
+            <span asp-validation-for="CharacterCreateDTO.AllyIds" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Submit Button -->
+    <div class="row m-2">
+        <div class="col-3 d-flex">
+            <button type="submit" class="btn btn-success flex-grow-1 mr-2">Submit</button>
+            <a href="@Url.Action("IndexCharacter", "Character")" class="btn btn-danger flex-grow-1">Cancel</a>
         </div>
     </div>
 </form>
+
+<script>
+    function addPowerInput() {
+        const powerInputs = document.getElementById('power-inputs');
+        const inputCount = powerInputs.children.length;
+        const newInput = document.createElement('div');
+        newInput.className = 'input-group mb-2';
+        newInput.innerHTML = `
+                <input type="text" name="CharacterCreateViewModel.CharacterCreateDTO.Powers[${inputCount}]" class="form-control" />
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger" onclick="removePowerInput(this)">Remove</button>
+                </div>
+            `;
+        powerInputs.appendChild(newInput);
+    }
+
+    function removePowerInput(button) {
+        button.parentElement.parentElement.remove();
+        reindexPowerInputs();
+    }
+
+    function reindexPowerInputs() {
+        const powerInputs = document.getElementById('power-inputs').children;
+        for (let i = 0; i < powerInputs.length; i++) {
+            powerInputs[i].querySelector('input').name = `CharacterCreateViewModel.CharacterCreateDTO.Powers[${i}]`;
+        }
+    }
+</script>

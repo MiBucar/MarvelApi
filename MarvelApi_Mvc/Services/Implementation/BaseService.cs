@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json.Serialization;
 using MarvelApi_Mvc.Models;
 using MarvelApi_Mvc.Services.IServices;
@@ -45,7 +46,10 @@ namespace MarvelApi_Mvc.Services.Implementation
                 }
 
                 if (request.ApiData != null)
-                    requestMessage.Content = new StringContent(JsonConvert.SerializeObject(request.ApiData));
+                {
+                    var json = JsonConvert.SerializeObject(request.ApiData);
+                    requestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                }
 
                 HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage);
                 var content = await responseMessage.Content.ReadAsStringAsync();
