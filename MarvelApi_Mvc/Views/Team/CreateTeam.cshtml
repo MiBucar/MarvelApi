@@ -1,0 +1,45 @@
+﻿@using MarvelApi_Mvc.Models.ViewModels.Team
+@model TeamCreateViewModel
+<br />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<form asp-controller="Team" asp-action="CreateTeam" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <!-- Name -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="TeamCreateDTO.Name" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="TeamCreateDTO.Name" class="form-control" />
+            <span asp-validation-for="TeamCreateDTO.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Backstory -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="TeamCreateDTO.Description" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="TeamCreateDTO.Description" class="form-control" />
+            <span asp-validation-for="TeamCreateDTO.Description" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Members -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label class="control-label pt-2" style="font-size: 20px">Members</label>
+        </div>
+        <div class="col-6">
+            <select asp-for="TeamCreateDTO.MemberIds" asp-items="Model.AvailableCharacters" class="form-control" multiple="multiple"></select>
+            <span asp-validation-for="TeamCreateDTO.MemberIds" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Submit Button -->
+    <div class="row m-2">
+        <div class="col-3 d-flex">
+            <button type="submit" class="btn btn-success flex-grow-1 mr-2">Submit</button>
+            <a href="@Url.Action("IndexTeam", "Team")" class="btn btn-danger flex-grow-1">Cancel</a>
+        </div>
+    </div>
+</form>
