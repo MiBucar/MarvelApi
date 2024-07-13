@@ -1,5 +1,6 @@
 using MarvelApi_Mvc.Services.Implementation;
 using MarvelApi_Mvc.Services.IServices;
+using MarvelApi_Mvc.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<ISelectListItemGetters, SelectListItemGetters>();
 
 var app = builder.Build();
 
