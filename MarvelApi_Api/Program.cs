@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Text;
 using MarvelApi_Api;
 using MarvelApi_Api.ActionFilters.Character;
 using MarvelApi_Api.ActionFilters.Teams;
@@ -7,7 +8,9 @@ using MarvelApi_Api.ExceptionFilters;
 using MarvelApi_Api.Helpers;
 using MarvelApi_Api.Repository;
 using MarvelApi_Api.Repository.Implementation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
@@ -56,6 +59,26 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<GlobalExceptionFilter>();
 });
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetSection("ApiSettings:Secret").Value))
+    };
+});
+builder.Services.AddAuthorization();
+
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddTransient<ApiFilterResponseHelper>();
@@ -78,7 +101,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.MapControllers();
