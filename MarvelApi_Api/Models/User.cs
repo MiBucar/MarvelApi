@@ -1,7 +1,10 @@
-﻿namespace MarvelApi_Api.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MarvelApi_Api.Models
 {
     public class User
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
