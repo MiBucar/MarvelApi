@@ -5,13 +5,14 @@ using MarvelApi_Api.Helpers;
 using MarvelApi_Api.Models;
 using MarvelApi_Api.Models.DTOs.CharacterDTOS;
 using MarvelApi_Api.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace MarvelApi_Api.Controllers
 {
     [Controller]
     [Route("api/[controller]")]
+    [Authorize(Roles = "User,Admin")]
     public class CharacterController : ControllerBase
     {
         private readonly ICharacterRepository _characterRepository;

@@ -11,6 +11,7 @@ namespace MarvelApi_Api.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<Character> Characters { get; set; }
         public DbSet<CharacterRelationship> CharacterRelationships { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
