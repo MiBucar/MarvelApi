@@ -28,6 +28,7 @@ namespace MarvelApi_Api.Controllers
             try
             {
                 var loggedInUser = await _userRepository.LoginAsync(loginRequestDTO);
+                loggedInUser.Expiration = loggedInUser.Expiration.ToLocalTime();
                 var response = _apiResponseHelper.GetApiResponseSuccess(loggedInUser, HttpStatusCode.OK);
                 return Ok(response);
             }
@@ -43,9 +44,10 @@ namespace MarvelApi_Api.Controllers
             try
             {
                 var registeredUser = await _userRepository.RegisterAsync(registrationRequestDTO);
+                registeredUser.Password = "";
                 var response = _apiResponseHelper.GetApiResponseSuccess(registeredUser, HttpStatusCode.OK);
                 return Ok(response);
-            }
+            }   
             catch (Exception ex)
             {
                 return HandleException(ex);

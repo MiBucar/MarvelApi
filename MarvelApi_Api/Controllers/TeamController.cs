@@ -5,12 +5,14 @@ using MarvelApi_Api.Helpers;
 using MarvelApi_Api.Models;
 using MarvelApi_Api.Models.DTOs.Team;
 using MarvelApi_Api.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarvelApi_Api.Controllers
 {
     [Controller]
     [Route("api/[controller]")]
+    [Authorize(Roles = "User,Admin")]
     public class TeamController : ControllerBase
     {
         private readonly ITeamRepository _teamRepository;

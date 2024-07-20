@@ -1,4 +1,5 @@
-﻿using MarvelApi_Api.Data;
+﻿using BCrypt.Net;
+using MarvelApi_Api.Data;
 using MarvelApi_Api.Models;
 using MarvelApi_Api.Models.DTOs.Jwt;
 using Microsoft.EntityFrameworkCore;
@@ -27,16 +28,9 @@ namespace MarvelApi_Api.Repository.Implementation
 
         public async Task<LoginResponseDTO> LoginAsync(LoginRequestDTO loginRequestDTO)
         {
-            var user = await _db.Users.FirstOrDefaultAsync(x => x.UserName.ToLower() == loginRequestDTO.UserName.ToLower()
-                                                                && x.Password == loginRequestDTO.Password);
-
-            if (user == null)
-                return new LoginResponseDTO
-                {
-                    User = null,
-                    Token = "",
-                    Expiration = DateTime.UtcNow,
-                };
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.UserName == loginRequestDTO.UserName);
+            if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequestDTO.Password, user.Password))
+                throw new Exception("Invalid Username or Password");
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secretKey);
@@ -72,7 +66,7 @@ namespace MarvelApi_Api.Repository.Implementation
             {
                 Name = registrationRequestDTO.UserName,
                 UserName = registrationRequestDTO.UserName,
-                Password = registrationRequestDTO.Password,
+                Password = BCrypt.Net.BCrypt.HashPassword(registrationRequestDTO.Password),
                 Role = registrationRequestDTO.Role,
             };
 
