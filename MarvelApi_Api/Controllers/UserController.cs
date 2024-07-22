@@ -1,7 +1,6 @@
 ﻿using MarvelApi_Api.Helpers;
 using MarvelApi_Api.Models.DTOs.Jwt;
 using MarvelApi_Api.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

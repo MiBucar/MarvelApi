@@ -13,7 +13,7 @@ namespace MarvelApi_Mvc.Services.Implementation
     {
         public ApiResponse ApiResponse { get; set; }
         private readonly IHttpClientFactory _clientFactory;
-
+        private string _token;
 
         public BaseService(IHttpClientFactory clientFactory)
         {
@@ -28,6 +28,10 @@ namespace MarvelApi_Mvc.Services.Implementation
                 HttpRequestMessage requestMessage = new HttpRequestMessage();
                 requestMessage.Headers.Add("Accept", "application/json");
                 requestMessage.RequestUri = new Uri(request.ApiUrl);
+
+                if (!string.IsNullOrEmpty(_token)){
+                    requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
+                }  
 
                 switch (request.ApiType)
                 {

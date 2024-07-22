@@ -1,12 +1,11 @@
 ﻿using MarvelApi_Mvc.Models;
 using MarvelApi_Mvc.Models.DTOs.CharacterDTOs;
 using MarvelApi_Mvc.Models.DTOs.TeamDTOs;
-using MarvelApi_Mvc.Services.Implementation;
 using MarvelApi_Mvc.Services.IServices;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
-namespace MarvelApi_Mvc.Utilities
+namespace MarvelApi_Mvc.Services.Implementation
 {
     public class SelectListItemGetters : ISelectListItemGetters
     {
