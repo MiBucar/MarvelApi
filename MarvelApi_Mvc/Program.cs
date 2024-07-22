@@ -1,15 +1,27 @@
+using MarvelApi_Mvc.Handlers;
 using MarvelApi_Mvc.Services.Implementation;
 using MarvelApi_Mvc.Services.IServices;
-using MarvelApi_Mvc.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<ISelectListItemGetters, SelectListItemGetters>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBaseService, BaseService>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<AuthorizationHandler>();
+builder.Services.AddHttpClient("MarvelApi").AddHttpMessageHandler<AuthorizationHandler>();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -27,8 +39,10 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=User}/{action=Login}/{id?}");
 
 app.Run();
