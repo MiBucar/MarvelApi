@@ -12,7 +12,6 @@ namespace MarvelApi_Api.Controllers
 {
     [Controller]
     [Route("api/[controller]")]
-    [Authorize(Roles = "User,Admin")]
     public class TeamController : ControllerBase
     {
         private readonly ITeamRepository _teamRepository;
@@ -31,6 +30,7 @@ namespace MarvelApi_Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetTeams()
         {
             try
@@ -50,6 +50,7 @@ namespace MarvelApi_Api.Controllers
 
         [HttpGet("{id:int}")]
         [ServiceFilter(typeof(ValidateTeamExistsAttribute))]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetTeam(int id)
         {
             try
@@ -68,6 +69,7 @@ namespace MarvelApi_Api.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(ValidateTeamCreateAndUpdate))]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateTeam([FromBody] TeamCreateDTO teamCreateDTO)
         {
             try
@@ -92,6 +94,7 @@ namespace MarvelApi_Api.Controllers
 
         [HttpPut("{id:int}")]
         [ServiceFilter(typeof(ValidateTeamCreateAndUpdate))]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateTeam(int id, [FromBody] TeamUpdateDTO teamUpdateDTO)
         {
             try
@@ -110,6 +113,7 @@ namespace MarvelApi_Api.Controllers
 
         [HttpDelete("{id:int}")]
         [ServiceFilter(typeof(ValidateTeamExistsAttribute))]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteTeam(int id)
         {
             try

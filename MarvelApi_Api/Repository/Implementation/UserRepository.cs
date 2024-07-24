@@ -38,8 +38,8 @@ namespace MarvelApi_Api.Repository.Implementation
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                   new Claim(ClaimTypes.Name, user.Id.ToString()),
-                   new Claim(ClaimTypes.Role, user.Role.ToString())
+                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                    new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
