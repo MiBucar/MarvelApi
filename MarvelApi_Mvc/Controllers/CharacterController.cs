@@ -2,11 +2,13 @@
 using MarvelApi_Mvc.Models.DTOs.CharacterDTOs;
 using MarvelApi_Mvc.Models.ViewModels.Character;
 using MarvelApi_Mvc.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace MarvelApi_Mvc.Controllers
 {
+    [Authorize(Roles = "User,Admin")]
     public class CharacterController : Controller
     {
         private readonly ICharacterService _characterService;
@@ -21,13 +23,13 @@ namespace MarvelApi_Mvc.Controllers
 
         public async Task<ActionResult> IndexCharacter()
         {
+            var characters = new List<CharacterDTO>();
             var apiResponse = await _characterService.GetAllAsync<ApiResponse>();
             if (apiResponse != null)
             {
-                var characters = JsonConvert.DeserializeObject<IEnumerable<CharacterDTO>>(Convert.ToString(apiResponse.Result));
-                return View(characters);
+                characters = JsonConvert.DeserializeObject<IEnumerable<CharacterDTO>>(Convert.ToString(apiResponse.Result)).ToList();
             }
-            return View();
+            return View(characters);
         }
 
         public async Task<ActionResult> CreateCharacter()
@@ -40,7 +42,7 @@ namespace MarvelApi_Mvc.Controllers
             characterCreateVM.AvailableCharacters = availableCharacters;
             characterCreateVM.AvailableTeams = availableTeams;
             return View(characterCreateVM);
-        }        
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -48,12 +50,19 @@ namespace MarvelApi_Mvc.Controllers
         {
             try
             {
+                if (characterCreateViewModel.CharacterCreateDTO.Powers == null)
+                    characterCreateViewModel.CharacterCreateDTO.Powers = new List<string>();
+
                 if (ModelState.IsValid)
                 {
                     var response = await _characterService.CreateAsync<ApiResponse>(characterCreateViewModel.CharacterCreateDTO);
                     if (response != null && response.IsSuccess)
                     {
                         return RedirectToAction(nameof(IndexCharacter));
+                    }
+                    else if (response == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Only admin is allowed to make this action");
                     }
                 }
 
@@ -91,8 +100,14 @@ namespace MarvelApi_Mvc.Controllers
                 if (ModelState.IsValid)
                 {
                     var response = await _characterService.UpdateAsync<ApiResponse>(characterUpdateViewModel.CharacterUpdateDTO);
-                    if (response.IsSuccess)
+                    if (response != null && response.IsSuccess)
+                    {
                         return RedirectToAction(nameof(IndexCharacter));
+                    }
+                    else if (response == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Only admin is allowed to make this action");
+                    }
                 }
 
                 var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();

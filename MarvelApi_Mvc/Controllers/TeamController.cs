@@ -1,14 +1,14 @@
 ﻿using MarvelApi_Mvc.Models;
 using MarvelApi_Mvc.Models.DTOs.TeamDTOs;
 using MarvelApi_Mvc.Models.ViewModels.Team;
-using MarvelApi_Mvc.Services.Implementation;
 using MarvelApi_Mvc.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace MarvelApi_Mvc.Controllers
 {
-    
+    [Authorize(Roles = "User,Admin")]
     public class TeamController : Controller
     {
         private readonly ITeamService _teamService;
@@ -24,13 +24,13 @@ namespace MarvelApi_Mvc.Controllers
 
         public async Task<ActionResult> IndexTeam()
         {
+            var teams = new List<TeamDTO>();
             var response = await _teamService.GetAllAsync<ApiResponse>();
             if (response != null && response.IsSuccess)
             {
-                var teams = JsonConvert.DeserializeObject<IEnumerable<TeamDTO>>(Convert.ToString(response.Result));
-                return View(teams);
+                teams = JsonConvert.DeserializeObject<IEnumerable<TeamDTO>>(Convert.ToString(response.Result)).ToList();
             }
-            return View();
+            return View(teams);
         }
 
         public async Task<ActionResult> CreateTeam()
@@ -56,6 +56,9 @@ namespace MarvelApi_Mvc.Controllers
                     if (response != null && response.IsSuccess)
                     {
                         return RedirectToAction(nameof(IndexTeam));
+                    }
+                    else if (response == null){
+                        ModelState.AddModelError(string.Empty, "Only admin is allowed to make this action");
                     }
                 }
 
@@ -87,9 +90,12 @@ namespace MarvelApi_Mvc.Controllers
             try
             {
                 var response = await _teamService.UpdateAsync<ApiResponse>(teamUpdateViewModel.TeamUpdateDTO);
-                if ( response != null && response.IsSuccess)
+                if (response != null && response.IsSuccess)
                 {
                     return RedirectToAction(nameof(IndexTeam));
+                }
+                else if (response == null){
+                        ModelState.AddModelError(string.Empty, "Only admin is allowed to make this action");
                 }
 
                 var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
