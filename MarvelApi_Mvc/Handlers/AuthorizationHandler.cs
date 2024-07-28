@@ -15,7 +15,6 @@ namespace MarvelApi_Mvc.Handlers{
             if (!string.IsNullOrEmpty(token)){
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
-
             return await base.SendAsync(request, cancellationToken);
         }
     }
