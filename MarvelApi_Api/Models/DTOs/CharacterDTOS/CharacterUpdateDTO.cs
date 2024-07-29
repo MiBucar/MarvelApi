@@ -16,6 +16,8 @@ namespace MarvelApi_Api.Models.DTOs.CharacterDTOS
         [Required]
         public string Appearance { get; set; }
         [Required]
+        public int FirstAppearanceYear { get; set; }
+        [Required]
         public string Origin { get; set; }
         public int? TeamId { get; set; }
         public TeamDTO? Team { get; set; }

@@ -5,6 +5,8 @@ namespace MarvelApi_Mvc.Models.DTOs.TeamDTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public IFormFile ImageFile { get; set; }
+        public byte[]? Image { get; set; }
         public List<string> Members { get; set; } = new List<string>();
     }
 }

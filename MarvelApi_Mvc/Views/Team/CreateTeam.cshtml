@@ -3,7 +3,13 @@
 <br />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<form asp-controller="Team" asp-action="CreateTeam" method="post">
+<body>
+    <section id="banner">
+        <div id="backtotop">
+            <a href="#banner" id="backtotop-value"><i class="fa-solid fa-arrow-up"></i></a>
+        </div>
+    </section>
+    <form asp-controller="Team" asp-action="CreateTeam" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <!-- Name -->
     <div class="row m-2">
@@ -25,6 +31,16 @@
             <span asp-validation-for="TeamCreateDTO.Description" class="text-danger"></span>
         </div>
     </div>
+    <!--Image  -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="TeamCreateDTO.ImageFile" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="TeamCreateDTO.ImageFile" type="file" class="form-control" />
+            <span asp-validation-for="TeamCreateDTO.ImageFile" class="text-danger"></span>
+        </div>
+    </div>
     <!-- Members -->
     <div class="row m-2">
         <div class="col-2">
@@ -43,3 +59,4 @@
         </div>
     </div>
 </form>
+</body>

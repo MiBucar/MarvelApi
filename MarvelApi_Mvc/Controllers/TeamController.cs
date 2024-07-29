@@ -52,6 +52,13 @@ namespace MarvelApi_Mvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (teamCreateViewModel.TeamCreateDTO.ImageFile != null){
+                        using (var memoryStream = new MemoryStream()){
+                            await teamCreateViewModel.TeamCreateDTO.ImageFile.CopyToAsync(memoryStream);
+                            teamCreateViewModel.TeamCreateDTO.Image = memoryStream.ToArray();
+                        }
+                    }
+
                     var response = await _teamService.CreateAsync<ApiResponse>(teamCreateViewModel.TeamCreateDTO);
                     if (response != null && response.IsSuccess)
                     {
@@ -89,6 +96,13 @@ namespace MarvelApi_Mvc.Controllers
         {
             try
             {
+                if (teamUpdateViewModel.TeamUpdateDTO.ImageFile != null){
+                        using (var memoryStream = new MemoryStream()){
+                            await teamUpdateViewModel.TeamUpdateDTO.ImageFile.CopyToAsync(memoryStream);
+                            teamUpdateViewModel.TeamUpdateDTO.Image = memoryStream.ToArray();
+                        }
+                    }
+
                 var response = await _teamService.UpdateAsync<ApiResponse>(teamUpdateViewModel.TeamUpdateDTO);
                 if (response != null && response.IsSuccess)
                 {

@@ -76,7 +76,6 @@ namespace MarvelApi_Mvc.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(RegistrationRequestDTO registrationRequestDTO)
         {
-            registrationRequestDTO.Role = "User";
             if (ModelState.IsValid)
             {
                 var response = await _userService.RegisterAsync<ApiResponse>(registrationRequestDTO);

@@ -2,7 +2,13 @@
 @model List<TeamDTO>
 <br />
 
-<div class="container p-4 border">
+<body>
+    <section id="banner">
+        <div id="backtotop">
+            <a href="#banner" id="backtotop-value"><i class="fa-solid fa-arrow-up"></i></a>
+        </div>
+    </section>
+    <div class="container p-4 border">
     <div class="row pb-2">
         <div class="col">
             <h1 class="text-primary">Team List</h1>
@@ -45,6 +51,7 @@
         </tbody>
     </table>
 </div>
+</body>
 
 <script>
     function confirmDelete(event, itemId) {
