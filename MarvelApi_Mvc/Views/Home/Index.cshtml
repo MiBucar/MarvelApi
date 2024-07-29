@@ -1,69 +1,30 @@
+@using MarvelApi_Mvc.Models.ViewModels.Home
+@model HomeViewModel
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="keywords" content="HTML5 Template, comics, ebook, comic art, anime, comic book, SEO" />
-	<meta name="description" content="Comixo - Comic Books & Art Studio HTML5 Template" />
-	<title>Comixo - Comic Books & Art Studio HTML5 Template</title>
+	<title>MarvelApi - Api Project for Marvel Heroes</title>
 </head>
 
 <body>
 	<!-- perloader -->
 	@* <div id="preloader">
-		<div id="loading-center">
-			<div id="loading-center-absolute">
-				<div class="object" id="object_one"></div>
-				<div class="object" id="object_two"></div>
-				<div class="object" id="object_three"></div>
-				<div class="object" id="object_four"></div>
-			</div>
-		</div>
+	<div id="loading-center">
+	<div id="loading-center-absolute">
+	<div class="object" id="object_one"></div>
+	<div class="object" id="object_two"></div>
+	<div class="object" id="object_three"></div>
+	<div class="object" id="object_four"></div>
+	</div>
+	using MarvelApi_Mvc.Models.ViewModels.Home;
+	</div>
 	</div> *@
 	<!-- preloader -->
 
-	<!-- HEADER AREA START -->
-	@* <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-		<div class="container">
-			<a class="navbar-brand" href="index.html">Comixo<span>.</span></a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav m-auto mb-2 mt-0 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link" href="#banner">Home</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#about">About</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#new-comics">Comics</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#blog">Blog</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-bs-toggle="modal" data-bs-target="#contact-modal">Contact</a>
-					</li>
-				</ul>
-				<div class="menu-action d-flex">
-					<div class="action-icon">
-						<a href="bookmark.html" class="menu-icon"><i class="fa-solid fa-bookmark"></i></a>
-						<a href="cart.html" class="menu-icon"><span>2</span><i class="fa-solid fa-cart-shopping"></i></a>
-						<a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" class="menu-icon mobile-v-show"><i class="fa-solid fa-magnifying-glass"></i></a>
-					</div>
-					<a href="#" class="button-secondary">Free Comics</a>
-					<a href="#" class="ham-button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-						<div class="hamburger-menu">
-							<div class="nav-line"></div>
-						</div>
-					</a>
-				</div>
-			</div>
-		</div>
-	</nav> *@
 	<!-- right-menu modal -->
 	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
 		<div class="offcanvas-header">
@@ -80,13 +41,16 @@
 					<a href="comic_details.html"><img src="wwwroot//images/popular" alt="comic" class="img-fluid"></a>
 				</div>
 				<div class="col-lg-6 menu-comic">
-					<a href="comic_details.html"><img src="wwwroot//images/popular1.png" alt="comic" class="img-fluid"></a>
+					<a href="comic_details.html"><img src="wwwroot//images/popular1.png" alt="comic"
+							class="img-fluid"></a>
 				</div>
 				<div class="col-lg-6 menu-comic">
-					<a href="comic_details.html"><img src="wwwroot//images/popular2.png" alt="comic" class="img-fluid"></a>
+					<a href="comic_details.html"><img src="wwwroot//images/popular2.png" alt="comic"
+							class="img-fluid"></a>
 				</div>
 				<div class="col-lg-6 menu-comic">
-					<a href="comic_details.html"><img src="wwwroot//images/comic3.png" alt="comic" class="img-fluid"></a>
+					<a href="comic_details.html"><img src="wwwroot//images/comic3.png" alt="comic"
+							class="img-fluid"></a>
 				</div>
 			</div>
 			<div class="row pt-5">
@@ -129,13 +93,15 @@
 										<input type="text" class="form-control" placeholder="Subject">
 									</div>
 									<div class="col-lg-12">
-										<textarea class="form-control" placeholder="Write Your Comment Here..." rows="3"></textarea>
+										<textarea class="form-control" placeholder="Write Your Comment Here..."
+											rows="3"></textarea>
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-5">
 								<div class="contact-item">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus odit aliquid consectetur, veniam.</p>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus odit aliquid
+										consectetur, veniam.</p>
 									<div class="row">
 										<div class="col-6 col-lg-6 contact-info">
 											<i class="fa-solid fa-location-dot"></i>
@@ -174,9 +140,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- HEADER AREA ENDS -->
 
-	<!-- BANNER AREA START -->
 	<section id="banner">
 		<div id="backtotop">
 			<a href="#banner" id="backtotop-value"><i class="fa-solid fa-arrow-up"></i></a>
@@ -185,65 +149,64 @@
 			<div class="row">
 				<div class="col-lg-6 banner-txt">
 					<span>The Ultimate</span>
-					<h3>Comic</h3>
-					<h3 class="txt-pos">Book.</h3>
-					<a href="#" class="button-primary">Read Now</a>
-					<a class="venobox button-circular" data-autoplay="true" data-vbtype="video" href="https://www.youtube.com/watch?v=kmh1cr3b4Js"><i class="fa-solid fa-play"></i></a>
+					<h3>Marvel</h3>
+					<h3 class="txt-pos">API.</h3>
+					<a href="#" class="button-primary">Explore Now</a>
 					<div class="row banner-review">
 						<div class="col-lg-3">
-							<img src="/images/user5.png" alt="user" class="one">
-							<img src="/images/user1.png" alt="user">
-							<img src="/images/user2.png" alt="user">
 						</div>
 						<div class="col-lg-4">
 							<div class="stars">
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star"></i>
-								<i class="fa-solid fa-star-half-stroke"></i>
 							</div>
-							<p>(409.6K Reviews)</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-10 col-sm-11 col-md-7 col-lg-6 banner-/images">
+				<div class="col-10 col-sm-11 col-md-7 col-lg-6 banner-images">
 					<img src="/images/banner-icon.png" alt="banner-icon" class="banner-icon">
-					<img src="/images/banner2.png" alt="banner-img" class="banner-img one img-fluid">
-					<img src="/images/banner1.png" alt="banner-img" class="banner-img two img-fluid">
+					<img src="/images/gray-characters.jpg" alt="banner-img" class="banner-img one img-fluid">
+					<img src="/images/gray-characters-2.jpg" alt="banner-img" class="banner-img two img-fluid">
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- BANNER AREA ENDS -->
 
-	<!-- ABOUT AREA START -->
+	@{
+		int startYear = 2022;
+		int currentYear = DateTime.Now.Year;
+		int yearsOfExperience = currentYear - startYear;
+	}
+
 	<section id="about">
 		<div class="container">
 			<div class="row pt-5">
 				<div class="col-lg-5 col-md-9 m-md-auto about-main">
-					<img src="/images/about-main.png" alt="about-img" class="img-fluid">
+					<img src="/images/my-picture.jpg" alt="about-img" class="img-fluid">
 					<div class="active-users">
-						<h3 class="counter" data-counterup-time="2000" data-counterup-delay="30" data-counterup-beginat="1">3</h3><span>M</span>
-						<p>Users</p>
+						<h3 class="counter" data-counterup-time="2000" data-counterup-delay="30"
+							data-counterup-beginat="1">5</h3><span>+</span>
+						<p>Projects</p>
 					</div>
 					<div class="experience">
-						<h3 class="counter" data-counterup-time="2000" data-counterup-delay="30" data-counterup-beginat="2">25</h3>
+						<h3 class="counter" data-counterup-time="2000" data-counterup-delay="30"
+							data-counterup-beginat="2">@yearsOfExperience</h3>
 						<span>+</span>
-						<p>Years of comic journey</p>
+						<p>Years of experience</p>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="about-txt">
-						<span>About Us</span>
-						<h3>Digital Books Arts Company.</h3>
-						<p class="pt-2 pb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore molestiae eius accusamus fuga a tenetur.</p>
+						<span>About Me  |  Mislav bučar</span>
+						<h3>Fullstack .NET developer</h3>
+						<p class="pt-2 pb-4">@yearsOfExperience years of experience in
+							building robust and scalable applications.
+							My expertise lies in both backend and frontend technologies.</p>
 						<div class="check-p">
-							<p><i class="fa-solid fa-check"></i> We Offer Unique Comic Books & Arts</p>
-							<p><i class="fa-solid fa-check"></i> Get Collection Of Creative Series</p>
-							<p><i class="fa-solid fa-check"></i> Watch Cartoon And Kid Animation</p>
+							<p><i class="fa-solid fa-check"></i> Expertise in .NET Technologies</p>
+							<p><i class="fa-solid fa-check"></i> Proficient in Backend and Frontend Development</p>
+							<p><i class="fa-solid fa-check"></i> Passionate About Delivering Quality Solutions</p>
 						</div>
-						<a class="button-circular" data-autoplay="true" data-vbtype="video" href="https://www.youtube.com/watch?v=4S8RC5zzG5g"><i class="fa-solid fa-play"></i> Watch Story</a>
+						<a class="button-circular-2" href="https://github.com/MiBucar"><i class="fa-brands fa-github"></i>
+							Discover my work</a>
 					</div>
 				</div>
 			</div>
@@ -251,361 +214,119 @@
 	</section>
 	<!-- ABOUT AREA ENDS -->
 
-	<!-- NEW_COMICS AREA START -->
-	@* <section id="new-comics">
-		<div class="container">
-			<div class="row">
-				<div class="section-title t-white">
-					<div class="row">
-						<div class="col-lg-6 m-auto text-center">
-							<span>New Comics</span>
-							<h3>Enjoy Newest Comic Books.</h3>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row comic-item-pos">
-				<div class="col-lg-4 col-md-8 mobile-m-auto">
-					<div class="comic-item">
-						<img src="/images/comic1.png" alt="comic" class="img-fluid">
-						<a class="veno-img" data-gall="comic1" href="/images/comic1.png"><i class="fa-solid fa-plus"></i></a>
-						<div class="comic-item-details">
-							<div class="row">
-								<div class="col-8 col-lg-8">
-									<h3>Super Knight</h3>
-									<p><i class="fa-solid fa-eye"></i> 250.6K Reviews</p>
-								</div>
-								<div class="col-4 col-lg-4 text-end">
-									<a href="comic_details.html"><i class="fa-solid fa-arrow-right"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-8 mobile-m-auto">
-					<div class="comic-item active">
-						<img src="/images/comic2.png" alt="comic" class="img-fluid">
-						<a class="veno-img" data-gall="comic1" href="/images/comic2.png"><i class="fa-solid fa-plus"></i></a>
-						<div class="comic-item-details">
-							<div class="row">
-								<div class="col-8 col-lg-8">
-									<h3>Red Squad IV</h3>
-									<p><i class="fa-solid fa-eye"></i> 168.2K Reviews</p>
-								</div>
-								<div class="col-4 col-lg-4 text-end">
-									<a href="comic_details.html"><i class="fa-solid fa-arrow-right"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-8 mobile-m-auto">
-					<div class="comic-item">
-						<img src="/images/comic3.png" alt="comic" class="img-fluid">
-						<a class="veno-img" data-gall="comic1" href="/images/comic3.png"><i class="fa-solid fa-plus"></i></a>
-						<div class="comic-item-details">
-							<div class="row">
-								<div class="col-8 col-lg-8">
-									<h3>Nova Nexus</h3>
-									<p><i class="fa-solid fa-eye"></i> 124.7K Reviews</p>
-								</div>
-								<div class="col-4 col-lg-4 text-end">
-									<a href="comic_details.html"><i class="fa-solid fa-arrow-right"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section> *@
-	<!-- NEW_COMICS AREA END -->
-
-	<!-- POPULAR AREA START -->
-	<section id="popular">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 section-title">
-					<span>Popular</span>
-					<h3>Explore Our Creativity.</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae blanditi.</p>
-					<a href="#" class="button-primary">Browse All</a>
-				</div>
-				<div class="col-lg-6 col-md-9 mobile-m-auto">
-					<div class="popular-item">
-						<p>2024</p>
-						<div class="col-lg-10 ms-auto">
-							<img src="/images/popular1.png" alt="comic-book" class="img-fluid">
-							<a href="comic_details.html">Shadow Fighter II</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-9 mobile-m-auto">
-					<div class="popular-item right">
-						<p>2018</p>
-						<div class="col-lg-10 me-auto">
-							<img src="/images/popular2.png" alt="comic-book" class="img-fluid">
-							<a href="comic_details.html">Super Hero V</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-9 ms-auto mobile-m-auto">
-					<div class="popular-item">
-						<p>2017</p>
-						<div class="col-lg-10 ms-auto">
-							<img src="/images/popular4.png" alt="comic-book" class="img-fluid">
-							<a href="comic_details.html">Power Ranger X</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-9 mobile-m-auto">
-					<div class="popular-item right mb-0">
-						<p>2016</p>
-						<div class="col-lg-10 me-auto">
-							<img src="/images/popular3.png" alt="comic-book" class="img-fluid">
-							<a href="comic_details.html">Dr. Stranger</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- POPULAR AREA END -->
-
-	<!-- TEAM AREA START -->
 	<section id="team">
 		<div class="container zindex">
 			<div class="row">
 				<div class="section-title t-white">
 					<div class="row">
 						<div class="col-lg-6">
-							<span>Our Team</span>
-							<h3>Meet With Our Comic Artist.</h3>
+							<span>The Project</span>
+							<h3>Introduction.</h3>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row pt-55 pb-65">
-				<div class="col-lg-3 col-md-6 team-item text-center">
-					<div class="team-img">
-						<img src="/images/team1.png" alt="team" class="img-fluid">
-					</div>
-					<h3>Shakibul.</h3>
-					<p>Creative Comic Artist</p>
-					<div class="social">
-						<a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-						<a href="#"><i class="fa-brands fa-twitter"></i></a>
-						<a href="#"><i class="fa-brands fa-twitch"></i></a>
-						<a href="#"><i class="fa-brands fa-youtube"></i></a>
-					</div>
+			<div class="row align-items-center justify-content-around mb-5">
+				<div class="col-lg-6 team-counter mb-4">
+					<p class="pt-16">Welcome to MarvelApi, a web application bringing the Marvel comics universe to your
+						fingertips.
+						Utilizing cutting-edge .NET technologies, MarvelApi offers robust, scalable solutions with
+						detailed information on Marvel characters via the
+						Marvel Comics API, providing an immersive user experience.</p>
 				</div>
 				<div class="col-lg-3 col-md-6 team-item text-center">
 					<div class="team-img">
-						<img src="/images/team2.png" alt="team" class="img-fluid">
-					</div>
-					<h3>Alexander.</h3>
-					<p>Story Teller & Director</p>
-					<div class="social">
-						<a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-						<a href="#"><i class="fa-brands fa-twitter"></i></a>
-						<a href="#"><i class="fa-brands fa-twitch"></i></a>
-						<a href="#"><i class="fa-brands fa-youtube"></i></a>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 team-item text-center">
-					<div class="team-img">
-						<img src="/images/team3.png" alt="team" class="img-fluid">
-					</div>
-					<h3>Warren Ells.</h3>
-					<p>Character Drawing</p>
-					<div class="social">
-						<a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-						<a href="#"><i class="fa-brands fa-twitter"></i></a>
-						<a href="#"><i class="fa-brands fa-twitch"></i></a>
-						<a href="#"><i class="fa-brands fa-youtube"></i></a>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 team-item text-center">
-					<div class="team-img">
-						<img src="/images/team4.png" alt="team" class="img-fluid">
-					</div>
-					<h3>Ann Nocenti.</h3>
-					<p>Creative Designer</p>
-					<div class="social">
-						<a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-						<a href="#"><i class="fa-brands fa-twitter"></i></a>
-						<a href="#"><i class="fa-brands fa-twitch"></i></a>
-						<a href="#"><i class="fa-brands fa-youtube"></i></a>
+						<img src="/images/marvel-logo.png" alt="team" class="img-fluid">
 					</div>
 				</div>
 			</div>
 			<div class="row team-counter-main">
 				<div class="col-6 col-lg-3 team-counter">
-					<h3 class="counter" data-counterup-time="2000" data-counterup-delay="30" data-counterup-beginat="10">97</h3><span>%</span>
-					<p>Satisfaction Rate</p>
+					<p>Built with ASP.NET API and MVC</p>
 				</div>
 				<div class="col-6 col-lg-3 team-counter">
-					<h3 class="counter" data-counterup-time="2000" data-counterup-delay="30" data-counterup-beginat="1">12</h3><span>M</span>
-					<p>Users Registration</p>
+					<p>Utilizes Entity Framework Core for Data Management</p>
 				</div>
-				<div class="col-lg-6 team-counter">
-					<p class="pt-16">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus voluptatum, iusto assumenda. Rerum neque saepe commodi, iusto esse eius, ratione explicabo vitae, sunt aperiam a.</p>
+				<div class="col-lg-6 col-lg-3 team-counter">
+					<p>Frontend powered by Bootstrap and custom CSS</p>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- TEAM AREA END -->
 
-	<!-- BLOG AREA START -->
-	<section id="blog">
-		<div class="container zindex">
-			<div class="row">
-				<div class="section-title">
-					<div class="row">
-						<div class="col-lg-6">
-							<span>Blogs</span>
-							<h3>Our Top Trendy Comic News.</h3>
-						</div>
+	<!-- POPULAR AREA START -->
+	@if (Model.CharacterDTOs.Any())
+	{
+		<section id="popular">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 section-title">
+						<span>Popular</span>
+						<h3>Explore Marvel Characters.</h3>
+						<p>Explore detailed information, fascinating backstories, and stunning appearances of your favorite
+							heroes and villains.</p>
+						<a asp-controller="Character" asp-action="IndexCharacter" class="button-primary">Browse All</a>
 					</div>
+					@for (int i = 0; i < Model.CharacterDTOs.Take(4).Count(); i++)
+					{
+						var character = Model.CharacterDTOs[i];
+						<div class="col-lg-6 col-md-9 mobile-m-auto">
+							<div class="popular-item @(i % 2 != 0 ? "right" : "") @(i == 3 ? "mb-0" : "")">
+								<p>@character.FirstAppearanceYear</p>
+								<div class="col-lg-10 @(i % 2 == 0 ? "ms-auto" : "me-auto")">
+									<img src="data:image/png;base64,@Convert.ToBase64String(character.Image)" alt="comic-book"
+										class="img-fluid">
+									<a href="comic_details.html">@character.Name</a>
+								</div>
+							</div>
+						</div>
+					}
 				</div>
 			</div>
-			<div class="row pt-55">
-				<div class="col-lg-12 col-11 blog-item">
-					<div class="row">
-						<div class="col-lg-2">
-							<h4>01</h4>
-						</div>
-						<div class="col-lg-4">
-							<img src="/images/blog1.png" alt="blog-img" class="img-fluid">
-						</div>
-						<div class="col-lg-6">
-							<div class="blog-txt">
-								<a href="#"><i class="fa-solid fa-thumbs-up"></i> 140K</a>
-								<a href="#"><i class="fa-solid fa-comment"></i> 890</a>
-								<a href="#"><i class="fa-solid fa-share"></i> 3.5K</a>
-								<h3>The Evolution of Superhero Costumes: From Golden Age To Modern Era.</h3>
-								<a href="#" class="round-btn"><i class="fa-solid fa-arrow-right"></i></a>
+		</section>
+	}
+
+	<!-- TEAM AREA START -->
+	@if (Model.TeamDTOs.Any())
+	{
+		<section id="new-comics">
+			<div class="container">
+				<div class="row">
+					<div class="section-title t-white">
+						<div class="row">
+							<div class="col-lg-6 m-auto text-center">
+								<span>Popular</span>
+								<h3>Explore most popular teams</h3>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-12 col-11 blog-item no-border">
-					<div class="row">
-						<div class="col-lg-2">
-							<h4>02</h4>
-						</div>
-						<div class="col-lg-4">
-							<img src="/images/blog2.png" alt="blog-img" class="img-fluid">
-						</div>
-						<div class="col-lg-6">
-							<div class="blog-txt">
-								<a href="#"><i class="fa-solid fa-thumbs-up"></i> 243K</a>
-								<a href="#"><i class="fa-solid fa-comment"></i> 785</a>
-								<a href="#"><i class="fa-solid fa-share"></i> 6.8K</a>
-								<h3>The Art of Storytelling: How Comics Create Immersive Great Narratives.</h3>
-								<a href="#" class="round-btn"><i class="fa-solid fa-arrow-right"></i></a>
+				<div class="row comic-item-pos">
+					@for (int i = 0; i < Model.TeamDTOs.Take(3).Count(); i++)
+					{
+						var team = Model.TeamDTOs[i];
+						<div class="col-lg-4 col-md-8 mobile-m-auto">
+							<div class="comic-item @(i % 2 != 0 ? "active" : "")">
+								<img src="data:image/png;base64,@Convert.ToBase64String(team.Image)" alt="comic"
+									class="img-fluid">
+								<a class="veno-img" data-gall="comic1" href="#"><i class="fa-solid fa-plus"></i></a>
+								<div class="comic-item-details">
+									<div class="row">
+										<div class="col-8 col-lg-8">
+											<h3>@team.Name</h3>
+										</div>
+										<div class="col-4 col-lg-4 text-end">
+											<a href="comic_details.html"><i class="fa-solid fa-arrow-right"></i></a>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-lg-12 col-11 blog-item">
-					<div class="row">
-						<div class="col-lg-2">
-							<h4>03</h4>
-						</div>
-						<div class="col-lg-4">
-							<img src="/images/blog3.png" alt="blog-img" class="img-fluid">
-						</div>
-						<div class="col-lg-6">
-							<div class="blog-txt">
-								<a href="#"><i class="fa-solid fa-thumbs-up"></i> 153K</a>
-								<a href="#"><i class="fa-solid fa-comment"></i> 992</a>
-								<a href="#"><i class="fa-solid fa-share"></i> 7.2K</a>
-								<h3>From Pages to Digital Screen: The Best Worst Comic Book Next Adaptions.</h3>
-								<a href="#" class="round-btn"><i class="fa-solid fa-arrow-right"></i></a>
-							</div>
-						</div>
-					</div>
+					}
 				</div>
 			</div>
-			<div class="row pt-5">
-				<div class="col-lg-4 pt-3 m-auto">
-					<a href="#" class="button-primary">Browse More</a>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- BLOG AREA END -->
-
-	<!-- FOOTER AREA START -->
-	<section id="footer">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 footer-logo">
-					<a href="index.html">Comixo<span>.</span></a>
-					<img src="/images/footer-icon.png" alt="bat-img">
-				</div>
-				<div class="col-lg-2 col-md-4 footer-menu">
-					<h3>Quick Link</h3>
-					<a href="#">Home Page</a>
-					<a href="#">About</a>
-					<a href="#">Contact Us</a>
-				</div>
-				<div class="col-lg-2 col-md-4 footer-menu">
-					<h3>Community</h3>
-					<a href="#">Career Page</a>
-					<a href="#">FAQ</a>
-					<a href="#">Supports</a>
-					<a href="#">Privacy Policy</a>
-					<a href="#">Affiliate Marketing</a>
-					<a href="#">Partnership</a>
-					<a href="#">Terms & Condition</a>
-				</div>
-				<div class="col-lg-2 col-md-4 footer-menu">
-					<h3>Action Link</h3>
-					<a href="#">Contact Us</a>
-					<a href="#">Payments</a>
-					<a href="#">Comic Books</a>
-					<a href="#">Community</a>
-				</div>
-				<div class="col-lg-3 footer-action">
-					<h3>Connect Us</h3>
-					<div class="footer-social">
-						<a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-						<a href="#"><i class="fa-brands fa-instagram"></i></a>
-						<a href="#"><i class="fa-brands fa-twitter"></i></a>
-						<a href="#"><i class="fa-brands fa-youtube"></i></a>
-						<a href="#"><i class="fa-brands fa-tiktok"></i></a>
-					</div>
-					<h3>Get The App</h3>
-					<div class="footer-download">
-						<a href="#" class="button-primary android"><i class="fa-brands fa-google-play"></i> Play Store</a>
-						<a href="#" class="button-primary ios"><i class="fa-brands fa-apple"></i> App Store</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- FOOTER AREA END -->
-
-	<!-- COPY_RIGHT AREA START -->
-	<section id="copy_right">
-		<div class="container">
-			<div class="row copyright-txt">
-				<div class="col-lg-6">
-					<span>LANGUAGE: </span>
-					<a href="#">BAN</a>
-					<a href="#">NL</a>
-					<a href="#" class="active">EN</a>
-					<a href="#">FR</a>
-					<a href="#">EU</a>
-				</div>
-				<div class="col-lg-6 text-end">
-					<p>&copy; Made by EpikTheme. All Rights Reserved.</p>
-				</div>
-			</div>
-		</div>
-	</section>
+		</section>
+	}
 </body>
 
 </html>

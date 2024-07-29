@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarvelApi_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240528165752_InitialCreate")]
+    [Migration("20240729085120_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -47,6 +47,9 @@ namespace MarvelApi_Api.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FirstAppearanceYear")
+                        .HasColumnType("int");
+
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
 
@@ -73,44 +76,6 @@ namespace MarvelApi_Api.Migrations
                     b.HasIndex("TeamId");
 
                     b.ToTable("Characters");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Appearance = "Avengers",
-                            Backstory = "Was  rich man",
-                            DateCreated = new DateTime(2024, 5, 28, 16, 57, 52, 381, DateTimeKind.Utc).AddTicks(9360),
-                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsVillain = false,
-                            Name = "Iron man",
-                            Origin = "New York",
-                            Powers = "[\"laser\",\"Big laser\"]"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Appearance = "Avengers",
-                            Backstory = "Was  rich man",
-                            DateCreated = new DateTime(2024, 5, 28, 16, 57, 52, 381, DateTimeKind.Utc).AddTicks(9370),
-                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsVillain = true,
-                            Name = "Thanos",
-                            Origin = "New York",
-                            Powers = "[\"laser\",\"Big laser\"]"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Appearance = "Avengers",
-                            Backstory = "Was  rich man",
-                            DateCreated = new DateTime(2024, 5, 28, 16, 57, 52, 381, DateTimeKind.Utc).AddTicks(9370),
-                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsVillain = false,
-                            Name = "Daredevil",
-                            Origin = "New York",
-                            Powers = "[\"laser\",\"Big laser\"]"
-                        });
                 });
 
             modelBuilder.Entity("MarvelApi_Api.Models.CharacterRelationship", b =>
@@ -149,6 +114,10 @@ namespace MarvelApi_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -156,24 +125,35 @@ namespace MarvelApi_Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DateCreated = new DateTime(2024, 5, 28, 16, 57, 52, 381, DateTimeKind.Utc).AddTicks(9410),
-                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Hero team.",
-                            Name = "Avengers"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DateCreated = new DateTime(2024, 5, 28, 16, 57, 52, 381, DateTimeKind.Utc).AddTicks(9410),
-                            DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Team trying to destroy the world.",
-                            Name = "Children of Thanos"
-                        });
+            modelBuilder.Entity("MarvelApi_Api.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MarvelApi_Api.Models.Character", b =>

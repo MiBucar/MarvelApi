@@ -3,7 +3,7 @@
 <br />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<form asp-controller="Character" asp-action="UpdateCharacter" method="post">
+<form asp-controller="Character" asp-action="UpdateCharacter" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input asp-for="CharacterUpdateDTO.Id" type="hidden" />
     <!-- Name -->
@@ -35,6 +35,16 @@
             <span asp-validation-for="CharacterUpdateDTO.Backstory" class="text-danger"></span>
         </div>
     </div>
+    <!--Image  -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.ImageFile" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.ImageFile" type="file" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.ImageFile" class="text-danger"></span>
+        </div>
+    </div>
     <!--Appearance  -->
     <div class="row m-2">
         <div class="col-2">
@@ -43,6 +53,16 @@
         <div class="col-6">
             <input asp-for="CharacterUpdateDTO.Appearance" class="form-control" />
             <span asp-validation-for="CharacterUpdateDTO.Appearance" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- First Appearance  -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.FirstAppearanceYear" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.FirstAppearanceYear" type="number" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.FirstAppearanceYear" class="text-danger"></span>
         </div>
     </div>
     <!-- Origin -->

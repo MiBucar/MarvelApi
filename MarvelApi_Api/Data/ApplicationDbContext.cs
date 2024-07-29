@@ -31,52 +31,6 @@ namespace MarvelApi_Api.Data
                 .WithMany()
                 .HasForeignKey(cr => cr.RelatedCharacterId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Character>().HasData(
-                new Character
-                {
-                    Id = 1,
-                    Name = "Iron man",
-                    IsVillain = false,
-                    Backstory = "Was  rich man",
-                    Appearance = "Avengers",
-                    Origin = "New York",
-                    Powers = new List<string> { "laser", "Big laser" }
-                },
-                new Character
-                {
-                    Id = 2,
-                    Name = "Thanos",
-                    IsVillain = true,
-                    Backstory = "Was  rich man",
-                    Appearance = "Avengers",
-                    Origin = "New York",
-                    Powers = new List<string> { "laser", "Big laser" }
-                },
-                new Character
-                {
-                    Id = 3,
-                    Name = "Daredevil",
-                    IsVillain = false,
-                    Backstory = "Was  rich man",
-                    Appearance = "Avengers",
-                    Origin = "New York",
-                    Powers = new List<string> { "laser", "Big laser" }
-                }
-            );
-            
-            modelBuilder.Entity<Team>().HasData(
-                new Team{
-                    Id = 1,
-                    Name = "Avengers",
-                    Description = "Hero team.",
-                },
-                new Team{
-                    Id = 2,
-                    Name = "Children of Thanos",
-                    Description = "Team trying to destroy the world.",
-                }
-            );
         }
     }
 }
