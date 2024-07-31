@@ -65,6 +65,28 @@ namespace MarvelApi_Api.Controllers
             }
         }
 
+        [HttpGet("{query}")]
+        public async Task<IActionResult> Search(string query)
+        {
+            try
+            {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(Search));
+
+                if (string.IsNullOrEmpty(query))
+                    return Ok(new List<Team>());
+
+                var teams = await _teamRepository.GetAllAsync(x => x.Name.Contains(query), includeProperties: "Members");
+                var mappedTeams = _autoMapper.Map<IEnumerable<Team>, IEnumerable<TeamDTO>>(teams);
+
+                var response = _apiResponseHelper.GetApiResponseSuccess(mappedTeams, HttpStatusCode.OK);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
         [HttpPost]
         [ServiceFilter(typeof(ValidateTeamCreateAndUpdate))]
         [Authorize(Roles = "Admin")]

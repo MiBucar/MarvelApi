@@ -5,6 +5,7 @@ using MarvelApi_Mvc.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace MarvelApi_Mvc.Controllers
 {
@@ -22,15 +23,33 @@ namespace MarvelApi_Mvc.Controllers
             _selectListItemGetters = selectListItemGetters;
         }
 
-        public async Task<ActionResult> IndexTeam()
+        public async Task<ActionResult> IndexTeam(string searchQuery, int page = 1, int pageSize = 20)
         {
+            ViewBag.PageSize = pageSize;
+            ViewBag.CurrentPage = page;
+
+            var allTeams = new List<TeamDTO>();
             var teams = new List<TeamDTO>();
-            var response = await _teamService.GetAllAsync<ApiResponse>();
-            if (response != null && response.IsSuccess)
+
+            var apiResponse = await _teamService.SearchAsync<ApiResponse>(searchQuery);
+            if (apiResponse != null && apiResponse.IsSuccess)
             {
-                teams = JsonConvert.DeserializeObject<IEnumerable<TeamDTO>>(Convert.ToString(response.Result)).ToList();
+                allTeams = JsonConvert.DeserializeObject<IEnumerable<TeamDTO>>(Convert.ToString(apiResponse.Result)).ToList();
             }
-            return View(teams);
+
+            if (allTeams.Any())
+                teams = allTeams.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var totalPages = (int)Math.Ceiling(allTeams.Count() / (double)pageSize);
+
+            var viewModel = new DisplayTeamsViewModel
+            {
+                TeamDTOs = teams,
+                CurrentPage = page,
+                TotalPages = totalPages,
+            };
+
+            return View(viewModel);
         }
 
         public async Task<ActionResult> CreateTeam()

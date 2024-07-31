@@ -38,8 +38,7 @@ namespace MarvelApi_Mvc.Controllers
             if (allCharacters.Any())
                 characters = allCharacters.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            var totalCharacters = allCharacters.Count();
-            var totalPages = (int)Math.Ceiling(totalCharacters / (double)pageSize);
+            var totalPages = (int)Math.Ceiling(allCharacters.Count() / (double)pageSize);
 
             var viewModel = new DisplayCharactersViewModel
             {
