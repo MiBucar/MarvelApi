@@ -829,11 +829,13 @@ p {
 	color: white;
 	border-radius: 50px;
 	text-transform: uppercase;
+	transition: .5s ease;
 }
 
-.button-primary:hover {
-	color: white;
-}
+	.button-primary:hover {
+		color: white;
+		background-color: #d93434;
+	}
 
 .banner-images {
 	position: relative;
@@ -1225,6 +1227,11 @@ p {
 	background: #d71515;
 }
 
+#new-comics-sub {
+	padding: 90px 0 0;
+	background: #d71515;
+}
+
 .section-title span {
 	font-size: 24px;
 	font-family: cm;
@@ -1305,10 +1312,11 @@ p {
 
 .comic-item h3 {
 	font-family: cm;
-	font-size: 25px;
+	font-size: 20px;
 	text-transform: uppercase;
 	padding: 14px 0 4px;
 	color: #010101;
+	overflow-wrap: break-word;
 }
 
 .comic-item p {

@@ -255,18 +255,18 @@
 	</section>
 
 	<!-- POPULAR AREA START -->
-	@if (Model.CharacterDTOs.Any())
-	{
-		<section id="popular">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-6 section-title">
-						<span>Popular</span>
-						<h3>Explore Marvel Characters.</h3>
-						<p>Explore detailed information, fascinating backstories, and stunning appearances of your favorite
-							heroes and villains.</p>
-						<a asp-controller="Character" asp-action="IndexCharacter" class="button-primary">Browse All</a>
-					</div>
+	<section id="popular">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 section-title">
+					<span>Popular</span>
+					<h3>Explore Marvel Characters.</h3>
+					<p>Explore detailed information, fascinating backstories, and stunning appearances of your favorite
+						heroes and villains.</p>
+					<a asp-controller="Character" asp-action="IndexCharacter" class="button-primary">Browse All</a>
+				</div>
+				@if (Model.CharacterDTOs.Any())
+				{
 					@for (int i = 0; i < Model.CharacterDTOs.Take(4).Count(); i++)
 					{
 						var character = Model.CharacterDTOs[i];
@@ -275,40 +275,45 @@
 								<p>@character.FirstAppearanceYear</p>
 								<div class="col-lg-10 @(i % 2 == 0 ? "ms-auto" : "me-auto")">
 									<img src="data:image/png;base64,@Convert.ToBase64String(character.Image)" alt="comic-book"
-										class="img-fluid">
+										 class="img-fluid">
 									<a href="comic_details.html">@character.Name</a>
 								</div>
 							</div>
 						</div>
 					}
-				</div>
+				}				
 			</div>
-		</section>
-	}
+		</div>
+	</section>
 
 	<!-- TEAM AREA START -->
-	@if (Model.TeamDTOs.Any())
-	{
-		<section id="new-comics">
-			<div class="container">
-				<div class="row">
-					<div class="section-title t-white">
-						<div class="row">
-							<div class="col-lg-6 m-auto text-center">
-								<span>Popular</span>
-								<h3>Explore most popular teams</h3>
+	<section id="new-comics">
+		<div class="container">
+			<div class="row">
+				<div class="section-title t-white">
+					<div class="row">
+						<div class="col-lg-6 m-auto text-center">
+							<span>Popular</span>
+							<h3>Explore most popular teams</h3>
+							<div class="team-counter mb-4">
+								<p class="pt-16">
+									No results
+								</p>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row comic-item-pos">
+			</div>
+			<div class="row comic-item-pos">
+				@if (Model.TeamDTOs.Any())
+				{
 					@for (int i = 0; i < Model.TeamDTOs.Take(3).Count(); i++)
 					{
 						var team = Model.TeamDTOs[i];
 						<div class="col-lg-4 col-md-8 mobile-m-auto">
 							<div class="comic-item @(i % 2 != 0 ? "active" : "")">
 								<img src="data:image/png;base64,@Convert.ToBase64String(team.Image)" alt="comic"
-									class="img-fluid">
+								class="img-fluid">
 								<a class="veno-img" data-gall="comic1" href="data:image/png;base64,@Convert.ToBase64String(team.Image)"><i class="fa-solid fa-plus"></i></a>
 								<div class="comic-item-details">
 									<div class="row">
@@ -323,10 +328,14 @@
 							</div>
 						</div>
 					}
-				</div>
+				}
+				else
+				{
+					
+				}
 			</div>
-		</section>
-	}
+		</div>
+	</section>
 </body>
 
 </html>
