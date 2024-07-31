@@ -93,12 +93,3 @@
         </nav>
     }
 </body>
-
-<script>
-    function confirmDelete(event, itemId) {
-        event.preventDefault();
-        if (confirm('Are you sure you want to delete this item?')) {
-            document.getElementById('delete-form-' + itemId).submit();
-        }
-    }
-</script>

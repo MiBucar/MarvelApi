@@ -1964,6 +1964,14 @@ OVERLAY AREA START
 	margin-top: 70px;
 }
 
+.team-section {
+	position: relative;
+	height: 50vh;
+	background: url('/images/marvel-teams-canvas.jpeg') no-repeat center center/cover;
+	color: white;
+	margin-top: 70px;
+}
+
 .hero-section .overlay {
     position: absolute;
     top: 0;
@@ -1977,6 +1985,21 @@ OVERLAY AREA START
 .hero-section .content {
     position: relative;
     z-index: 2;
+}
+
+.team-section .overlay {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.6);
+	z-index: 1;
+}
+
+.team-section .content {
+	position: relative;
+	z-index: 2;
 }
 
 .overlay-txt h1 {
