@@ -21,15 +21,34 @@ namespace MarvelApi_Mvc.Controllers
             _selectListItemGetters = selectListItemGetters;
         }
 
-        public async Task<ActionResult> IndexCharacter()
+        public async Task<ActionResult> IndexCharacter(string searchQuery, int page = 1, int pageSize = 20)
         {
+            ViewBag.PageSize = pageSize;
+            ViewBag.CurrentPage = page;
+
+            var allCharacters = new List<CharacterDTO>();
             var characters = new List<CharacterDTO>();
-            var apiResponse = await _characterService.GetAllAsync<ApiResponse>();
+
+            var apiResponse = await _characterService.SearchAsync<ApiResponse>(searchQuery);
             if (apiResponse != null)
             {
-                characters = JsonConvert.DeserializeObject<IEnumerable<CharacterDTO>>(Convert.ToString(apiResponse.Result)).ToList();
+                allCharacters = JsonConvert.DeserializeObject<IEnumerable<CharacterDTO>>(Convert.ToString(apiResponse.Result)).ToList();
             }
-            return View(characters);
+
+            if (allCharacters.Any())
+                characters = allCharacters.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var totalCharacters = allCharacters.Count();
+            var totalPages = (int)Math.Ceiling(totalCharacters / (double)pageSize);
+
+            var viewModel = new DisplayCharactersViewModel
+            {
+                CharacterDTOs = characters,
+                TotalPages = totalPages,
+                CurrentPage = page
+            };
+
+            return View(viewModel);
         }
 
         public async Task<ActionResult> CreateCharacter()
@@ -52,8 +71,10 @@ namespace MarvelApi_Mvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (characterCreateViewModel.CharacterCreateDTO.ImageFile != null){
-                        using (var memoryStream = new MemoryStream()){
+                    if (characterCreateViewModel.CharacterCreateDTO.ImageFile != null)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
                             await characterCreateViewModel.CharacterCreateDTO.ImageFile.CopyToAsync(memoryStream);
                             characterCreateViewModel.CharacterCreateDTO.Image = memoryStream.ToArray();
                         }
@@ -103,8 +124,10 @@ namespace MarvelApi_Mvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (characterUpdateViewModel.CharacterUpdateDTO.ImageFile != null){
-                        using (var memoryStream = new MemoryStream()){
+                    if (characterUpdateViewModel.CharacterUpdateDTO.ImageFile != null)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
                             await characterUpdateViewModel.CharacterUpdateDTO.ImageFile.CopyToAsync(memoryStream);
                             characterUpdateViewModel.CharacterUpdateDTO.Image = memoryStream.ToArray();
                         }

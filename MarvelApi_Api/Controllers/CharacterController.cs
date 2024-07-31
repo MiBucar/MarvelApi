@@ -29,7 +29,6 @@ namespace MarvelApi_Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetCharacters()
         {
             try
@@ -48,8 +47,7 @@ namespace MarvelApi_Api.Controllers
             }
         }
 
-        [HttpGet("search")]
-        [Authorize(Roles = "User,Admin")]
+        [HttpGet("{query}")]
         public async Task<IActionResult> Search(string query)
         {
             try
@@ -73,7 +71,6 @@ namespace MarvelApi_Api.Controllers
 
         [HttpGet("{id:int}")]
         [ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
-        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetCharacter(int id)
         {
             try

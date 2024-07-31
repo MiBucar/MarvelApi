@@ -30,7 +30,6 @@ namespace MarvelApi_Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetTeams()
         {
             try
@@ -50,7 +49,6 @@ namespace MarvelApi_Api.Controllers
 
         [HttpGet("{id:int}")]
         [ServiceFilter(typeof(ValidateTeamExistsAttribute))]
-        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetTeam(int id)
         {
             try
