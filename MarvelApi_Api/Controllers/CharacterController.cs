@@ -48,7 +48,7 @@ namespace MarvelApi_Api.Controllers
             }
         }
 
-        [HttpGet("search")]
+        [HttpGet("{query}")]
         [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> Search(string query)
         {

@@ -51,6 +51,16 @@ namespace MarvelApi_Mvc.Services.Implementation
             return await SendAsync<T>(apiRequest);
         }
 
+        public async Task<T> SearchAsync<T>(string query)
+        {
+            ApiRequest apiRequest = new ApiRequest{
+                ApiData = query,
+                ApiType = ApiType.GET,
+                ApiUrl = _marvelUrl + $"/api/Character/{query}"
+            };
+            return await SendAsync<T>(apiRequest);
+        }
+
         public async Task<T> UpdateAsync<T>(CharacterUpdateDTO characterUpdateDTO)
         {
             ApiRequest apiRequest = new ApiRequest{
