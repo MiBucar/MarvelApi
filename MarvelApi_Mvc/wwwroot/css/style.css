@@ -1,32 +1,7 @@
-/*
-* Template Name: Comixo - Comic Books & Art Studio HTML5 Template
-* Author: EpikTheme
-* Author URL: https://themeforest.net/user/epik-theme
-* Website: https://epiktheme.com/
-* Version: 1.0
-*/
+:root {
+	--angle: 10%;
+}
 
-/* =============================================================================
-
-[Table of contents]
-
-0.0 Common CSS START 
-1.0 HEADER AREA START
-2.0 BANNER AREA START
-3.0 ABOUT AREA START
-4.0 BRAND AREA START
-5.0 NEW_COMICS AREA START
-6.0 POPULAR AREA START
-7.0 TEAM AREA START
-8.0 REVIEWS AREA START
-9.0 PRICE_PLAN AREA START
-10.0 BLOG AREA START
-11.0 FOOTER AREA START 
-12.0 COPY_RIGHT AREA START 
- 
-/*===========================
-0.0 *** Common CSS START ***
-=============================*/
 * {
 	margin: 0;
 	padding: 0;
@@ -484,10 +459,6 @@ p {
 
 .details-pos {
 	margin-top: -150px;
-}
-
-.comic-detail-img img {
-	border: 8px solid #fff;
 }
 
 .comic-detail-txt {
@@ -1265,6 +1236,13 @@ p {
 	color: #010101;
 }
 
+.section-title h4 {
+	font-size: 35px;
+	font-family: cb;
+	text-transform: uppercase;
+	color: white;
+}
+
 .t-white span,
 .t-white h3 {
 	color: white;
@@ -1541,14 +1519,6 @@ p {
 .team-counter h3,
 .team-counter span {
 	font-size: 95px;
-	font-family: cb;
-	color: transparent !important;
-	-webkit-text-stroke-width: 2px;
-	-webkit-text-stroke-color: white;
-}
-
-.section-title h4{
-	font-size: 35px;
 	font-family: cb;
 	color: transparent !important;
 	-webkit-text-stroke-width: 2px;
@@ -2096,11 +2066,32 @@ SEARCH
 	outline: none;
   }
 
-  .search-icon {
-    position: absolute;
-    left: 10px;
-    top: 45%;
-    transform: translateY(-50%);
-    color: black; /* Adjust icon color */
-    pointer-events: none; /* Ensure the icon does not block input */
+.search-icon {
+	position: absolute;
+	left: 10px;
+	top: 45%;
+	transform: translateY(-50%);
+	color: black;
+	pointer-events: none; 
+}
+
+.comic-detail-img {
+	position: relative;
+	overflow: hidden;
+	margin-bottom: -20px;
+}
+
+.main-info-section {
+	clip-path: polygon(0 0%, 100% 0, 100% 93%, 0 100%);
+	margin-bottom: 2rem;
+}
+
+.backstory-section {
+	position: relative;
+	background-color: red;
+	padding: 40px;
+	color: white;
+	overflow: hidden;
+	margin-top: -20px;
+	clip-path: polygon(0 7%, 100% 0, 100% 100%, 0 100%);
 }
