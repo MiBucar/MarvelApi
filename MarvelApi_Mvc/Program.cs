@@ -56,7 +56,7 @@ app.UseSession();
 app.MapControllerRoute(
 			name: "characters",
 			pattern: "Characters",
-			defaults: new { controller = "Character", action = "IndexCharacter" });
+			defaults: new { controller = "Character", action = "IndexCharacters" });
 
 app.MapControllerRoute(
 			name: "teams",

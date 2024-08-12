@@ -5,7 +5,7 @@ using static MarvelApi_Mvc.Utilities.SD;
 
 namespace MarvelApi_Mvc.Services.Implementation
 {
-    public class CharacterService : BaseService, ICharacterService
+	public class CharacterService : BaseService, ICharacterService
     {
         private string _marvelUrl;
         public CharacterService(IHttpClientFactory clientFactory, IConfiguration configuration) : base(clientFactory) {
@@ -41,7 +41,29 @@ namespace MarvelApi_Mvc.Services.Implementation
             return await SendAsync<T>(apiRequest);
         }
 
-        public async Task<T> GetAsync<T>(int id)
+		public async Task<T> GetAlliesAsync<T>(int id)
+		{
+			ApiRequest apiRequest = new ApiRequest
+			{
+				ApiData = id,
+				ApiType = ApiType.GET,
+				ApiUrl = _marvelUrl + $"/api/Character/GetAllies/{id}"
+			};
+			return await SendAsync<T>(apiRequest);
+		}
+
+		public async Task<T> GetEnemiesAsync<T>(int id)
+		{
+			ApiRequest apiRequest = new ApiRequest
+			{
+				ApiData = id,
+				ApiType = ApiType.GET,
+				ApiUrl = _marvelUrl + $"/api/Character/GetEnemies/{id}"
+			};
+			return await SendAsync<T>(apiRequest);
+		}
+
+		public async Task<T> GetAsync<T>(int id)
         {
             ApiRequest apiRequest = new ApiRequest{
                 ApiData = id,
@@ -49,9 +71,9 @@ namespace MarvelApi_Mvc.Services.Implementation
                 ApiUrl = _marvelUrl + $"/api/Character/{id}"
             };
             return await SendAsync<T>(apiRequest);
-        }
+        }		
 
-        public async Task<T> SearchAsync<T>(string query)
+		public async Task<T> SearchAsync<T>(string query)
         {
             ApiRequest apiRequest = new ApiRequest{
                 ApiData = query,

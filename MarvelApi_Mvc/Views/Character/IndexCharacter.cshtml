@@ -1,95 +1,166 @@
 ﻿@using MarvelApi_Mvc.Models.ViewModels.Character
-@model DisplayCharactersViewModel
-<br />
+@model DisplayCharacterViewModel
 
-<body>
-    <div class="container-fluid text-center text-white d-flex align-items-center justify-content-center
-        flex-column hero-section">
-        <div class="overlay"></div>
-        <div class="content overlay-txt">
-            <h1 class="typing-text">Marvel Characters</h1>
-        </div>
-        <div class="content">
-            <p class="lead">Discover the incredible stories of Marvel’s greatest heroes and villains, brought to life
-                from the pages of legendary comics!</p>
-        </div>
-    </div> 
+<body class="inner-page comic-detail-page">
+	<section id="page-title">
+		<div id="backtotop">
+			<a href="#page-title" id="backtotop-value"><i class="fa-solid fa-arrow-up"></i></a>
+		</div>
+	</section>
+	<section id="comic-details">
+		<div class="container zindex">
+			<div class="row details-pos">
+				<div class="main-info-section row">
+					<div class="col-lg-5 comic-detail-img">
+						<img src="data:image/png;base64,@Convert.ToBase64String(Model.Character.Image)" alt="comic-img" class="img-fluid">
+					</div>
+					<div class="col-lg-6 character-container">
+						<h3 class="character-header">@Model.Character.Name</h3>
+						<div class="character-stats">
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.Durability</span>
+								</div>
+								<label asp-for="Character.Name" class="stat-label">DURABILITY</label>
+							</div>
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.Energy</span>
+								</div>
+								<label asp-for="Character.Energy" class="stat-label">ENERGY</label>
+							</div>
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.FightingSkills</span>
+								</div>
+								<label class="stat-label">FIGHTING SKILLS</label>
+							</div>
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.Strength</span>
+								</div>
+								<label asp-for="Character.Strength" class="stat-label">STRENGTH</label>
+							</div>
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.Intelligence</span>
+								</div>
+								<label asp-for="Character.Intelligence" class="stat-label">INTELLIGENCE</label>
+							</div>
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.Speed</span>
+								</div>
+								<label asp-for="Character.Speed" class="stat-label">SPEED</label>
+							</div>																																			
+						</div>
+					</div>
+				</div>
+				<div class="additional-information-section row">					
+					<div class="backstory-section p-5">
+						<div class="section-title mt-5">
+							<div class="row">
+								<div>
+									<h4>Biography</h4>
+								</div>
+							</div>
+						</div>
+						<div class="row align-items-center justify-content-around">
+							<div class="team-counter">
+								<p class="pt-16 text-black">
+									Welcome to MarvelApi, a web application bringing the Marvel comics universe to your
+									fingertips.
+									Utilizing cutting-edge .NET technologies, MarvelApi offers robust, scalable solutions with
+									detailed information on Marvel characters via the
+									Marvel Comics API, providing an immersive user experience.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="character-information-container">
+						<div class="character-information-container-1">
+							<div class="character-information-box">
+								<span>Height</span>
+								<p>@Model.Character.Height</p>
+							</div>
+							<div class="character-information-box">
+								<span>Weight</span>
+								<p>@Model.Character.Weight</p>
+							</div>
+							<div class="character-information-box">
+								<span>Hair</span>
+								<p>@Model.Character.Hair</p>
+							</div>
+							<div class="character-information-box">
+								<span>Eyes</span>
+								<p>@Model.Character.Eyes</p>
+							</div>
+						</div>
+						<div class="character-information-container-2">
+							<div class="character-information-box">
+								<span>Appearances</span>
+								<p>@Model.Character.Appearance</p>
+							</div>
+							<div class="character-information-box">
+								<span>First Appereance</span>
+								<p>@Model.Character.FirstAppearanceYear</p>
+							</div>
+							<div class="character-information-box">
+								<span>Origin</span>
+								<p>@Model.Character.Origin</p>
+							</div>
+							<div class="character-information-box">
+								<span>Powers</span>
+								<p>@Model.Character.Powers</p>
+							</div>
+						</div>
+						<div class="character-information-container-2">
+							@if (Model.Enemies.Any())
+							{
+								<div class="character-information-box">
+									<span>Main Enemies</span>
+									<div class="connection-list">
+										@for (int i = 0; i < Model.Enemies.Count; i++)
+										{
+											var enemy = Model.Enemies[i];
+											if (i == Model.Enemies.Count - 1)
+											{
+												<a asp-controller="Character" asp-action="IndexCharacter" asp-route-id="@enemy.Id" class="connection-name">@enemy.Name</a>
+											}
+											else
+											{
+												<a asp-controller="Character" asp-action="IndexCharacter" asp-route-id="@enemy.Id" class="connection-name">@enemy.Name, </a>
+											}
+										}
+									</div>
+								</div>
 
-    <section id="new-comics-sub" class="@(!Model.CharacterDTOs.Any() ? "mb-0" : "")">
-        <div class="container">
-            <div class="row mb-4">
-                <div class="section-title t-white">
-                    <div class="row">
-                        <div class="col-lg-6 m-auto text-center">
-                            <h3>Explore</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <form asp-controller="Character" asp-action="IndexCharacter" method="get"
-                class="form-inline mb-4 justify-content-center">
-                <div class="search-group">
-                        <input type="text" name="searchQuery" class="search-input" aria-label="Search characters" placeholder="search">
-                        <i class="fas fa-search search-icon"></i>
-                </div>
-            </form>
-            <div class="row">
-                @if (Model.CharacterDTOs.Any())
-                {
-                    @for (int i = 0; i < Model.CharacterDTOs.Count(); i++)
-                    {
-                        var character = Model.CharacterDTOs[i];
-                        <div class="col-6 col-md-6 col-lg-3 d-flex align-items-stretch mb-4">
-                            <div class="comic-item">
-                                <img src="data:image/png;base64,@Convert.ToBase64String(character.Image)" alt="comic"
-                                    class="img-fluid">
-                                <div class="comic-item-details">
-                                    <div class="row">
-                                        <div class="col-8 col-lg-8">
-                                            <h3 class="text-wrap">@character.Name</h3>
-                                        </div>
-                                        <div class="col-4 col-lg-4 text-end">
-                                            <a href="comic_details.html"><i class="fa-solid fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="team-counter mb-5 text-center">
-                        <p class="pt-16">
-                            Nothing To Display
-                        </p>
-                    </div>
-                }
-            </div>
-        </div>
-    </section>
+							}
+							@if (Model.Allies.Any())
+							{
+								<div class="character-information-box">
+									<span>Main Allies</span>
+									<div class="connection-list">
+										@for (int i = 0; i < Model.Allies.Count; i++)
+										{
+											var ally = Model.Allies[i];
+											if (i == Model.Allies.Count - 1)
+											{
+												<a asp-controller="Character" asp-action="IndexCharacter" asp-route-id="@ally.Id" class="connection-name">@ally.Name</a>
+											}
+											else
+											{
+												<a asp-controller="Character" asp-action="IndexCharacter" asp-route-id="@ally.Id" class="connection-name">@ally.Name, </a>
+											}
+										}
+									</div>
+								</div>
 
-    @if (Model.CharacterDTOs.Any())
-    {
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                    <a class="page-link" href="?page=@(Model.CurrentPage - 1)&pageSize=@ViewBag.PageSize">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </a>
-                </li>
-                @for (int i = 1; i <= Model.TotalPages; i++)
-                {
-                    <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
-                        <a class="page-link" href="?page=@i&pageSize=@ViewBag.PageSize">@i</a>
-                    </li>
-                }
-                <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                    <a class="page-link" href="?page=@(Model.CurrentPage + 1)&pageSize=@ViewBag.PageSize">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    }
+							}							
+						</div>
+					</div>
+				</div>				
+			</div>
+		</div>
+	</section>
 </body>

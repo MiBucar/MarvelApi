@@ -6,6 +6,8 @@ namespace MarvelApi_Mvc.Services.IServices
     {
          Task<T> GetAllAsync<T>();
          Task<T> GetAsync<T>(int id);
+         Task<T> GetAlliesAsync<T>(int id);
+         Task<T> GetEnemiesAsync<T>(int id);
          Task<T> CreateAsync<T>(CharacterCreateDTO characterCreateDTO);
          Task<T> UpdateAsync<T>(CharacterUpdateDTO characterUpdateDTO);
          Task<T> DeleteAsync<T>(int id);

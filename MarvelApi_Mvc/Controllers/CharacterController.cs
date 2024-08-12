@@ -21,7 +21,7 @@ namespace MarvelApi_Mvc.Controllers
             _selectListItemGetters = selectListItemGetters;
         }
 
-        public async Task<ActionResult> IndexCharacter(string searchQuery, int page = 1, int pageSize = 20)
+        public async Task<ActionResult> IndexCharacters(string searchQuery, int page = 1, int pageSize = 20)
         {
             ViewBag.PageSize = pageSize;
             ViewBag.CurrentPage = page;
@@ -48,6 +48,30 @@ namespace MarvelApi_Mvc.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public async Task<ActionResult> IndexCharacter(int id)
+        {
+            DisplayCharacterViewModel characterVM = new DisplayCharacterViewModel();
+            var apiResponse = await _characterService.GetAsync<ApiResponse>(id);
+            if (apiResponse != null && apiResponse.IsSuccess == true)
+            {
+				characterVM.Character = JsonConvert.DeserializeObject<CharacterDTO>(Convert.ToString(apiResponse.Result));
+            }
+
+			apiResponse = await _characterService.GetAlliesAsync<ApiResponse>(id);
+			if (apiResponse != null && apiResponse.IsSuccess == true)
+			{
+				characterVM.Allies = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(apiResponse.Result));
+			}
+
+			apiResponse = await _characterService.GetEnemiesAsync<ApiResponse>(id);
+			if (apiResponse != null && apiResponse.IsSuccess == true)
+			{
+				characterVM.Enemies = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(apiResponse.Result));
+			}
+
+			return View(characterVM);
         }
 
         public async Task<ActionResult> CreateCharacter()
@@ -82,7 +106,7 @@ namespace MarvelApi_Mvc.Controllers
                     var response = await _characterService.CreateAsync<ApiResponse>(characterCreateViewModel.CharacterCreateDTO);
                     if (response != null && response.IsSuccess)
                     {
-                        return RedirectToAction(nameof(IndexCharacter));
+                        return RedirectToAction(nameof(IndexCharacters));
                     }
                     else if (response == null)
                     {
@@ -135,7 +159,7 @@ namespace MarvelApi_Mvc.Controllers
                     var response = await _characterService.UpdateAsync<ApiResponse>(characterUpdateViewModel.CharacterUpdateDTO);
                     if (response != null && response.IsSuccess)
                     {
-                        return RedirectToAction(nameof(IndexCharacter));
+                        return RedirectToAction(nameof(IndexCharacters));
                     }
                     else if (response == null)
                     {
@@ -158,7 +182,7 @@ namespace MarvelApi_Mvc.Controllers
         public async Task<ActionResult> DeleteCharacter(int id)
         {
             var response = await _characterService.DeleteAsync<ApiResponse>(id);
-            return RedirectToAction(nameof(IndexCharacter));
+            return RedirectToAction(nameof(IndexCharacters));
         }
     }
 }

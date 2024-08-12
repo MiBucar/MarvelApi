@@ -47,7 +47,29 @@ namespace MarvelApi_Api.Controllers
             }
         }
 
-        [HttpGet("{query}")]
+        [HttpGet("GetAllies/{id:int}")]
+		[ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
+		public async Task<IActionResult> GetAllies(int id)
+        {
+            var allies = await _characterRepository.GetAllies(id);
+			var mappedAllies = _autoMapper.Map<IEnumerable<Character>, IEnumerable<CharacterDTO>>(allies);
+
+			var response = _responseHelper.GetApiResponseSuccess(mappedAllies, HttpStatusCode.OK);
+			return Ok(response);
+        }
+
+		[HttpGet("GetEnemies/{id:int}")]
+		[ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
+		public async Task<IActionResult> GetEnemies(int id)
+		{
+			var allies = await _characterRepository.GetEnemies(id);
+			var mappedAllies = _autoMapper.Map<IEnumerable<Character>, IEnumerable<CharacterDTO>>(allies);
+
+			var response = _responseHelper.GetApiResponseSuccess(mappedAllies, HttpStatusCode.OK);
+			return Ok(response);
+		}
+
+		[HttpGet("{query}")]
         public async Task<IActionResult> Search(string query)
         {
             try

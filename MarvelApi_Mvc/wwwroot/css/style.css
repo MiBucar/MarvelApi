@@ -1,32 +1,7 @@
-/*
-* Template Name: Comixo - Comic Books & Art Studio HTML5 Template
-* Author: EpikTheme
-* Author URL: https://themeforest.net/user/epik-theme
-* Website: https://epiktheme.com/
-* Version: 1.0
-*/
+:root {
+	--angle: 10%;
+}
 
-/* =============================================================================
-
-[Table of contents]
-
-0.0 Common CSS START 
-1.0 HEADER AREA START
-2.0 BANNER AREA START
-3.0 ABOUT AREA START
-4.0 BRAND AREA START
-5.0 NEW_COMICS AREA START
-6.0 POPULAR AREA START
-7.0 TEAM AREA START
-8.0 REVIEWS AREA START
-9.0 PRICE_PLAN AREA START
-10.0 BLOG AREA START
-11.0 FOOTER AREA START 
-12.0 COPY_RIGHT AREA START 
- 
-/*===========================
-0.0 *** Common CSS START ***
-=============================*/
 * {
 	margin: 0;
 	padding: 0;
@@ -484,10 +459,6 @@ p {
 
 .details-pos {
 	margin-top: -150px;
-}
-
-.comic-detail-img img {
-	border: 8px solid #fff;
 }
 
 .comic-detail-txt {
@@ -1265,6 +1236,13 @@ p {
 	color: #010101;
 }
 
+.section-title h4 {
+	font-size: 35px;
+	font-family: cb;
+	text-transform: uppercase;
+	color: black;
+}
+
 .t-white span,
 .t-white h3 {
 	color: white;
@@ -1541,14 +1519,6 @@ p {
 .team-counter h3,
 .team-counter span {
 	font-size: 95px;
-	font-family: cb;
-	color: transparent !important;
-	-webkit-text-stroke-width: 2px;
-	-webkit-text-stroke-color: white;
-}
-
-.section-title h4{
-	font-size: 35px;
 	font-family: cb;
 	color: transparent !important;
 	-webkit-text-stroke-width: 2px;
@@ -2096,11 +2066,201 @@ SEARCH
 	outline: none;
   }
 
-  .search-icon {
-    position: absolute;
-    left: 10px;
-    top: 45%;
-    transform: translateY(-50%);
-    color: black; /* Adjust icon color */
-    pointer-events: none; /* Ensure the icon does not block input */
+.search-icon {
+	position: absolute;
+	left: 10px;
+	top: 45%;
+	transform: translateY(-50%);
+	color: black;
+	pointer-events: none; 
+}
+
+/*===========================
+CHARACTER DETAILS
+=============================*/
+
+.comic-detail-img {
+	position: relative;
+	overflow: hidden;
+	width: 30%;
+}
+
+.main-info-section {
+	margin-bottom: 1rem;
+	padding-bottom: 1rem;
+	display: flex;
+	justify-content: space-around;
+}
+
+.backstory-section {
+	position: relative;
+	padding: 40px;
+	color: black;
+	overflow: hidden;
+	width: 66%;
+}
+
+.character-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 66%;
+}
+
+.character-header {
+	font-family: cb;
+	text-transform: uppercase;
+	color: #010101;
+	font-size: 59px;
+	margin-bottom: 1rem;
+}
+
+.character-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+	gap: 20px;
+}
+
+.stat-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.stat-box {
+	border: 10px solid black;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+	width: 100%;
+	aspect-ratio: 1 / 1;
+}
+
+.stat-number {
+	font-size: 3em !important;
+	font-family: cm !important;
+	margin-bottom: 0;
+	color: red;
+	position: relative;
+}
+
+.stat-label {
+	font-size: 1em;
+	text-align: center;
+	margin-top: 10px;
+	font-family: cb;
+}
+
+.additional-information-section{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.character-information-container{
+	width: 30%;
+}
+
+.character-information-container-1 {
+	padding: 15px;
+	border: 1px solid gray;
+}
+
+.character-information-container-2 {
+	padding: 15px;
+	border: 1px solid gray;
+	border-top: none;
+}
+
+.character-information-box {
+	margin-bottom: 1em;
+	display: flex;
+	flex-direction: column;
+}
+
+.character-information-box span {
+	font-family: cb;
+	font-size: 20px;
+	color: #767676;
+}
+
+.character-information-box p {
+	font-family: cb;
+	font-size: 18px;
+	color: black;
+}
+
+.connection-list {
+	display: inline;
+}
+
+.connection-name {
+	font-family: cb !important;
+	font-size: 18px !important;
+	color: black !important;
+	display: inline-block !important;
+	transition: .5s ease !important;
+}
+
+.connection-name:hover{
+	color: red !important;
+	cursor: pointer !important;
+}
+
+.biography-text {
+	color: black !important;
+}
+
+@media (max-width: 768px) {
+	.stat-box {
+		width: 100%;
+	}
+
+	.stat-number {
+		font-size: 3em !important;
+	}
+
+	.main-info-section {
+		clip-path: none;
+		flex-direction: column;
+	}
+
+	.character-header {
+		font-size: 54px;
+		margin-top: 3rem;
+		margin-bottom: 2rem;
+	}
+
+	.comic-detail-img {
+		width: 100%;
+	}
+
+	.character-container {
+		width: 100%;
+	}
+
+	.backstory-section {
+		margin-bottom: 2rem;
+	}
+
+	.character-information-container,
+	.backstory-section {
+		width: 100%;
+		padding-right: 0;
+		padding: 0 !important;
+	}
+}
+
+@media (min-width: 1200px) {
+	.character-stats {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		gap: 20px;
+	}
+
+	.stat-number {
+		font-size: 4.5em !important;
+	}
 }
