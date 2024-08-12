@@ -1,5 +1,5 @@
-﻿@using MarvelApi_Mvc.Models.DTOs.CharacterDTOs
-@model CharacterDTO
+﻿@using MarvelApi_Mvc.Models.ViewModels.Character
+@model DisplayCharacterViewModel
 
 <body class="inner-page comic-detail-page">
 	<section id="page-title">
@@ -12,55 +12,154 @@
 			<div class="row details-pos">
 				<div class="main-info-section row">
 					<div class="col-lg-5 comic-detail-img">
-						<img src="data:image/png;base64,@Convert.ToBase64String(Model.Image)" alt="comic-img" class="img-fluid">
+						<img src="data:image/png;base64,@Convert.ToBase64String(Model.Character.Image)" alt="comic-img" class="img-fluid">
 					</div>
-					<div class="col-lg-6 comic-detail-txt">
-						<h3>@Model.Name</h3>
-						<div class="mb-2">
-							<span>Appereance</span>
-							<p>@Model.Appearance</p>
-						</div>
-						<div class="mb-2">
-							<span>First Appearance</span>
-							<p>@Model.FirstAppearanceYear</p>
-						</div>
-						<div class="mb-2">
-							<span>Origin</span>
-							<p>@Model.Origin</p>
-						</div>
-						<div class="mb-2">
-							<span>Team</span>
-							@if (string.IsNullOrEmpty(Model.Team))
-							{
-								<p>None</p>
-							}
-							else
-							{
-								<p>@Model.Team</p>
-							}
-						</div>
-					</div>
-				</div>				
-				<div class="backstory-section text-white p-5">
-					<div class="section-title t-white mt-5">
-						<div class="row">
-							<div>
-								<h4>Backstory</h4>
+					<div class="col-lg-6 character-container">
+						<h3 class="character-header">@Model.Character.Name</h3>
+						<div class="character-stats">
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.Durability</span>
+								</div>
+								<label asp-for="Character.Name" class="stat-label">DURABILITY</label>
 							</div>
-						</div>
-					</div>
-					<div class="row align-items-center justify-content-around">
-						<div class="team-counter">
-							<p class="pt-16">
-								Welcome to MarvelApi, a web application bringing the Marvel comics universe to your
-								fingertips.
-								Utilizing cutting-edge .NET technologies, MarvelApi offers robust, scalable solutions with
-								detailed information on Marvel characters via the
-								Marvel Comics API, providing an immersive user experience.
-							</p>
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.Energy</span>
+								</div>
+								<label asp-for="Character.Energy" class="stat-label">ENERGY</label>
+							</div>
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.FightingSkills</span>
+								</div>
+								<label class="stat-label">FIGHTING SKILLS</label>
+							</div>
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.Strength</span>
+								</div>
+								<label asp-for="Character.Strength" class="stat-label">STRENGTH</label>
+							</div>
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.Intelligence</span>
+								</div>
+								<label asp-for="Character.Intelligence" class="stat-label">INTELLIGENCE</label>
+							</div>
+							<div class="stat-container">
+								<div class="stat-box">
+									<span class="stat-number">@Model.Character.Speed</span>
+								</div>
+								<label asp-for="Character.Speed" class="stat-label">SPEED</label>
+							</div>																																			
 						</div>
 					</div>
 				</div>
+				<div class="additional-information-section row">					
+					<div class="backstory-section p-5">
+						<div class="section-title mt-5">
+							<div class="row">
+								<div>
+									<h4>Biography</h4>
+								</div>
+							</div>
+						</div>
+						<div class="row align-items-center justify-content-around">
+							<div class="team-counter">
+								<p class="pt-16 text-black">
+									Welcome to MarvelApi, a web application bringing the Marvel comics universe to your
+									fingertips.
+									Utilizing cutting-edge .NET technologies, MarvelApi offers robust, scalable solutions with
+									detailed information on Marvel characters via the
+									Marvel Comics API, providing an immersive user experience.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="character-information-container">
+						<div class="character-information-container-1">
+							<div class="character-information-box">
+								<span>Height</span>
+								<p>@Model.Character.Height</p>
+							</div>
+							<div class="character-information-box">
+								<span>Weight</span>
+								<p>@Model.Character.Weight</p>
+							</div>
+							<div class="character-information-box">
+								<span>Hair</span>
+								<p>@Model.Character.Hair</p>
+							</div>
+							<div class="character-information-box">
+								<span>Eyes</span>
+								<p>@Model.Character.Eyes</p>
+							</div>
+						</div>
+						<div class="character-information-container-2">
+							<div class="character-information-box">
+								<span>Appearances</span>
+								<p>@Model.Character.Appearance</p>
+							</div>
+							<div class="character-information-box">
+								<span>First Appereance</span>
+								<p>@Model.Character.FirstAppearanceYear</p>
+							</div>
+							<div class="character-information-box">
+								<span>Origin</span>
+								<p>@Model.Character.Origin</p>
+							</div>
+							<div class="character-information-box">
+								<span>Powers</span>
+								<p>@Model.Character.Powers</p>
+							</div>
+						</div>
+						<div class="character-information-container-2">
+							@if (Model.Enemies.Any())
+							{
+								<div class="character-information-box">
+									<span>Main Enemies</span>
+									<div class="connection-list">
+										@for (int i = 0; i < Model.Enemies.Count; i++)
+										{
+											var enemy = Model.Enemies[i];
+											if (i == Model.Enemies.Count - 1)
+											{
+												<a asp-controller="Character" asp-action="IndexCharacter" asp-route-id="@enemy.Id" class="connection-name">@enemy.Name</a>
+											}
+											else
+											{
+												<a asp-controller="Character" asp-action="IndexCharacter" asp-route-id="@enemy.Id" class="connection-name">@enemy.Name, </a>
+											}
+										}
+									</div>
+								</div>
+
+							}
+							@if (Model.Allies.Any())
+							{
+								<div class="character-information-box">
+									<span>Main Allies</span>
+									<div class="connection-list">
+										@for (int i = 0; i < Model.Allies.Count; i++)
+										{
+											var ally = Model.Allies[i];
+											if (i == Model.Allies.Count - 1)
+											{
+												<a asp-controller="Character" asp-action="IndexCharacter" asp-route-id="@ally.Id" class="connection-name">@ally.Name</a>
+											}
+											else
+											{
+												<a asp-controller="Character" asp-action="IndexCharacter" asp-route-id="@ally.Id" class="connection-name">@ally.Name, </a>
+											}
+										}
+									</div>
+								</div>
+
+							}							
+						</div>
+					</div>
+				</div>				
 			</div>
 		</div>
 	</section>

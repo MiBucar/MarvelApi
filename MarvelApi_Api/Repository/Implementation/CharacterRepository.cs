@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Validations;
 
 namespace MarvelApi_Api.Repository.Implementation
 {
-    public class CharacterRepository : Repository<Character>, ICharacterRepository
+	public class CharacterRepository : Repository<Character>, ICharacterRepository
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _autoMapper;
@@ -105,8 +105,22 @@ namespace MarvelApi_Api.Repository.Implementation
             await SaveChangesAsync();
         }
 
-        #region Helper Functions
-        private async Task AddRelationshipAsync(Character character, List<int> relatedCharacterIds, bool isEnemy)
+		public async Task<IEnumerable<Character>> GetAllies(int id)
+		{
+			var allies = await _dbContext.Characters.Include(x => x.CharacterRelationships).Where(x => x.CharacterRelationships
+                .Any(y => y.RelatedCharacterId == id && !y.IsEnemy)).ToListAsync();
+			return allies;
+		}
+
+		public async Task<IEnumerable<Character>> GetEnemies(int id)
+		{
+			var allies = await _dbContext.Characters.Include(x => x.CharacterRelationships).Where(x => x.CharacterRelationships
+				.Any(y => y.RelatedCharacterId == id && y.IsEnemy)).ToListAsync();
+			return allies;
+		}
+
+		#region Helper Functions
+		private async Task AddRelationshipAsync(Character character, List<int> relatedCharacterIds, bool isEnemy)
         {
             foreach (var id in relatedCharacterIds)
             {
@@ -163,7 +177,7 @@ namespace MarvelApi_Api.Repository.Implementation
 
                 _dbContext.CharacterRelationships.Remove(relationship);
             }
-        }
-        #endregion
-    }
+        }		
+		#endregion
+	}
 }

@@ -52,13 +52,26 @@ namespace MarvelApi_Mvc.Controllers
 
         public async Task<ActionResult> IndexCharacter(int id)
         {
-            CharacterDTO character = new CharacterDTO();
+            DisplayCharacterViewModel characterVM = new DisplayCharacterViewModel();
             var apiResponse = await _characterService.GetAsync<ApiResponse>(id);
             if (apiResponse != null && apiResponse.IsSuccess == true)
             {
-                character = JsonConvert.DeserializeObject<CharacterDTO>(Convert.ToString(apiResponse.Result));
+				characterVM.Character = JsonConvert.DeserializeObject<CharacterDTO>(Convert.ToString(apiResponse.Result));
             }
-            return View(character);
+
+			apiResponse = await _characterService.GetAlliesAsync<ApiResponse>(id);
+			if (apiResponse != null && apiResponse.IsSuccess == true)
+			{
+				characterVM.Allies = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(apiResponse.Result));
+			}
+
+			apiResponse = await _characterService.GetEnemiesAsync<ApiResponse>(id);
+			if (apiResponse != null && apiResponse.IsSuccess == true)
+			{
+				characterVM.Enemies = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(apiResponse.Result));
+			}
+
+			return View(characterVM);
         }
 
         public async Task<ActionResult> CreateCharacter()

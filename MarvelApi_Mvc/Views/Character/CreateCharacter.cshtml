@@ -22,6 +22,106 @@
             <span asp-validation-for="CharacterCreateDTO.Name" class="text-danger"></span>
         </div>
     </div>
+        <!-- Durability -->
+        <div class="row m-2">
+            <div class="col-2">
+                <label asp-for="CharacterCreateDTO.Durability" class="control-label pt-2" style="font-size: 20px"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="CharacterCreateDTO.Durability" type="number" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.Durability" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- Energy -->
+        <div class="row m-2">
+            <div class="col-2">
+                <label asp-for="CharacterCreateDTO.Energy" class="control-label pt-2" style="font-size: 20px"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="CharacterCreateDTO.Energy" type="number" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.Energy" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- Fighting Skills -->
+        <div class="row m-2">
+            <div class="col-2">
+                <label asp-for="CharacterCreateDTO.FightingSkills" class="control-label pt-2" style="font-size: 20px"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="CharacterCreateDTO.FightingSkills" type="number" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.FightingSkills" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- Strength -->
+        <div class="row m-2">
+            <div class="col-2">
+                <label asp-for="CharacterCreateDTO.Strength" class="control-label pt-2" style="font-size: 20px"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="CharacterCreateDTO.Strength" type="number" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.Strength" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- Intelligence -->
+        <div class="row m-2">
+            <div class="col-2">
+                <label asp-for="CharacterCreateDTO.Intelligence" class="control-label pt-2" style="font-size: 20px"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="CharacterCreateDTO.Intelligence" type="number" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.Intelligence" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- Speed -->
+        <div class="row m-2">
+            <div class="col-2">
+                <label asp-for="CharacterCreateDTO.Speed" class="control-label pt-2" style="font-size: 20px"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="CharacterCreateDTO.Speed" type="number" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.Speed" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- Height -->
+        <div class="row m-2">
+            <div class="col-2">
+                <label asp-for="CharacterCreateDTO.Height" class="control-label pt-2" style="font-size: 20px"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="CharacterCreateDTO.Height" type="number" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.Height" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- Eyes -->
+        <div class="row m-2">
+            <div class="col-2">
+                <label asp-for="CharacterCreateDTO.Eyes" class="control-label pt-2" style="font-size: 20px"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="CharacterCreateDTO.Eyes" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.Eyes" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- Weight -->
+        <div class="row m-2">
+            <div class="col-2">
+                <label asp-for="CharacterCreateDTO.Weight" class="control-label pt-2" style="font-size: 20px"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="CharacterCreateDTO.Weight" type="number" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.Weight" class="text-danger"></span>
+            </div>
+        </div>
+        <!-- Hair -->
+        <div class="row m-2">
+            <div class="col-2">
+                <label asp-for="CharacterCreateDTO.Hair" class="control-label pt-2" style="font-size: 20px"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="CharacterCreateDTO.Hair" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.Hair" class="text-danger"></span>
+            </div>
+        </div>
     <!-- Checkbox -->
     <div class="row m-2">
         <div class="col-2">
@@ -64,7 +164,7 @@
     <!-- First Appearance  -->
     <div class="row m-2">
         <div class="col-2">
-            <label asp-for="CharacterCreateDTO.FirstAppearanceYear" class="control-label pt-2" style="font-size: 20px"></label>
+            <label class="control-label pt-2" style="font-size: 20px">Year of first appereance</label>
         </div>
         <div class="col-6">
             <input asp-for="CharacterCreateDTO.FirstAppearanceYear" type="number" class="form-control" />
@@ -84,21 +184,11 @@
     <!-- Powers -->
     <div class="row m-2">
         <div class="col-2">
-            <label asp-for="CharacterCreateDTO.Powers" class="control-label pt-2" style="font-size: 20px">Powers</label>
+            <label asp-for="CharacterCreateDTO.Powers" class="control-label pt-2" style="font-size: 20px"></label>
         </div>
-        <div class="col-6" id="power-inputs">
-            @for (var i = 0; i < Model.CharacterCreateDTO.Powers.Count; i++)
-            {
-                <div class="input-group mb-2">
-                    <input type="text" name="CharacterCreateDTO.Powers[@i]" class="form-control" value="@Model.CharacterCreateDTO.Powers[i]" />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-danger" onclick="removePowerInput(this)">Remove</button>
-                    </div>
-                </div>
-            }
-        </div>
-        <div class="col-2">
-            <button type="button" class="btn btn-primary" onclick="addPowerInput()">Add Power</button>
+        <div class="col-6">
+                <input asp-for="CharacterCreateDTO.Powers" class="form-control" />
+                <span asp-validation-for="CharacterCreateDTO.Powers" class="text-danger"></span>
         </div>
     </div>
     <!-- Team -->
@@ -140,31 +230,3 @@
     </div>
 </form>
 </body>
-
-<script>
-    function addPowerInput() {
-        const powerInputs = document.getElementById('power-inputs');
-        const inputCount = powerInputs.children.length;
-        const newInput = document.createElement('div');
-        newInput.className = 'input-group mb-2';
-        newInput.innerHTML = `
-                <input type="text" name="CharacterCreateViewModel.CharacterCreateDTO.Powers[${inputCount}]" class="form-control" />
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-danger" onclick="removePowerInput(this)">Remove</button>
-                </div>
-            `;
-        powerInputs.appendChild(newInput);
-    }
-
-    function removePowerInput(button) {
-        button.parentElement.parentElement.remove();
-        reindexPowerInputs();
-    }
-
-    function reindexPowerInputs() {
-        const powerInputs = document.getElementById('power-inputs').children;
-        for (let i = 0; i < powerInputs.length; i++) {
-            powerInputs[i].querySelector('input').name = `CharacterCreateViewModel.CharacterCreateDTO.Powers[${i}]`;
-        }
-    }
-</script>

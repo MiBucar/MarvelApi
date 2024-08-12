@@ -16,6 +16,106 @@
             <span asp-validation-for="CharacterUpdateDTO.Name" class="text-danger"></span>
         </div>
     </div>
+    <!-- Durability -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.Durability" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.Durability" type="number" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.Durability" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Energy -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.Energy" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.Energy" type="number" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.Energy" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Fighting Skills -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.FightingSkills" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.FightingSkills" type="number" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.FightingSkills" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Strength -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.Strength" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.Strength" type="number" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.Strength" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Intelligence -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.Intelligence" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.Intelligence" type="number" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.Intelligence" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Speed -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.Speed" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.Speed" type="number" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.Speed" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Height -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.Height" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.Height" type="number" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.Height" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Eyes -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.Eyes" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.Eyes" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.Eyes" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Weight -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.Weight" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.Weight" type="number" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.Weight" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Hair -->
+    <div class="row m-2">
+        <div class="col-2">
+            <label asp-for="CharacterUpdateDTO.Hair" class="control-label pt-2" style="font-size: 20px"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.Hair" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.Hair" class="text-danger"></span>
+        </div>
+    </div>
     <!-- Checkbox -->
     <div class="row m-2">
         <div class="col-2">
@@ -78,21 +178,11 @@
     <!-- Powers -->
     <div class="row m-2">
         <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Powers" class="control-label pt-2" style="font-size: 20px">Powers</label>
+            <label asp-for="CharacterUpdateDTO.Powers" class="control-label pt-2" style="font-size: 20px"></label>
         </div>
-        <div class="col-6" id="power-inputs">
-            @for (var i = 0; i < Model.CharacterUpdateDTO.Powers.Count; i++)
-            {
-                <div class="input-group mb-2">
-                    <input type="text" name="CharacterUpdateDTO.Powers[@i]" class="form-control" value="@Model.CharacterUpdateDTO.Powers[i]" />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-danger" onclick="removePowerInput(this)">Remove</button>
-                    </div>
-                </div>
-            }
-        </div>
-        <div class="col-2">
-            <button type="button" class="btn btn-primary" onclick="addPowerInput()">Add Power</button>
+        <div class="col-6">
+            <input asp-for="CharacterUpdateDTO.Powers" class="form-control" />
+            <span asp-validation-for="CharacterUpdateDTO.Powers" class="text-danger"></span>
         </div>
     </div>
     <!-- Team -->
@@ -133,31 +223,3 @@
         </div>
     </div>
 </form>
-
-<script>
-    function addPowerInput() {
-        const powerInputs = document.getElementById('power-inputs');
-        const inputCount = powerInputs.children.length;
-        const newInput = document.createElement('div');
-        newInput.className = 'input-group mb-2';
-        newInput.innerHTML = `
-                    <input type="text" name="CharacterUpdateViewModel.CharacterUpdateDTO.Powers[${inputCount}]" class="form-control" />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-danger" onclick="removePowerInput(this)">Remove</button>
-                    </div>
-                `;
-        powerInputs.appendChild(newInput);
-    }
-
-    function removePowerInput(button) {
-        button.parentElement.parentElement.remove();
-        reindexPowerInputs();
-    }
-
-    function reindexPowerInputs() {
-        const powerInputs = document.getElementById('power-inputs').children;
-        for (let i = 0; i < powerInputs.length; i++) {
-            powerInputs[i].querySelector('input').name = `CharacterUpdateViewModel.CharacterUpdateDTO.Powers[${i}]`;
-        }
-    }
-</script>
