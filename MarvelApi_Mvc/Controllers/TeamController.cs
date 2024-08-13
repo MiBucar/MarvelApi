@@ -1,4 +1,5 @@
 ﻿using MarvelApi_Mvc.Models;
+using MarvelApi_Mvc.Models.DTOs.CharacterDTOs;
 using MarvelApi_Mvc.Models.DTOs.TeamDTOs;
 using MarvelApi_Mvc.Models.ViewModels.Team;
 using MarvelApi_Mvc.Services.IServices;
@@ -23,7 +24,7 @@ namespace MarvelApi_Mvc.Controllers
             _selectListItemGetters = selectListItemGetters;
         }
 
-        public async Task<ActionResult> IndexTeam(string searchQuery, int page = 1, int pageSize = 20)
+        public async Task<ActionResult> IndexTeams(string searchQuery, int page = 1, int pageSize = 20)
         {
             ViewBag.PageSize = pageSize;
             ViewBag.CurrentPage = page;
@@ -50,6 +51,25 @@ namespace MarvelApi_Mvc.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public async Task<ActionResult> IndexTeam(int id)
+        {
+            DisplayTeamViewModel teamVM = new DisplayTeamViewModel();
+            var apiResponse = await _teamService.GetAsync<ApiResponse>(id);
+            if (apiResponse != null && apiResponse.IsSuccess)
+            {
+                var existingTeam = JsonConvert.DeserializeObject<TeamDTO>(Convert.ToString(apiResponse.Result));
+                teamVM.Team = existingTeam;
+            }
+
+            apiResponse = await _teamService.GetMembersAsync<ApiResponse>(id);
+			if (apiResponse != null && apiResponse.IsSuccess)
+			{
+				var existingMembers = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(apiResponse.Result));
+				teamVM.Members = existingMembers;
+			}
+			return View(teamVM);
         }
 
         public async Task<ActionResult> CreateTeam()
@@ -81,7 +101,7 @@ namespace MarvelApi_Mvc.Controllers
                     var response = await _teamService.CreateAsync<ApiResponse>(teamCreateViewModel.TeamCreateDTO);
                     if (response != null && response.IsSuccess)
                     {
-                        return RedirectToAction(nameof(IndexTeam));
+                        return RedirectToAction(nameof(IndexTeams));
                     }
                     else if (response == null){
                         ModelState.AddModelError(string.Empty, "Only admin is allowed to make this action");
@@ -125,7 +145,7 @@ namespace MarvelApi_Mvc.Controllers
                 var response = await _teamService.UpdateAsync<ApiResponse>(teamUpdateViewModel.TeamUpdateDTO);
                 if (response != null && response.IsSuccess)
                 {
-                    return RedirectToAction(nameof(IndexTeam));
+                    return RedirectToAction(nameof(IndexTeams));
                 }
                 else if (response == null){
                         ModelState.AddModelError(string.Empty, "Only admin is allowed to make this action");
@@ -144,7 +164,7 @@ namespace MarvelApi_Mvc.Controllers
         public async Task<ActionResult> DeleteTeam(int id)
         {
             var response = await _teamService.DeleteAsync<ApiResponse>(id);
-            return RedirectToAction(nameof(IndexTeam));
+            return RedirectToAction(nameof(IndexTeams));
         }
     }
 }

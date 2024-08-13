@@ -10,5 +10,6 @@ namespace MarvelApi_Mvc.Services.IServices
         Task<T> UpdateAsync<T>(TeamUpdateDTO teamUpdateDTO);
         Task<T> DeleteAsync<T>(int id);
         Task<T> SearchAsync<T>(string query);
+        Task<T> GetMembersAsync<T>(int id);
     }
 }

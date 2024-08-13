@@ -3,6 +3,7 @@ using AutoMapper;
 using MarvelApi_Api.ActionFilters.Teams;
 using MarvelApi_Api.Helpers;
 using MarvelApi_Api.Models;
+using MarvelApi_Api.Models.DTOs.CharacterDTOS;
 using MarvelApi_Api.Models.DTOs.Team;
 using MarvelApi_Api.Repository;
 using Microsoft.AspNetCore.Authorization;
@@ -54,7 +55,7 @@ namespace MarvelApi_Api.Controllers
             try
             {
                 _logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetTeam));
-                var team = await _teamRepository.GetAsync(x => x.Id == id);
+                var team = await _teamRepository.GetAsync(x => x.Id == id, includeProperties:"Members");
                 var mappedTeam = _autoMapper.Map<TeamDTO>(team);
 
                 return Ok(_apiResponseHelper.GetApiResponseSuccess(mappedTeam, HttpStatusCode.OK));
@@ -81,6 +82,24 @@ namespace MarvelApi_Api.Controllers
                 var response = _apiResponseHelper.GetApiResponseSuccess(mappedTeams, HttpStatusCode.OK);
                 return Ok(response);
             }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        [HttpGet("GetMembers/{id:int}")]
+        public async Task<IActionResult> GetMembers(int id)
+        {
+            try
+            {
+				_logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetMembers));
+				var members = await _teamRepository.GetMembersAsync(id);
+				var mappedMembers = _autoMapper.Map<IEnumerable<CharacterDTO>>(members);
+
+				var response = _apiResponseHelper.GetApiResponseSuccess(mappedMembers, HttpStatusCode.OK);
+				return Ok(response);
+			}
             catch (Exception ex)
             {
                 return HandleException(ex);
@@ -114,7 +133,6 @@ namespace MarvelApi_Api.Controllers
 
         [HttpPut("{id:int}")]
         [ServiceFilter(typeof(ValidateTeamCreateAndUpdate))]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateTeam(int id, [FromBody] TeamUpdateDTO teamUpdateDTO)
         {
             try

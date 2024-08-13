@@ -6,7 +6,7 @@ using static MarvelApi_Mvc.Utilities.SD;
 
 namespace MarvelApi_Mvc.Services.Implementation
 {
-    public class TeamService : BaseService, ITeamService
+	public class TeamService : BaseService, ITeamService
     {
         private string _marvelUrl;
         public TeamService(IHttpClientFactory clientFactory, IConfiguration configuration) : base(clientFactory)
@@ -78,5 +78,16 @@ namespace MarvelApi_Mvc.Services.Implementation
             };
             return await SendAsync<T>(apiRequest);
         }
-    }
+
+		public async Task<T> GetMembersAsync<T>(int id)
+		{
+			ApiRequest apiRequest = new ApiRequest
+			{
+				ApiData = id,
+				ApiType = ApiType.GET,
+				ApiUrl = _marvelUrl + $"/api/Team/GetMembers/{id}"
+			};
+			return await SendAsync<T>(apiRequest);
+		}
+	}
 }

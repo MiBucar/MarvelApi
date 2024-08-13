@@ -92,5 +92,16 @@ namespace MarvelApi_Mvc.Services.Implementation
             };
             return await SendAsync<T>(apiRequest);
         }
-    }
+
+		public async Task<T> GetTeamAsync<T>(int id)
+		{
+			ApiRequest apiRequest = new ApiRequest
+			{
+				ApiData = id,
+				ApiType = ApiType.GET,
+				ApiUrl = _marvelUrl + $"/api/Character/GetTeam/{id}"
+			};
+			return await SendAsync<T>(apiRequest);
+		}
+	}
 }
