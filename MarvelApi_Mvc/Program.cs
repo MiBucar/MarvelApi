@@ -61,7 +61,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
 			name: "teams",
 			pattern: "Teams",
-			defaults: new { controller = "Team", action = "IndexTeam" });
+			defaults: new { controller = "Team", action = "IndexTeams" });
 
 app.MapControllerRoute(
     name: "default",

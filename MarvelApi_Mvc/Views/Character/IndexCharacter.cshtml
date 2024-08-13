@@ -111,14 +111,34 @@
 							</div>
 							<div class="character-information-box">
 								<span>Powers</span>
-								<p>@Model.Character.Powers</p>
+								@if (!String.IsNullOrEmpty(Model.Character.Powers))
+								{
+									<p>@Model.Character.Powers</p>
+								}
+								else
+								{
+									<p>None</p>
+								}								
 							</div>
 						</div>
 						<div class="character-information-container-2">
-							@if (Model.Enemies.Any())
-							{
-								<div class="character-information-box">
-									<span>Main Enemies</span>
+							<div class="character-information-box">
+								<span>Team</span>
+								@if (Model.Team != null)
+								{
+									<div class="connection-list">
+										<a asp-controller="Team" asp-action="IndexTeam" asp-route-id="@Model.Team.Id" class="connection-name">@Model.Team.Name</a>
+									</div>
+								}
+								else
+								{
+									<p>None</p>
+								}
+							</div>
+							<div class="character-information-box">
+								<span>Main Enemies</span>
+								@if (Model.Enemies.Any())
+								{
 									<div class="connection-list">
 										@for (int i = 0; i < Model.Enemies.Count; i++)
 										{
@@ -133,13 +153,16 @@
 											}
 										}
 									</div>
-								</div>
-
-							}
-							@if (Model.Allies.Any())
-							{
-								<div class="character-information-box">
-									<span>Main Allies</span>
+								}
+								else
+								{
+									<p>None</p>
+								}
+							</div>
+							<div class="character-information-box">
+								<span>Main Allies</span>
+								@if (Model.Allies.Any())
+								{
 									<div class="connection-list">
 										@for (int i = 0; i < Model.Allies.Count; i++)
 										{
@@ -154,9 +177,12 @@
 											}
 										}
 									</div>
-								</div>
-
-							}							
+								}
+								else
+								{
+									<p>None</p>
+								}
+							</div>						
 						</div>
 					</div>
 				</div>				

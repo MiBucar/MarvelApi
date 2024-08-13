@@ -19,7 +19,8 @@ namespace MarvelApi_Api.Repository.Implementation
             _dbContext = dbContext;
             _autoMapper = autoMapper;
         }
-        public async Task<Character> AddAllyAsync(int characterId, List<int> allyIds)
+
+		public async Task<Character> AddAllyAsync(int characterId, List<int> allyIds)
         {
             var character = await _dbContext.Characters.FindAsync(characterId);
 
@@ -117,6 +118,15 @@ namespace MarvelApi_Api.Repository.Implementation
 			var allies = await _dbContext.Characters.Include(x => x.CharacterRelationships).Where(x => x.CharacterRelationships
 				.Any(y => y.RelatedCharacterId == id && y.IsEnemy)).ToListAsync();
 			return allies;
+		}
+
+		public async Task<Team> GetTeam(int id)
+		{
+			var existingCharacter = await _dbContext.Characters.Include(x => x.Team).FirstOrDefaultAsync(y => y.Id == id);
+            if (existingCharacter != null)
+                return existingCharacter.Team;
+
+            return new Team();
 		}
 
 		#region Helper Functions

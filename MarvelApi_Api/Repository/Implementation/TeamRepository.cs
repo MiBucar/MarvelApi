@@ -2,6 +2,7 @@ using System.Reflection;
 using AutoMapper;
 using MarvelApi_Api.Data;
 using MarvelApi_Api.Models;
+using MarvelApi_Api.Models.DTOs.CharacterDTOS;
 using MarvelApi_Api.Models.DTOs.Team;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
@@ -9,7 +10,7 @@ using Microsoft.VisualBasic;
 
 namespace MarvelApi_Api.Repository.Implementation
 {
-    public class TeamRepository : Repository<Team>, ITeamRepository
+	public class TeamRepository : Repository<Team>, ITeamRepository
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _autoMapper;
@@ -64,5 +65,14 @@ namespace MarvelApi_Api.Repository.Implementation
                         character.DateUpdated = DateTime.UtcNow;
                     }
         }
-    }
+
+		public async Task<IEnumerable<Character>> GetMembersAsync(int id)
+		{
+            var existingTeam = await _dbContext.Teams.Include(x => x.Members).FirstOrDefaultAsync(y => y.Id == id);
+            if (existingTeam != null)
+                return existingTeam.Members.ToList();
+
+            return new List<Character>();
+		}
+	}
 }

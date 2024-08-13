@@ -13,6 +13,7 @@ namespace MarvelApi_Api.Repository
         Task<Character> AddTeamToCharacter(int teamId, int characterId);
         Task<IEnumerable<Character>> GetAllies(int id);
         Task<IEnumerable<Character>> GetEnemies(int id);
+        Task<Team> GetTeam(int id);
         Task AddTeamsToCharacter(int teamId, List<int> characterIds);
     }
 }

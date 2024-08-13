@@ -4,9 +4,11 @@ using MarvelApi_Api.ActionFilters.Character;
 using MarvelApi_Api.Helpers;
 using MarvelApi_Api.Models;
 using MarvelApi_Api.Models.DTOs.CharacterDTOS;
+using MarvelApi_Api.Models.DTOs.Team;
 using MarvelApi_Api.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace MarvelApi_Api.Controllers
 {
@@ -99,7 +101,7 @@ namespace MarvelApi_Api.Controllers
             {
                 _logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetCharacter));
 
-                var character = await _characterRepository.GetAsync(x => x.Id == id, includeProperties: "CharacterRelationships");
+                var character = await _characterRepository.GetAsync(x => x.Id == id, includeProperties: "CharacterRelationships,Team");
                 var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
                 var response = _responseHelper.GetApiResponseSuccess(mappedCharacter, HttpStatusCode.OK);
@@ -110,6 +112,25 @@ namespace MarvelApi_Api.Controllers
                 return HandleException(ex);
             }
         }
+
+        [HttpGet("GetTeam/{id:int}")]
+        public async Task<IActionResult> GetTeam(int id)
+        {
+			try
+			{
+				_logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetTeam));
+
+				var team = await _characterRepository.GetTeam(id);
+				var mappedTeam = _autoMapper.Map<TeamDTO>(team);
+
+				var response = _responseHelper.GetApiResponseSuccess(mappedTeam, HttpStatusCode.OK);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				return HandleException(ex);
+			}
+		}
 
         [HttpPost]
         [ServiceFilter(typeof(ValidateCharacterCreateAndUpdateAttribute))]

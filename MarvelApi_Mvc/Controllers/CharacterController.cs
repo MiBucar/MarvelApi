@@ -1,5 +1,6 @@
 ﻿using MarvelApi_Mvc.Models;
 using MarvelApi_Mvc.Models.DTOs.CharacterDTOs;
+using MarvelApi_Mvc.Models.DTOs.TeamDTOs;
 using MarvelApi_Mvc.Models.ViewModels.Character;
 using MarvelApi_Mvc.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
@@ -69,6 +70,12 @@ namespace MarvelApi_Mvc.Controllers
 			if (apiResponse != null && apiResponse.IsSuccess == true)
 			{
 				characterVM.Enemies = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(apiResponse.Result));
+			}
+
+			apiResponse = await _characterService.GetTeamAsync<ApiResponse>(id);
+			if (apiResponse != null && apiResponse.IsSuccess == true)
+			{
+				characterVM.Team = JsonConvert.DeserializeObject<TeamDTO>(Convert.ToString(apiResponse.Result));
 			}
 
 			return View(characterVM);
