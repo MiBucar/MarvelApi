@@ -67,7 +67,7 @@ namespace MarvelApi_Api.Repository.Implementation
                 Name = registrationRequestDTO.UserName,
                 UserName = registrationRequestDTO.UserName,
                 Password = BCrypt.Net.BCrypt.HashPassword(registrationRequestDTO.Password),
-                Role = registrationRequestDTO.Role,
+                Role = "User",
             };
 
             await _db.Users.AddAsync(newUser);

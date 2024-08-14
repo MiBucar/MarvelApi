@@ -10,7 +10,6 @@ using System.Net;
 
 namespace MarvelApi_Mvc.Controllers
 {
-    [Authorize(Roles = "User,Admin")]
     public class TeamController : Controller
     {
         private readonly ITeamService _teamService;
@@ -72,7 +71,8 @@ namespace MarvelApi_Mvc.Controllers
 			return View(teamVM);
         }
 
-        public async Task<ActionResult> CreateTeam()
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult> CreateTeam()
         {
             var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
 
@@ -85,7 +85,8 @@ namespace MarvelApi_Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateTeam(TeamCreateViewModel teamCreateViewModel)
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult> CreateTeam(TeamCreateViewModel teamCreateViewModel)
         {
             try
             {
@@ -118,7 +119,8 @@ namespace MarvelApi_Mvc.Controllers
             }
         }
 
-        public async Task<ActionResult> UpdateTeam(int id)
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult> UpdateTeam(int id)
         {
             var team = await _selectListItemGetters.GetTeamAsync(id);
             var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
@@ -131,7 +133,8 @@ namespace MarvelApi_Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateTeam(TeamUpdateViewModel teamUpdateViewModel)
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult> UpdateTeam(TeamUpdateViewModel teamUpdateViewModel)
         {
             try
             {
@@ -161,7 +164,8 @@ namespace MarvelApi_Mvc.Controllers
             }
         }
 
-        public async Task<ActionResult> DeleteTeam(int id)
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult> DeleteTeam(int id)
         {
             var response = await _teamService.DeleteAsync<ApiResponse>(id);
             return RedirectToAction(nameof(IndexTeams));

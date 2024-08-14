@@ -212,7 +212,6 @@
 			</div>
 		</div>
 	</section>
-	<!-- ABOUT AREA ENDS -->
 
 	<section id="team">
 		<div class="container zindex">
@@ -262,7 +261,7 @@
 					<h3>Explore Marvel Characters.</h3>
 					<p>Explore detailed information, fascinating backstories, and stunning appearances of your favorite
 						heroes and villains.</p>
-					<a asp-controller="Character" asp-action="IndexCharacter" class="button-primary">Browse All</a>
+					<a asp-controller="Character" asp-action="IndexCharacters" class="button-primary">Browse All</a>
 				</div>
 				@if (Model.CharacterDTOs.Any())
 				{
@@ -275,7 +274,7 @@
 								<div class="col-lg-10 @(i % 2 == 0 ? "ms-auto" : "me-auto")">
 									<img src="data:image/png;base64,@Convert.ToBase64String(character.Image)" alt="comic-book"
 										 class="img-fluid">
-									<a href="comic_details.html">@character.Name</a>
+									<a asp-controller="Character" asp-action="IndexCharacter" asp-route-id="@character.Id">@character.Name</a>
 								</div>
 							</div>
 						</div>
@@ -294,11 +293,14 @@
 						<div class="col-lg-6 m-auto text-center">
 							<span>Popular</span>
 							<h3>Explore most popular teams</h3>
-							<div class="team-counter mb-4">
-								<p class="pt-16">
-									No results
-								</p>
-							</div>
+							@if (!Model.TeamDTOs.Any())
+							{
+								<div class="team-counter mb-4">
+									<p class="pt-16">
+										No results
+									</p>
+								</div>
+							}							
 						</div>
 					</div>
 				</div>

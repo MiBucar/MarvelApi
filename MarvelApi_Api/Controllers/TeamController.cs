@@ -133,7 +133,8 @@ namespace MarvelApi_Api.Controllers
 
         [HttpPut("{id:int}")]
         [ServiceFilter(typeof(ValidateTeamCreateAndUpdate))]
-        public async Task<IActionResult> UpdateTeam(int id, [FromBody] TeamUpdateDTO teamUpdateDTO)
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> UpdateTeam(int id, [FromBody] TeamUpdateDTO teamUpdateDTO)
         {
             try
             {
