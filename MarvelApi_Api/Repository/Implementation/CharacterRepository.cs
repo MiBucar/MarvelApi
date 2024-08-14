@@ -20,7 +20,7 @@ namespace MarvelApi_Api.Repository.Implementation
             _autoMapper = autoMapper;
         }
 
-		public async Task<Character> AddAllyAsync(int characterId, List<int> allyIds)
+		public async Task<Character> AssignAlliesAsync(int characterId, List<int> allyIds)
         {
             var character = await _dbContext.Characters.FindAsync(characterId);
 
@@ -34,7 +34,7 @@ namespace MarvelApi_Api.Repository.Implementation
             return character;
         }
 
-        public async Task<Character> AddEnemyAsync(int characterId, List<int> enemyIds)
+        public async Task<Character> AssignEnemiesAsync(int characterId, List<int> enemyIds)
         {
             var character = await _dbContext.Characters.FindAsync(characterId);
 
@@ -79,7 +79,7 @@ namespace MarvelApi_Api.Repository.Implementation
             return existingCharacter;
         }
 
-        public async Task<Character> AddTeamToCharacter(int teamId, int characterId)
+        public async Task<Character> AssignTeamToCharacterAsync(int teamId, int characterId)
         {
             var existingCharacter = await _dbContext.Characters.FirstOrDefaultAsync(x => x.Id == characterId);
 
@@ -93,7 +93,7 @@ namespace MarvelApi_Api.Repository.Implementation
             return new Character();
         }
 
-        public async Task AddTeamsToCharacter(int teamId, List<int> characterIds)
+        public async Task AssignTeamToCharactersAsync(int teamId, List<int> characterIds)
         {
             var characters = _dbContext.Characters.Where(x => characterIds.Contains(x.Id));
 
@@ -106,21 +106,21 @@ namespace MarvelApi_Api.Repository.Implementation
             await SaveChangesAsync();
         }
 
-		public async Task<IEnumerable<Character>> GetAllies(int id)
+		public async Task<IEnumerable<Character>> GetAlliesAsync(int id)
 		{
 			var allies = await _dbContext.Characters.Include(x => x.CharacterRelationships).Where(x => x.CharacterRelationships
                 .Any(y => y.RelatedCharacterId == id && !y.IsEnemy)).ToListAsync();
 			return allies;
 		}
 
-		public async Task<IEnumerable<Character>> GetEnemies(int id)
+		public async Task<IEnumerable<Character>> GetEnemiesAsync(int id)
 		{
 			var allies = await _dbContext.Characters.Include(x => x.CharacterRelationships).Where(x => x.CharacterRelationships
 				.Any(y => y.RelatedCharacterId == id && y.IsEnemy)).ToListAsync();
 			return allies;
 		}
 
-		public async Task<Team> GetTeam(int id)
+		public async Task<Team> GetTeamAsync(int id)
 		{
 			var existingCharacter = await _dbContext.Characters.Include(x => x.Team).FirstOrDefaultAsync(y => y.Id == id);
             if (existingCharacter != null)

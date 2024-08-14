@@ -53,7 +53,7 @@ namespace MarvelApi_Api.Controllers
 		[ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
 		public async Task<IActionResult> GetAllies(int id)
         {
-            var allies = await _characterRepository.GetAllies(id);
+            var allies = await _characterRepository.GetAlliesAsync(id);
 			var mappedAllies = _autoMapper.Map<IEnumerable<Character>, IEnumerable<CharacterDTO>>(allies);
 
 			var response = _responseHelper.GetApiResponseSuccess(mappedAllies, HttpStatusCode.OK);
@@ -64,7 +64,7 @@ namespace MarvelApi_Api.Controllers
 		[ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
 		public async Task<IActionResult> GetEnemies(int id)
 		{
-			var allies = await _characterRepository.GetEnemies(id);
+			var allies = await _characterRepository.GetEnemiesAsync(id);
 			var mappedAllies = _autoMapper.Map<IEnumerable<Character>, IEnumerable<CharacterDTO>>(allies);
 
 			var response = _responseHelper.GetApiResponseSuccess(mappedAllies, HttpStatusCode.OK);
@@ -120,7 +120,7 @@ namespace MarvelApi_Api.Controllers
 			{
 				_logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetTeam));
 
-				var team = await _characterRepository.GetTeam(id);
+				var team = await _characterRepository.GetTeamAsync(id);
 				var mappedTeam = _autoMapper.Map<TeamDTO>(team);
 
 				var response = _responseHelper.GetApiResponseSuccess(mappedTeam, HttpStatusCode.OK);
@@ -148,9 +148,9 @@ namespace MarvelApi_Api.Controllers
                 await _characterRepository.CreateAsync(mappedCharacter);
 
                 if (allyIds.Any())
-                    await _characterRepository.AddAllyAsync(mappedCharacter.Id, allyIds);
+                    await _characterRepository.AssignAlliesAsync(mappedCharacter.Id, allyIds);
                 if (enemyIds.Any())
-                    await _characterRepository.AddEnemyAsync(mappedCharacter.Id, enemyIds);
+                    await _characterRepository.AssignEnemiesAsync(mappedCharacter.Id, enemyIds);
 
                 var characterToReturn = _autoMapper.Map<CharacterDTO>(mappedCharacter);
 
@@ -173,7 +173,7 @@ namespace MarvelApi_Api.Controllers
             {
                 _logger.LogInformation("Accessing {endpoint} endpoint", nameof(AddAllies));
 
-                var character = await _characterRepository.AddAllyAsync(id, allyIds);
+                var character = await _characterRepository.AssignAlliesAsync(id, allyIds);
                 var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
                 var response = _responseHelper.GetApiResponseSuccess(mappedCharacter, HttpStatusCode.OK);
@@ -195,7 +195,7 @@ namespace MarvelApi_Api.Controllers
             {
                 _logger.LogInformation("Accessing {endpoint} endpoint", nameof(AddEnemies));
 
-                var character = await _characterRepository.AddEnemyAsync(id, enemyIds);
+                var character = await _characterRepository.AssignEnemiesAsync(id, enemyIds);
                 var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
                 var response = _responseHelper.GetApiResponseSuccess(mappedCharacter, HttpStatusCode.OK);
@@ -215,7 +215,7 @@ namespace MarvelApi_Api.Controllers
             {
                 _logger.LogInformation("Accessing {endpoint} endpoint", nameof(AddTeamToCharacter));
 
-                var character = await _characterRepository.AddTeamToCharacter(teamId, id);
+                var character = await _characterRepository.AssignTeamToCharacterAsync(teamId, id);
                 var mappedCharacter = _autoMapper.Map<CharacterDTO>(character);
 
                 var response = _responseHelper.GetApiResponseSuccess(mappedCharacter, HttpStatusCode.OK);

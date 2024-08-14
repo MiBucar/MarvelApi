@@ -54,32 +54,41 @@ namespace MarvelApi_Mvc.Controllers
         public async Task<ActionResult> IndexCharacter(int id)
         {
             DisplayCharacterViewModel characterVM = new DisplayCharacterViewModel();
-            var apiResponse = await _characterService.GetAsync<ApiResponse>(id);
-            if (apiResponse != null && apiResponse.IsSuccess == true)
-            {
-				characterVM.Character = JsonConvert.DeserializeObject<CharacterDTO>(Convert.ToString(apiResponse.Result));
-            }
 
-			apiResponse = await _characterService.GetAlliesAsync<ApiResponse>(id);
-			if (apiResponse != null && apiResponse.IsSuccess == true)
+			var characterTask = _characterService.GetAsync<ApiResponse>(id);
+			var alliesTask = _characterService.GetAlliesAsync<ApiResponse>(id);
+			var enemiesTask = _characterService.GetEnemiesAsync<ApiResponse>(id);
+			var teamTask = _characterService.GetTeamAsync<ApiResponse>(id);
+
+			await Task.WhenAll(characterTask, alliesTask, enemiesTask, teamTask);
+
+			var characterResponse = await characterTask;
+			var alliesResponse = await alliesTask;
+			var enemiesResponse = await enemiesTask;
+			var teamResponse = await teamTask;
+
+			if (characterResponse != null && characterResponse.IsSuccess)
 			{
-				characterVM.Allies = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(apiResponse.Result));
+				characterVM.Character = JsonConvert.DeserializeObject<CharacterDTO>(Convert.ToString(characterResponse.Result));
 			}
 
-			apiResponse = await _characterService.GetEnemiesAsync<ApiResponse>(id);
-			if (apiResponse != null && apiResponse.IsSuccess == true)
+			if (alliesResponse != null && alliesResponse.IsSuccess)
 			{
-				characterVM.Enemies = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(apiResponse.Result));
+				characterVM.Allies = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(alliesResponse.Result));
 			}
 
-			apiResponse = await _characterService.GetTeamAsync<ApiResponse>(id);
-			if (apiResponse != null && apiResponse.IsSuccess == true)
+			if (enemiesResponse != null && enemiesResponse.IsSuccess)
 			{
-				characterVM.Team = JsonConvert.DeserializeObject<TeamDTO>(Convert.ToString(apiResponse.Result));
+				characterVM.Enemies = JsonConvert.DeserializeObject<List<CharacterDTO>>(Convert.ToString(enemiesResponse.Result));
+			}
+
+			if (teamResponse != null && teamResponse.IsSuccess)
+			{
+				characterVM.Team = JsonConvert.DeserializeObject<TeamDTO>(Convert.ToString(teamResponse.Result));
 			}
 
 			return View(characterVM);
-        }
+		}
 
         public async Task<ActionResult> CreateCharacter()
         {

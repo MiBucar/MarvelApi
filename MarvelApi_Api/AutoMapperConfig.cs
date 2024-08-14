@@ -25,7 +25,7 @@ namespace MarvelApi_Api
             .ForMember(dest => dest.Team, opt => opt.MapFrom(src => src.Team.Name));
 
                 CreateMap<Team, TeamDTO>()
-                .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.Members.Select(x => x.Name)));
+                .ForMember(dest => dest.MembersIds, opt => opt.MapFrom(src => src.Members.Select(x => x.Id)));
 
                 CreateMap<TeamCreateDTO, Team>()
                 .ForMember(dest => dest.Members, opt => opt.Ignore());
