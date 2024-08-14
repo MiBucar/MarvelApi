@@ -671,7 +671,7 @@
 	}
 }
 
-@media(min-width:992px) and (max-width:1199px) {
+@media(min-width:700px) and (max-width:1199px) {
 
 	.menu-action .button-secondary,
 	.banner-icon {

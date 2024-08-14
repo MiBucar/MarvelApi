@@ -118,7 +118,7 @@ namespace MarvelApi_Api.Controllers
                 await _teamRepository.CreateAsync(team);
 
                 if (teamCreateDTO.MemberIds.Any())
-                    await _characterRepository.AddTeamsToCharacter(team.Id, teamCreateDTO.MemberIds);
+                    await _characterRepository.AssignTeamToCharactersAsync(team.Id, teamCreateDTO.MemberIds);
 
                 var mappedTeam = _autoMapper.Map<TeamDTO>(team);
 

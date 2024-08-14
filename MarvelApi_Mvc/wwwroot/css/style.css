@@ -2082,7 +2082,7 @@ CHARACTER DETAILS
 .comic-detail-img {
 	position: relative;
 	overflow: hidden;
-	width: 30%;
+	width: 40%;
 }
 
 .main-info-section {
@@ -2104,7 +2104,7 @@ CHARACTER DETAILS
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	width: 66%;
+	width: 50%;
 }
 
 .character-header {
@@ -2213,7 +2213,7 @@ CHARACTER DETAILS
 	color: black !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
 	.stat-box {
 		width: 100%;
 	}
@@ -2257,7 +2257,7 @@ CHARACTER DETAILS
 @media (min-width: 1200px) {
 	.character-stats {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 		gap: 20px;
 	}
 
@@ -2269,6 +2269,14 @@ CHARACTER DETAILS
 /*===========================
 TEAM DETAILS
 =============================*/
+
+.team-main-info-section {
+	margin-bottom: 1rem;
+	padding-bottom: 1rem;
+	display: flex;
+	justify-content: space-around;
+	gap: 20px;
+}
 
 #team-section {
 	padding: 40px 0 40px;
@@ -2375,14 +2383,41 @@ TEAM DETAILS
 	color: white;
 }
 
-@media (max-width: 768px) {
-	.team-container {
-		width: 100%;
+#team-intro-section{
+	margin-top: 1rem;
+}
+
+@media (max-width: 1000px) {
+	.team-header {
+		font-size: 45px;
+		margin-top: 2rem;
+		margin-bottom: 1rem;
 	}
 
-	.team-header {
-		font-size: 54px;
-		margin-top: 3rem;
-		margin-bottom: 2rem;
+	.team-comic-detail-img-container {
+		width: 80%;
+	}
+
+	.team-comic-detail-img {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.team-main-info-section {
+		flex-direction: column;
+		align-items: center;
+		gap: 0px;
+	}
+
+	.team-container{
+		width: 80%;
+	}
+
+	.team-description {
+		font-size: 18px;
+	}
+
+	#team-intro-section {
+		margin-top: 5rem;
 	}
 }

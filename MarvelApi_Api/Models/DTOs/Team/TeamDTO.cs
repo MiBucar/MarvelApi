@@ -6,6 +6,6 @@ namespace MarvelApi_Api.Models.DTOs.Team
         public string Name { get; set; }
         public string Description { get; set; }
         public byte[] Image { get; set; }
-        public List<string> Members { get; set; } = new List<string>();
+        public List<int> MembersIds { get; set; } = new List<int>();
     }
 }
