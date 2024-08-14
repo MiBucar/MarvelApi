@@ -83,6 +83,8 @@ namespace MarvelApi_Mvc.Controllers
                 {
                     return RedirectToAction(nameof(Login));
                 }
+                else if (!response.IsSuccess)
+                    ModelState.AddModelError(string.Empty, response.ErrorMessages.FirstOrDefault());
             }
             return View(registrationRequestDTO);
         }

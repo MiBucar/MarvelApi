@@ -5,32 +5,51 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<form asp-action="Register" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<section id="login-section">
+    <div class="login-container">
+        <h2>Register</h2>
     </div>
-    <div class="form-group">
-        <label asp-for="UserName" class="control-label"></label>
-        <input asp-for="UserName" class="form-control" />
-        <span asp-validation-for="UserName" class="text-danger"></span>
+    <div class="login-form-container">
+        <form asp-action="Register" method="post">
+            <div class="login-form">
+                <div class="input-form">
+                    <div class="search-group">
+                        <input asp-for="Name" type="text" class="search-input" placeholder="NAME">
+                        <i class="fa-solid fa-signature search-icon"></i>
+                    </div>
+                    <div class="input-form-span">
+                        <span asp-validation-for="Name" class="text-danger-login"></span>
+                    </div>
+                </div>
+                <div class="input-form">
+                    <div class="search-group">
+                        <input asp-for="UserName" type="text" class="search-input" placeholder="USERNAME">
+                        <i class="fa-solid fa-user search-icon"></i>
+                    </div>
+                    <div class="input-form-span">
+                        <span asp-validation-for="UserName" class="text-danger-login"></span>
+                    </div>
+                </div>
+                <div class="input-form">
+                    <div class="search-group">
+                        <input type="password" asp-for="Password" class="search-input" placeholder="PASSWORD">
+                        <i class="fa-solid fa-lock search-icon"></i>
+                    </div>
+                    <div class="input-form-span">
+                        <span asp-validation-for="Password" class="text-danger-login"></span>
+                    </div>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger-login login-form"></div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="login-button" />
+                </div>
+                <div class="register-question">
+                    <span>Already registered? <a asp-controller="User" asp-action="Login">Login</a></span>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Password" class="control-label"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Role" class="control-label"></label>
-        <input asp-for="Role" class="form-control" />
-        <span asp-validation-for="Role" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+</section>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

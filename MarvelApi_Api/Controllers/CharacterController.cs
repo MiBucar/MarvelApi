@@ -134,8 +134,8 @@ namespace MarvelApi_Api.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(ValidateCharacterCreateAndUpdateAttribute))]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateCharacter([FromBody] CharacterCreateDTO character)
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> CreateCharacter([FromBody] CharacterCreateDTO character)
         {
             try
             {
@@ -166,8 +166,8 @@ namespace MarvelApi_Api.Controllers
         [HttpPost("{id:int}/allies")]
         [ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
         [ServiceFilter(typeof(ValidateCharactersNotRelatedAttribute))]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddAllies(int id, [FromBody] List<int> allyIds)
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> AddAllies(int id, [FromBody] List<int> allyIds)
         {
             try
             {
@@ -188,8 +188,8 @@ namespace MarvelApi_Api.Controllers
         [HttpPost("{id:int}/enemies")]
         [ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
         [ServiceFilter(typeof(ValidateCharactersNotRelatedAttribute))]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddEnemies(int id, [FromBody] List<int> enemyIds)
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> AddEnemies(int id, [FromBody] List<int> enemyIds)
         {
             try
             {
@@ -208,8 +208,8 @@ namespace MarvelApi_Api.Controllers
         }
 
         [HttpPost("{id:int}/team")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddTeamToCharacter(int id, [FromBody] int teamId)
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> AddTeamToCharacter(int id, [FromBody] int teamId)
         {
             try
             {
@@ -230,8 +230,8 @@ namespace MarvelApi_Api.Controllers
         [HttpPut("{id:int}")]
         [ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
         [ServiceFilter(typeof(ValidateCharacterCreateAndUpdateAttribute))]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateCharacter(int id, [FromBody] CharacterUpdateDTO character)
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> UpdateCharacter(int id, [FromBody] CharacterUpdateDTO character)
         {
             try
             {
@@ -251,8 +251,8 @@ namespace MarvelApi_Api.Controllers
 
         [HttpDelete("{id:int}")]
         [ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteCharacter(int id)
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> DeleteCharacter(int id)
         {
             try
             {

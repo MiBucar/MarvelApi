@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 
 namespace MarvelApi_Mvc.Controllers
 {
-    [Authorize(Roles = "User,Admin")]
     public class CharacterController : Controller
     {
         private readonly ICharacterService _characterService;
@@ -90,7 +89,8 @@ namespace MarvelApi_Mvc.Controllers
 			return View(characterVM);
 		}
 
-        public async Task<ActionResult> CreateCharacter()
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult> CreateCharacter()
         {
             var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
             var availableTeams = await _selectListItemGetters.GetAvailableTeamsAsync();
@@ -104,7 +104,8 @@ namespace MarvelApi_Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateCharacter(CharacterCreateViewModel characterCreateViewModel)
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult> CreateCharacter(CharacterCreateViewModel characterCreateViewModel)
         {
             try
             {
@@ -142,7 +143,8 @@ namespace MarvelApi_Mvc.Controllers
             }
         }
 
-        public async Task<ActionResult> UpdateCharacter(int id)
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult> UpdateCharacter(int id)
         {
             var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
             var availableTeams = await _selectListItemGetters.GetAvailableTeamsAsync();
@@ -157,7 +159,8 @@ namespace MarvelApi_Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateCharacter(CharacterUpdateViewModel characterUpdateViewModel)
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult> UpdateCharacter(CharacterUpdateViewModel characterUpdateViewModel)
         {
             try
             {
@@ -195,7 +198,8 @@ namespace MarvelApi_Mvc.Controllers
             }
         }
 
-        public async Task<ActionResult> DeleteCharacter(int id)
+		[Authorize(Roles = "Admin")]
+		public async Task<ActionResult> DeleteCharacter(int id)
         {
             var response = await _characterService.DeleteAsync<ApiResponse>(id);
             return RedirectToAction(nameof(IndexCharacters));

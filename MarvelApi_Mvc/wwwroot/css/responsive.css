@@ -671,6 +671,10 @@
 	}
 }
 
+@media(min-width:992px) and (max-width:991px) {
+
+}
+
 @media(min-width:700px) and (max-width:1199px) {
 
 	.menu-action .button-secondary,
@@ -717,10 +721,6 @@
 		top: -65px;
 	}
 
-	.about-main .experience {
-		bottom: -75px;
-	}
-
 	.about-txt p {
 		padding-right: 85px;
 	}
@@ -741,12 +741,6 @@
 		margin-top: -290px;
 	}
 
-	.team-img::after {
-		width: 200px;
-		height: 200px;
-		left: 1px;
-		top: 20px;
-	}
 
 	.team-counter h3 {
 		font-size: 84px;
