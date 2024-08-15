@@ -2498,3 +2498,100 @@ LOGIN
 	transform: rotate(1deg);
 	margin-top: 2px;
 }
+
+/*===========================
+ADMIN DASHBOARD
+=============================*/
+
+.starting-section {
+	padding: 90px 0 90px;
+}
+
+.admin-dashboard-header-container{
+	width: 100%;
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.admin-dashboard-header-container h2{
+	font-family: cb;
+	font-size: 50px;
+	text-transform: uppercase;
+}
+
+.admin-dashboard-container{
+	padding: 2rem;
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+}
+
+.admin-dashboard-box{
+	position: relative;
+	height: 600px;
+	width: 30%;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+	transition: .5s ease;
+	background-origin: border-box;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.admin-dashboard-box:hover{
+	border: 8px solid white;
+	transform: scale(1.02);
+}
+
+.admin-dashboard-box h3{
+	color: white;
+	text-transform: uppercase;
+	font-size: 40px;
+	font-family: cb;
+	z-index: 2;
+	text-shadow: 3px 1px 2px rgba(0, 0, 0, 0.671);
+	transition: .5s ease;
+}
+
+.admin-dashboard-characters{
+	background-image: url(../images/marvel-characters-canvas.jpg);
+}
+
+.admin-dashboard-teams{
+	background-image: url(../images/marvel-teams-canvas.jpeg);
+}
+
+.overlay{
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+	transition: .5s ease;
+}
+
+.admin-dashboard-box:hover .overlay{
+	background: rgba(0, 0, 0, 0.7);
+}
+
+.admin-dashboard-box:hover .admin-dashboard-box-header{
+	text-shadow: 3px 1px 2px rgba(255, 255, 255, 0.408);
+	transform: scale(1.03);
+}
+
+@media(max-width: 1000px){
+	.admin-dashboard-container{
+		flex-direction: column;
+	}
+
+	.admin-dashboard-box{
+		width: 100%;
+	}
+}

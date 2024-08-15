@@ -36,6 +36,9 @@
                             <a asp-controller="Team" asp-action="IndexTeams" class="nav-link">Teams</a>
                         </li>
                         <li class="nav-item">
+                            <a asp-controller="AdminDashboard" asp-action="IndexAdminDashboard" class="nav-link">Admin Dashboard</a>
+                        </li>
+                        <li class="nav-item">
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <a asp-controller="User" asp-action="Logout" class="nav-link">Logout</a>

@@ -69,6 +69,12 @@ ScaffoldingReadMe.txt
 # StyleCop
 StyleCopReport.xml
 
+# Ignore build outputs
+bin/
+obj/
+*.pdb
+*.deps.json
+
 # Files built by Visual Studio
 *_i.c
 *_p.c

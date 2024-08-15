@@ -26,7 +26,7 @@ namespace MarvelApi_Mvc.Controllers
             HomeViewModel homeViewModel = new();
             var characters = new List<CharacterDTO>();
             var apiResponse = await _characterService.GetAllAsync<ApiResponse>();
-            if (apiResponse != null)
+            if (apiResponse != null && apiResponse.IsSuccess)
             {
                 characters = JsonConvert.DeserializeObject<IEnumerable<CharacterDTO>>(Convert.ToString(apiResponse.Result)).ToList();
             }

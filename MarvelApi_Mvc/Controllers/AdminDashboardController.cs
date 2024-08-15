@@ -23,6 +23,10 @@ namespace MarvelApi_Mvc.Controllers
 
         }
 
+        public async Task<ActionResult> IndexAdminDashboard(){
+            return View();
+        }
+
         public async Task<ActionResult> IndexDashboardCharacters()
         {
             return View();
