@@ -46,14 +46,6 @@ namespace MarvelApi_Mvc.Services.Implementation
                     Text = x.Name,
                 }).ToList();
 
-                availableTeamsListItems.Insert(0,
-                    new SelectListItem
-                    {
-                        Value = "",
-                        Text = "Select a team"
-                    }
-                );
-
                 return availableTeamsListItems;
             }
             return new List<SelectListItem>();
