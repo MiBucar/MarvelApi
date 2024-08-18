@@ -13,14 +13,10 @@ namespace MarvelApi_Mvc.Controllers
     public class TeamController : Controller
     {
         private readonly ITeamService _teamService;
-        private readonly ICharacterService _characterService;
-        private readonly ISelectListItemGetters _selectListItemGetters;
 
-        public TeamController(ITeamService teamService, ICharacterService characterService, ISelectListItemGetters selectListItemGetters)
+        public TeamController(ITeamService teamService)
         {
             _teamService = teamService;
-            _characterService = characterService;
-            _selectListItemGetters = selectListItemGetters;
         }
 
         public async Task<ActionResult> IndexTeams(string searchQuery, int page = 1, int pageSize = 20)
@@ -69,106 +65,6 @@ namespace MarvelApi_Mvc.Controllers
 				teamVM.Members = existingMembers;
 			}
 			return View(teamVM);
-        }
-
-		[Authorize(Roles = "Admin")]
-		public async Task<ActionResult> CreateTeam()
-        {
-            var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
-
-            var teamCreateViewModel = new TeamCreateViewModel();
-            TeamCreateDTO teamCreateDTO = new TeamCreateDTO();
-            teamCreateViewModel.AvailableCharacters = availableCharacters;
-            teamCreateViewModel.TeamCreateDTO = teamCreateDTO;
-            return View(teamCreateViewModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-		[Authorize(Roles = "Admin")]
-		public async Task<ActionResult> CreateTeam(TeamCreateViewModel teamCreateViewModel)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    if (teamCreateViewModel.TeamCreateDTO.ImageFile != null){
-                        using (var memoryStream = new MemoryStream()){
-                            await teamCreateViewModel.TeamCreateDTO.ImageFile.CopyToAsync(memoryStream);
-                            teamCreateViewModel.TeamCreateDTO.Image = memoryStream.ToArray();
-                        }
-                    }
-
-                    var response = await _teamService.CreateAsync<ApiResponse>(teamCreateViewModel.TeamCreateDTO);
-                    if (response != null && response.IsSuccess)
-                    {
-                        return RedirectToAction(nameof(IndexTeams));
-                    }
-                    else if (response == null){
-                        ModelState.AddModelError(string.Empty, "Only admin is allowed to make this action");
-                    }
-                }
-
-                var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
-                teamCreateViewModel.AvailableCharacters = availableCharacters;
-                return View(teamCreateViewModel);
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-		[Authorize(Roles = "Admin")]
-		public async Task<ActionResult> UpdateTeam(int id)
-        {
-            var team = await _selectListItemGetters.GetTeamAsync(id);
-            var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
-
-            TeamUpdateViewModel teamUpdateViewModel = new TeamUpdateViewModel();
-            teamUpdateViewModel.TeamUpdateDTO = team;
-            teamUpdateViewModel.AvailableCharacters = availableCharacters;
-            return View(teamUpdateViewModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-		[Authorize(Roles = "Admin")]
-		public async Task<ActionResult> UpdateTeam(TeamUpdateViewModel teamUpdateViewModel)
-        {
-            try
-            {
-                if (teamUpdateViewModel.TeamUpdateDTO.ImageFile != null){
-                        using (var memoryStream = new MemoryStream()){
-                            await teamUpdateViewModel.TeamUpdateDTO.ImageFile.CopyToAsync(memoryStream);
-                            teamUpdateViewModel.TeamUpdateDTO.Image = memoryStream.ToArray();
-                        }
-                    }
-
-                var response = await _teamService.UpdateAsync<ApiResponse>(teamUpdateViewModel.TeamUpdateDTO);
-                if (response != null && response.IsSuccess)
-                {
-                    return RedirectToAction(nameof(IndexTeams));
-                }
-                else if (response == null){
-                        ModelState.AddModelError(string.Empty, "Only admin is allowed to make this action");
-                }
-
-                var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
-                teamUpdateViewModel.AvailableCharacters = availableCharacters;
-                return View(teamUpdateViewModel);
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-		[Authorize(Roles = "Admin")]
-		public async Task<ActionResult> DeleteTeam(int id)
-        {
-            var response = await _teamService.DeleteAsync<ApiResponse>(id);
-            return RedirectToAction(nameof(IndexTeams));
         }
     }
 }

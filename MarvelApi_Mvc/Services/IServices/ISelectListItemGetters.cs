@@ -8,7 +8,7 @@ namespace MarvelApi_Mvc.Services.IServices
     {
         Task<List<SelectListItem>> GetAvailableCharactersAsync();
         Task<List<SelectListItem>> GetAvailableTeamsAsync();
-        Task<CharacterUpdateDTO> GetCharacterAsync(int id);
-        Task<TeamUpdateDTO> GetTeamAsync(int id);
+        Task<CharacterDTO> GetCharacterAsync(int id);
+        Task<TeamDTO> GetTeamAsync(int id);
     }
 }

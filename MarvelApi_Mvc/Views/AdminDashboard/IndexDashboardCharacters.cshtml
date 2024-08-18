@@ -1,0 +1,57 @@
+﻿@using MarvelApi_Mvc.Models.ViewModels.Character
+@model CharactersManagementViewModel
+
+<body>
+    <section class="starting-section">
+        <div class="main-container">
+            <div class="container-header">
+                <h2>Characters</h2>
+            </div>
+            <div class="filter-container">
+                <div class="filter-container-search">
+                    <form asp-controller="AdminDashboard" asp-action="IndexDashboardCharacters" method="get"
+                          class="form-inline mb-4 justify-content-center">
+                        <div class="filter-search">
+                            <input type="text" name="searchQuery" class="search-input no-skew" aria-label="Search characters" placeholder="search">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="filter-container-buttons">
+                    <a asp-controller="AdminDashboard" asp-action="CreateCharacter" class="btn-submit">New Character</a>
+                </div>
+            </div>
+            <div class="item-container">
+                <div class="characters-container-grid item-container-header">
+                    <div class="optional-item"></div>
+                    <div><h3>Id</h3></div>
+                    <div><h3>Name</h3></div>
+                    <div class="optional-item"><h3>Villain</h3></div>
+                    <div></div>
+                </div>
+                @foreach (var character in Model.Characters)
+                {
+                    <div class="characters-container-grid item-container-items">
+                        <div class="optional-item characters-img-container">
+                            <img src="data:image/png;base64,@Convert.ToBase64String(character.Image)" alt="comic-img" class="">
+                        </div>
+                        <div><h3>@character.Id</h3></div>
+                        <div><h3>@character.Name</h3></div>
+                        @if (character.IsVillain)
+                        {
+                            <div class="optional-item"><h3>Yes</h3></div>
+                        }
+                        else
+                        {
+                            <div class="optional-item"><h3>No</h3></div>
+                        }
+                        <div class="item-container-buttons">
+                            <a asp-controller="AdminDashboard" asp-action="UpdateCharacter" asp-route-id="@character.Id" class="btn-edit"><i class="fa-solid fa-pen"></i></a>
+                            <a asp-controller="AdminDashboard" asp-action="DeleteCharacter" asp-route-id="@character.Id" class="btn-cancel"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>        
+    </section>
+</body>

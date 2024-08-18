@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MarvelApi_Mvc</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MarvelApi_Mvc.styles.css" asp-append-version="true" />
@@ -34,6 +35,9 @@
                         </li>
                         <li class="nav-item">
                             <a asp-controller="Team" asp-action="IndexTeams" class="nav-link">Teams</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="AdminDashboard" asp-action="IndexAdminDashboard" class="nav-link">Admin Dashboard</a>
                         </li>
                         <li class="nav-item">
                             @if (User.Identity.IsAuthenticated)
@@ -98,6 +102,7 @@
         <script src="~/js/waypoints.min.js"></script>
         <script src="~/js/custom.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
         <script src="https://kit.fontawesome.com/3b4a9fa9a2.js" crossorigin="anonymous"></script>
         @await RenderSectionAsync("Scripts", required: false)
 </body>

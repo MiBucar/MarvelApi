@@ -1,11 +1,12 @@
-﻿using MarvelApi_Mvc.Models.DTOs.TeamDTOs;
+﻿using MarvelApi_Mvc.Models.DTOs.CharacterDTOs;
+using MarvelApi_Mvc.Models.DTOs.TeamDTOs;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MarvelApi_Mvc.Models.ViewModels.Team
 {
-    public class TeamUpdateViewModel
+    public class CreateTeamViewModel
     {
-        public TeamUpdateDTO TeamUpdateDTO { get; set; }
+        public TeamCreateDTO TeamCreateDTO { get; set; }
         public List<SelectListItem> AvailableCharacters { get; set; } = new List<SelectListItem>();
     }
 }

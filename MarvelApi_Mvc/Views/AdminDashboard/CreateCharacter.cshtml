@@ -1,0 +1,180 @@
+﻿@using MarvelApi_Mvc.Models.ViewModels.Character
+@model CharacterCreateViewModel
+<br />
+<script src="~/js/jquery-3.6.3.min.js"></script>
+<body>
+    <section class="starting-section">
+        <form asp-controller="AdminDashboard" asp-action="CreateCharacter" method="post"
+        enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="custom-text-danger"></div>
+            <div class="character-form-container">
+                <div class="character-form-subcontainer">
+                    <div class="character-form-container-header">
+                        <h2>Create Character</h2>
+                    </div>
+                    <div class="character-form-container-header">
+                        <h3>Information</h3>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.Name"></label>
+                        <input class="search-input" asp-for="CharacterCreateDTO.Name" placeholder="Iron Man"/>
+                        <span asp-validation-for="CharacterCreateDTO.Name" class="custom-text-danger"></span>
+                    </div>                                        
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.Eyes"></label>
+                        <input class="search-input" asp-for="CharacterCreateDTO.Eyes" placeholder="Blue" />
+                        <span asp-validation-for="CharacterCreateDTO.Eyes" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.Weight"></label>
+                        <input class="search-input" asp-for="CharacterCreateDTO.Weight" placeholder="84" min="0" />
+                        <span asp-validation-for="CharacterCreateDTO.Weight" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.Height"></label>
+                        <input class="search-input" asp-for="CharacterCreateDTO.Height" placeholder="178" min="0" />
+                        <span asp-validation-for="CharacterCreateDTO.Height" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>Powers</label>
+                        <textarea class="search-input search-input-textbox" asp-for="CharacterCreateDTO.Powers" placeholder="360 Vision, Energy Blasts, Repulsor Rays..."></textarea>
+                        <span asp-validation-for="CharacterCreateDTO.Powers" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>Hair Color</label>
+                        <input class="search-input" asp-for="CharacterCreateDTO.Hair" placeholder="Black" />
+                        <span asp-validation-for="CharacterCreateDTO.Hair" class="custom-text-danger"></span>
+                    </div>                    
+                    <div class="character-form-container-checkbox mt-2">
+                        <input class="search-input search-input-checkbox" type="checkbox" asp-for="CharacterCreateDTO.IsVillain" />
+                        <label>Villain</label>
+                    </div>
+                </div>
+                <div class="character-form-subcontainer">
+                    <div class="character-form-container-header">
+                        <h3>Story</h3>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>Place of origin</label>
+                        <input class="search-input" asp-for="CharacterCreateDTO.Origin" placeholder="Long Island, New York" />
+                        <span asp-validation-for="CharacterCreateDTO.Origin" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>First Appearence Year</label>
+                        <input class="search-input" asp-for="CharacterCreateDTO.FirstAppearanceYear" placeholder="Blue" />
+                        <span asp-validation-for="CharacterCreateDTO.Eyes" class="custom-text-danger"></span>
+                    </div>                    
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.Appearance"></label>
+                        <textarea class="search-input search-input-textbox" asp-for="CharacterCreateDTO.Appearance" placeholder="Iron Man 1, Iron Man 2, Avengers: Infinity War..."></textarea>
+                        <span asp-validation-for="CharacterCreateDTO.Appearance" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>Biography</label>
+                        <textarea class="search-input search-input-textbox" asp-for="CharacterCreateDTO.Backstory" placeholder="Tony Stark is the wealthy son of industrialist and weapons manufacturer Howard Stark..."></textarea>
+                        <span asp-validation-for="CharacterCreateDTO.Backstory" class="custom-text-danger"></span>
+                    </div>
+                </div>
+                <div class="character-form-subcontainer">
+                    <div class="character-form-container-header">
+                        <h3>Statistics</h3>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.Durability"></label>
+                        <input type="number" class="search-input" asp-for="CharacterCreateDTO.Durability" placeholder="5" max="10" min="0" />
+                        <span asp-validation-for="CharacterCreateDTO.Durability" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.Energy"></label>
+                        <input type="number" class="search-input" asp-for="CharacterCreateDTO.Energy" placeholder="3" max="10" min="0" />
+                        <span asp-validation-for="CharacterCreateDTO.Energy" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>Fighting Skills</label>
+                        <input type="number" class="search-input" asp-for="CharacterCreateDTO.FightingSkills" placeholder="4" max="10" min="0" />
+                        <span asp-validation-for="CharacterCreateDTO.FightingSkills" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.Strength"></label>
+                        <input type="number" class="search-input" asp-for="CharacterCreateDTO.Strength" placeholder="4" max="10" min="0" />
+                        <span asp-validation-for="CharacterCreateDTO.Strength" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.Intelligence"></label>
+                        <input type="number" class="search-input" asp-for="CharacterCreateDTO.Intelligence" placeholder="8" max="10" min="0" />
+                        <span asp-validation-for="CharacterCreateDTO.Intelligence" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.Speed"></label>
+                        <input type="number" class="search-input" asp-for="CharacterCreateDTO.Speed" placeholder="6" max="10" min="0" />
+                        <span asp-validation-for="CharacterCreateDTO.Speed" class="custom-text-danger"></span>
+                    </div>
+                </div>
+                <div class="character-form-subcontainer">
+                    <div class="character-form-container-header">
+                        <h3>Connections</h3>
+                    </div>
+                    <div class="character-form-container-box col-span-2">
+                        <label asp-for="CharacterCreateDTO.TeamId">Team</label>
+                        <select class="search-input search-input-select" asp-for="CharacterCreateDTO.TeamId" asp-items="Model.AvailableTeams">
+                            <option value="">Select a team</option>
+                        </select>
+                        <span asp-validation-for="CharacterCreateDTO.TeamId" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box"></div>
+                    <div class="character-form-container-box col-span-2">
+                        <label>Select Allies</label>
+                        <select class="search-input searchable-dropdown" asp-for="CharacterCreateDTO.AllyIds" asp-items="Model.AvailableCharacters" multiple="multiple">
+                        </select>
+                        <span asp-validation-for="CharacterCreateDTO.AllyIds" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box col-span-2">
+                        <label>Select Enemies</label>
+                        <select class="search-input searchable-dropdown" asp-for="CharacterCreateDTO.EnemyIds" asp-items="Model.AvailableCharacters" multiple="multiple">
+                        </select>
+                        <span asp-validation-for="CharacterCreateDTO.EnemyIds" class="custom-text-danger"></span>
+                    </div>
+                </div>
+                <div class="character-form-subcontainer subcontainer-image">
+                    <div class="character-form-container-header">
+                        <h3>Image</h3>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterCreateDTO.ImageFile">Upload Image</label>
+                        <input type="file" class="search-input lower-skew" asp-for="CharacterCreateDTO.ImageFile" accept="image/*" onchange="previewImage(event)" />
+                        <span asp-validation-for="CharacterCreateDTO.ImageFile" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <img id="imagePreview" style="display:none" src="#" alt="Image Preview" />
+                    </div>
+                </div>
+                <div class="character-form-subcontainer">
+                    <div class="button-container-box col-span-2">
+                        <button type="submit" class="btn-submit search-input-btn">Submit</button>
+                        <a href="@Url.Action("IndexDashboardCharacters", "AdminDashboard")" class="btn-cancel search-input-btn">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</body>
+
+<script>
+    $(document).ready(function () {
+        $('.searchable-dropdown').select2({
+            placeholder: "Select characters",
+            allowClear: true,
+            width: '100%'
+        });
+    });
+
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('imagePreview');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>

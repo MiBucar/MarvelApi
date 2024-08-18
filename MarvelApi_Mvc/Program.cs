@@ -1,3 +1,4 @@
+using MarvelApi_Mvc;
 using MarvelApi_Mvc.Handlers;
 using MarvelApi_Mvc.Services.Implementation;
 using MarvelApi_Mvc.Services.IServices;
@@ -23,6 +24,8 @@ builder.Services.AddSession(options => {
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
               .AddCookie(options =>

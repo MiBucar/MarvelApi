@@ -1,0 +1,48 @@
+﻿@using MarvelApi_Mvc.Models.ViewModels.Team
+@model TeamManagementViewModel
+
+<body>
+    <section class="starting-section">
+        <div class="main-container">
+            <div class="container-header">
+                <h2>Teams</h2>
+            </div>
+            <div class="filter-container">
+                <div class="filter-container-search">
+                    <form asp-controller="AdminDashboard" asp-action="IndexDashboardTeams" method="get"
+                          class="form-inline mb-4 justify-content-center">
+                        <div class="filter-search">
+                            <input type="text" name="searchQuery" class="search-input no-skew" aria-label="Search teams" placeholder="search">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="filter-container-buttons">
+                    <a asp-controller="AdminDashboard" asp-action="CreateTeam" class="btn-submit">New Team</a>
+                </div>
+            </div>
+            <div class="item-container">
+                <div class="teams-container-grid item-container-header">
+                    <div class="optional-item"></div>
+                    <div><h3>Id</h3></div>
+                    <div><h3>Name</h3></div>
+                    <div></div>
+                </div>
+                @foreach (var team in Model.Teams)
+                {
+                    <div class="teams-container-grid item-container-items">
+                        <div class="optional-item characters-img-container">
+                            <img src="data:image/png;base64,@Convert.ToBase64String(team.Image)" alt="comic-img" class="">
+                        </div>
+                        <div><h3>@team.Id</h3></div>
+                        <div><h3>@team.Name</h3></div>
+                        <div class="item-container-buttons">
+                            <a asp-controller="AdminDashboard" asp-action="UpdateTeam" asp-route-id="@team.Id" class="btn-edit"><i class="fa-solid fa-pen"></i></a>
+                            <a asp-controller="AdminDashboard" asp-action="DeleteTeam" asp-route-id="@team.Id" class="btn-cancel"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</body>

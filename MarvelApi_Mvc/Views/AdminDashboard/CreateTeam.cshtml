@@ -1,0 +1,82 @@
+﻿@using MarvelApi_Mvc.Models.ViewModels.Team
+@model CreateTeamViewModel
+<br />
+<script src="~/js/jquery-3.6.3.min.js"></script>
+<body>
+    <section class="starting-section">
+        <form asp-controller="AdminDashboard" asp-action="CreateTeam" method="post"
+              enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="custom-text-danger"></div>
+            <div class="character-form-container">
+                <div class="character-form-subcontainer">
+                    <div class="character-form-container-header">
+                        <h2>Create Team</h2>
+                    </div>
+                    <div class="character-form-container-header">
+                        <h3>Information</h3>
+                    </div>
+                    <div class="character-form-container-box col-span-2">
+                        <label asp-for="TeamCreateDTO.Name"></label>
+                        <input class="search-input" asp-for="TeamCreateDTO.Name" placeholder="Avengers" />
+                        <span asp-validation-for="TeamCreateDTO.Name" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box col-span-2">
+                        <label>Description</label>
+                        <textarea class="search-input search-input-textbox" asp-for="TeamCreateDTO.Description" placeholder="Earth's Mightiest Heroes stand as the planet's first line of defense against the most powerful..."></textarea>
+                        <span asp-validation-for="TeamCreateDTO.Description" class="custom-text-danger"></span>
+                    </div>
+                </div>
+                <div class="character-form-subcontainer">
+                    <div class="character-form-container-header">
+                        <h3>Connections</h3>
+                    </div>
+                    <div class="character-form-container-box col-span-2">
+                        <label>Select Members</label>
+                        <select class="search-input searchable-dropdown" asp-for="TeamCreateDTO.MemberIds" asp-items="Model.AvailableCharacters" multiple="multiple">
+                        </select>
+                        <span asp-validation-for="TeamCreateDTO.MemberIds" class="custom-text-danger"></span>
+                    </div>
+                </div>
+                <div class="character-form-subcontainer subcontainer-image">
+                    <div class="character-form-container-header">
+                        <h3>Image</h3>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="TeamCreateDTO.ImageFile">Upload Image</label>
+                        <input type="file" class="search-input lower-skew" asp-for="TeamCreateDTO.ImageFile" accept="image/*" onchange="previewImage(event)" />
+                        <span asp-validation-for="TeamCreateDTO.ImageFile" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <img id="imagePreview" src="#" style="display:none" alt="Image Preview" />
+                    </div>
+                </div>
+                <div class="character-form-subcontainer">
+                    <div class="button-container-box col-span-2">
+                        <button type="submit" class="btn-submit search-input-btn">Submit</button>
+                        <a href="@Url.Action("IndexDashboardTeams", "AdminDashboard")" class="btn-cancel search-input-btn">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</body>
+
+<script>
+    $(document).ready(function () {
+        $('.searchable-dropdown').select2({
+            placeholder: "Select memebers",
+            allowClear: true,
+            width: '100%'
+        });
+    });
+
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('imagePreview');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
