@@ -10,6 +10,9 @@
             <div class="character-form-container">
                 <div class="character-form-subcontainer">
                     <div class="character-form-container-header">
+                        <h2>Create Character</h2>
+                    </div>
+                    <div class="character-form-container-header">
                         <h3>Information</h3>
                     </div>
                     <div class="character-form-container-box">
@@ -142,13 +145,13 @@
                         <span asp-validation-for="CharacterCreateDTO.ImageFile" class="custom-text-danger"></span>
                     </div>
                     <div class="character-form-container-box">
-                        <img id="imagePreview" src="#" alt="Image Preview" />
+                        <img id="imagePreview" style="display:none" src="#" alt="Image Preview" />
                     </div>
                 </div>
                 <div class="character-form-subcontainer">
                     <div class="button-container-box col-span-2">
                         <button type="submit" class="btn-submit search-input-btn">Submit</button>
-                        <a href="@Url.Action("IndexCharacters", "Character")" class="btn-cancel search-input-btn">Cancel</a>
+                        <a href="@Url.Action("IndexDashboardCharacters", "AdminDashboard")" class="btn-cancel search-input-btn">Cancel</a>
                     </div>
                 </div>
             </div>

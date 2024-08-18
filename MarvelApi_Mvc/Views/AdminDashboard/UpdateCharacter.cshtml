@@ -1,225 +1,180 @@
 ﻿@using MarvelApi_Mvc.Models.ViewModels.Character
 @model CharacterUpdateViewModel
 <br />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/js/jquery-3.6.3.min.js"></script>
+<body>
+    <section class="starting-section">
+        <form asp-controller="AdminDashboard" asp-action="UpdateCharacter" method="post"
+              enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="custom-text-danger"></div>
+            <div class="character-form-container">
+                <div class="character-form-subcontainer">
+                    <div class="character-form-container-header">
+                        <h2>Update Character</h2>
+                    </div>
+                    <div class="character-form-container-header">
+                        <h3>Information</h3>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.Name"></label>
+                        <input class="search-input" asp-for="CharacterUpdateDTO.Name" placeholder="Iron Man" />
+                        <span asp-validation-for="CharacterUpdateDTO.Name" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.Eyes"></label>
+                        <input class="search-input" asp-for="CharacterUpdateDTO.Eyes" placeholder="Blue" />
+                        <span asp-validation-for="CharacterUpdateDTO.Eyes" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.Weight"></label>
+                        <input class="search-input" asp-for="CharacterUpdateDTO.Weight" placeholder="84" min="0" />
+                        <span asp-validation-for="CharacterUpdateDTO.Weight" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.Height"></label>
+                        <input class="search-input" asp-for="CharacterUpdateDTO.Height" placeholder="178" min="0" />
+                        <span asp-validation-for="CharacterUpdateDTO.Height" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>Powers</label>
+                        <textarea class="search-input search-input-textbox" asp-for="CharacterUpdateDTO.Powers" placeholder="360 Vision, Energy Blasts, Repulsor Rays..."></textarea>
+                        <span asp-validation-for="CharacterUpdateDTO.Powers" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>Hair Color</label>
+                        <input class="search-input" asp-for="CharacterUpdateDTO.Hair" placeholder="Black" />
+                        <span asp-validation-for="CharacterUpdateDTO.Hair" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-checkbox mt-2">
+                        <input class="search-input search-input-checkbox" type="checkbox" asp-for="CharacterUpdateDTO.IsVillain" />
+                        <label>Villain</label>
+                    </div>
+                </div>
+                <div class="character-form-subcontainer">
+                    <div class="character-form-container-header">
+                        <h3>Story</h3>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>Place of origin</label>
+                        <input class="search-input" asp-for="CharacterUpdateDTO.Origin" placeholder="Long Island, New York" />
+                        <span asp-validation-for="CharacterUpdateDTO.Origin" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>First Appearence Year</label>
+                        <input class="search-input" asp-for="CharacterUpdateDTO.FirstAppearanceYear" placeholder="Blue" />
+                        <span asp-validation-for="CharacterUpdateDTO.Eyes" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.Appearance"></label>
+                        <textarea class="search-input search-input-textbox" asp-for="CharacterUpdateDTO.Appearance" placeholder="Iron Man 1, Iron Man 2, Avengers: Infinity War..."></textarea>
+                        <span asp-validation-for="CharacterUpdateDTO.Appearance" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>Biography</label>
+                        <textarea class="search-input search-input-textbox" asp-for="CharacterUpdateDTO.Backstory" placeholder="Tony Stark is the wealthy son of industrialist and weapons manufacturer Howard Stark..."></textarea>
+                        <span asp-validation-for="CharacterUpdateDTO.Backstory" class="custom-text-danger"></span>
+                    </div>
+                </div>
+                <div class="character-form-subcontainer">
+                    <div class="character-form-container-header">
+                        <h3>Statistics</h3>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.Durability"></label>
+                        <input type="number" class="search-input" asp-for="CharacterUpdateDTO.Durability" placeholder="5" max="10" min="0" />
+                        <span asp-validation-for="CharacterUpdateDTO.Durability" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.Energy"></label>
+                        <input type="number" class="search-input" asp-for="CharacterUpdateDTO.Energy" placeholder="3" max="10" min="0" />
+                        <span asp-validation-for="CharacterUpdateDTO.Energy" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label>Fighting Skills</label>
+                        <input type="number" class="search-input" asp-for="CharacterUpdateDTO.FightingSkills" placeholder="4" max="10" min="0" />
+                        <span asp-validation-for="CharacterUpdateDTO.FightingSkills" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.Strength"></label>
+                        <input type="number" class="search-input" asp-for="CharacterUpdateDTO.Strength" placeholder="4" max="10" min="0" />
+                        <span asp-validation-for="CharacterUpdateDTO.Strength" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.Intelligence"></label>
+                        <input type="number" class="search-input" asp-for="CharacterUpdateDTO.Intelligence" placeholder="8" max="10" min="0" />
+                        <span asp-validation-for="CharacterUpdateDTO.Intelligence" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.Speed"></label>
+                        <input type="number" class="search-input" asp-for="CharacterUpdateDTO.Speed" placeholder="6" max="10" min="0" />
+                        <span asp-validation-for="CharacterUpdateDTO.Speed" class="custom-text-danger"></span>
+                    </div>
+                </div>
+                <div class="character-form-subcontainer">
+                    <div class="character-form-container-header">
+                        <h3>Connections</h3>
+                    </div>
+                    <div class="character-form-container-box col-span-2">
+                        <label asp-for="CharacterUpdateDTO.TeamId">Team</label>
+                        <select class="search-input search-input-select" asp-for="CharacterUpdateDTO.TeamId" asp-items="Model.AvailableTeams">
+                            <option value="">Select a team</option>
+                        </select>
+                        <span asp-validation-for="CharacterUpdateDTO.TeamId" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box"></div>
+                    <div class="character-form-container-box col-span-2">
+                        <label>Select Allies</label>
+                        <select class="search-input searchable-dropdown" asp-for="CharacterUpdateDTO.AllyIds" asp-items="Model.AvailableCharacters" multiple="multiple">
+                        </select>
+                        <span asp-validation-for="CharacterUpdateDTO.AllyIds" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box col-span-2">
+                        <label>Select Enemies</label>
+                        <select class="search-input searchable-dropdown" asp-for="CharacterUpdateDTO.EnemyIds" asp-items="Model.AvailableCharacters" multiple="multiple">
+                        </select>
+                        <span asp-validation-for="CharacterUpdateDTO.EnemyIds" class="custom-text-danger"></span>
+                    </div>
+                </div>
+                <div class="character-form-subcontainer subcontainer-image">
+                    <div class="character-form-container-header">
+                        <h3>Image</h3>
+                    </div>
+                    <div class="character-form-container-box">
+                        <label asp-for="CharacterUpdateDTO.ImageFile">Upload Image</label>
+                        <input type="file" class="search-input lower-skew" asp-for="CharacterUpdateDTO.ImageFile" accept="image/*" onchange="previewImage(event)" />
+                        <span asp-validation-for="CharacterUpdateDTO.ImageFile" class="custom-text-danger"></span>
+                    </div>
+                    <div class="character-form-container-box">
+                        <img id="imagePreview" src="@(Model.CharacterUpdateDTO.Image != null ? $"data:image/png;base64,{Convert.ToBase64String(Model.CharacterUpdateDTO.Image)}" : "#")" alt="Image Preview" />
+                    </div>
+                </div>
+                <div class="character-form-subcontainer">
+                    <div class="button-container-box col-span-2">
+                        <button type="submit" class="btn-submit search-input-btn">Submit</button>
+                        <a href="@Url.Action("IndexDashboardCharacters", "AdminDashboard")" class="btn-cancel search-input-btn">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</body>
 
-<form asp-controller="Character" asp-action="UpdateCharacter" method="post" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input asp-for="CharacterUpdateDTO.Id" type="hidden" />
-    <!-- Name -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Name" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Name" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Name" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Durability -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Durability" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Durability" type="number" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Durability" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Energy -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Energy" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Energy" type="number" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Energy" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Fighting Skills -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.FightingSkills" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.FightingSkills" type="number" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.FightingSkills" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Strength -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Strength" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Strength" type="number" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Strength" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Intelligence -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Intelligence" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Intelligence" type="number" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Intelligence" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Speed -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Speed" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Speed" type="number" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Speed" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Height -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Height" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Height" type="number" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Height" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Eyes -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Eyes" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Eyes" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Eyes" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Weight -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Weight" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Weight" type="number" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Weight" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Hair -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Hair" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Hair" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Hair" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Checkbox -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.IsVillain" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            @Html.CheckBoxFor(x => x.CharacterUpdateDTO.IsVillain)
-        </div>
-    </div>
-    <!-- Backstory -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Backstory" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Backstory" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Backstory" class="text-danger"></span>
-        </div>
-    </div>
-    <!--Image  -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.ImageFile" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.ImageFile" type="file" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.ImageFile" class="text-danger"></span>
-        </div>
-    </div>
-    <!--Appearance  -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Appearance" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Appearance" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Appearance" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- First Appearance  -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.FirstAppearanceYear" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.FirstAppearanceYear" type="number" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.FirstAppearanceYear" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Origin -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Origin" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Origin" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Origin" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Powers -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.Powers" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="CharacterUpdateDTO.Powers" class="form-control" />
-            <span asp-validation-for="CharacterUpdateDTO.Powers" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Team -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label class="control-label pt-2" style="font-size: 20px">Team</label>
-        </div>
-        <div class="col-6">
-            <select asp-for="CharacterUpdateDTO.TeamId" asp-items="Model.AvailableTeams" class="form-control"></select>
-            <span asp-validation-for="CharacterUpdateDTO.TeamId" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- EnemyIds -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.EnemyIds" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <select asp-for="CharacterUpdateDTO.EnemyIds" asp-items="Model.AvailableCharacters" class="form-control" multiple="multiple"></select>
-            <span asp-validation-for="CharacterUpdateDTO.EnemyIds" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- AllyIds -->
-    <div class="row m-2">
-        <div class="col-2">
-            <label asp-for="CharacterUpdateDTO.AllyIds" class="control-label pt-2" style="font-size: 20px"></label>
-        </div>
-        <div class="col-6">
-            <select asp-for="CharacterUpdateDTO.AllyIds" asp-items="Model.AvailableCharacters" class="form-control" multiple="multiple"></select>
-            <span asp-validation-for="CharacterUpdateDTO.AllyIds" class="text-danger"></span>
-        </div>
-    </div>
-    <!-- Submit Button -->
-    <div class="row m-2">
-        <div class="col-3 d-flex">
-            <button type="submit" class="btn btn-success flex-grow-1 mr-2">Submit</button>
-            <a href="@Url.Action("IndexCharacter", "Character")" class="btn btn-danger flex-grow-1">Cancel</a>
-        </div>
-    </div>
-</form>
+<script>
+    $(document).ready(function () {
+        $('.searchable-dropdown').select2({
+            placeholder: "Select characters",
+            allowClear: true,
+            width: '100%'
+        });
+    });
+
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('imagePreview');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>

@@ -51,41 +51,41 @@ namespace MarvelApi_Mvc.Services.Implementation
             return new List<SelectListItem>();
         }
 
-        public async Task<CharacterUpdateDTO> GetCharacterAsync(int id)
+        public async Task<CharacterDTO> GetCharacterAsync(int id)
         {
             try
             {
                 var response = await _characterService.GetAsync<ApiResponse>(id);
                 if (response != null && response.IsSuccess)
                 {
-                    var character = JsonConvert.DeserializeObject<CharacterUpdateDTO>(Convert.ToString(response.Result));
+                    var character = JsonConvert.DeserializeObject<CharacterDTO>(Convert.ToString(response.Result));
                     return character;
                 }
 
-                return new CharacterUpdateDTO();
+                return new CharacterDTO();
             }
             catch (Exception e)
             {
-                return new CharacterUpdateDTO();
+                return new CharacterDTO();
             }
         }
 
-        public async Task<TeamUpdateDTO> GetTeamAsync(int id)
+        public async Task<TeamDTO> GetTeamAsync(int id)
         {
             try
             {
                 var response = await _teamService.GetAsync<ApiResponse>(id);
                 if (response != null && response.IsSuccess)
                 {
-                    var team = JsonConvert.DeserializeObject<TeamUpdateDTO>(Convert.ToString(response.Result));
+                    var team = JsonConvert.DeserializeObject<TeamDTO>(Convert.ToString(response.Result));
                     return team;
                 }
 
-                return new TeamUpdateDTO();
+                return new TeamDTO();
             }
             catch (Exception e)
             {
-                return new TeamUpdateDTO();
+                return new TeamDTO();
             }
         }
     }

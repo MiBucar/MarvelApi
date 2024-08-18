@@ -1,4 +1,5 @@
-﻿using MarvelApi_Mvc.Models;
+﻿using AutoMapper;
+using MarvelApi_Mvc.Models;
 using MarvelApi_Mvc.Models.DTOs.CharacterDTOs;
 using MarvelApi_Mvc.Models.DTOs.TeamDTOs;
 using MarvelApi_Mvc.Models.ViewModels.Character;
@@ -7,6 +8,7 @@ using MarvelApi_Mvc.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace MarvelApi_Mvc.Controllers
 {
@@ -15,13 +17,14 @@ namespace MarvelApi_Mvc.Controllers
         private readonly ICharacterService _characterService;
         private readonly ITeamService _teamService;
         private readonly ISelectListItemGetters _selectListItemGetters;
+        private readonly IMapper _autoMapper;
 
-        public AdminDashboardController(ICharacterService character, ITeamService teamService, ISelectListItemGetters selectListItemGetters)
+        public AdminDashboardController(ICharacterService character, ITeamService teamService, ISelectListItemGetters selectListItemGetters, IMapper autoMapper)
         {
             _teamService = teamService;
             _characterService = character;
             _selectListItemGetters = selectListItemGetters;
-
+            _autoMapper = autoMapper;
         }
 
         public async Task<ActionResult> IndexAdminDashboard(){
@@ -40,8 +43,15 @@ namespace MarvelApi_Mvc.Controllers
             return View();
         }
 
-        public async Task<ActionResult> IndexDashboardTeams()
+        public async Task<ActionResult> IndexDashboardTeams(string searchQuery)
         {
+            TeamManagementViewModel teamManagementViewModel = new TeamManagementViewModel();
+            var apiResponse = await _teamService.SearchAsync<ApiResponse>(searchQuery);
+            if (apiResponse != null && apiResponse.IsSuccess)
+            {
+                teamManagementViewModel.Teams = JsonConvert.DeserializeObject<IEnumerable<TeamDTO>>(Convert.ToString(apiResponse.Result));
+                return View(teamManagementViewModel);
+            }
             return View();
         }
 
@@ -104,10 +114,11 @@ namespace MarvelApi_Mvc.Controllers
         {
             var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
             var availableTeams = await _selectListItemGetters.GetAvailableTeamsAsync();
-            var characterForUpdate = await _selectListItemGetters.GetCharacterAsync(id);
+            var characterDTO = await _selectListItemGetters.GetCharacterAsync(id);
+            var characterUpdateDTO = _autoMapper.Map<CharacterUpdateDTO>(characterDTO);
 
             CharacterUpdateViewModel characterUpdateVM = new CharacterUpdateViewModel();
-            characterUpdateVM.CharacterUpdateDTO = characterForUpdate;
+            characterUpdateVM.CharacterUpdateDTO = characterUpdateDTO;
             characterUpdateVM.AvailableCharacters = availableCharacters;
             characterUpdateVM.AvailableTeams = availableTeams;
             return View(characterUpdateVM);
@@ -166,7 +177,7 @@ namespace MarvelApi_Mvc.Controllers
         {
             var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
 
-            var teamCreateViewModel = new TeamCreateViewModel();
+            var teamCreateViewModel = new CreateTeamViewModel();
             TeamCreateDTO teamCreateDTO = new TeamCreateDTO();
             teamCreateViewModel.AvailableCharacters = availableCharacters;
             teamCreateViewModel.TeamCreateDTO = teamCreateDTO;
@@ -176,7 +187,7 @@ namespace MarvelApi_Mvc.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> CreateTeam(TeamCreateViewModel teamCreateViewModel)
+        public async Task<ActionResult> CreateTeam(CreateTeamViewModel teamCreateViewModel)
         {
             try
             {
@@ -215,11 +226,12 @@ namespace MarvelApi_Mvc.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateTeam(int id)
         {
-            var team = await _selectListItemGetters.GetTeamAsync(id);
+            var teamDTO = await _selectListItemGetters.GetTeamAsync(id);
+            var teamUpdateDTO = _autoMapper.Map<TeamUpdateDTO>(teamDTO);
             var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
 
-            TeamUpdateViewModel teamUpdateViewModel = new TeamUpdateViewModel();
-            teamUpdateViewModel.TeamUpdateDTO = team;
+            UpdateTeamViewModel teamUpdateViewModel = new UpdateTeamViewModel();
+            teamUpdateViewModel.TeamUpdateDTO = teamUpdateDTO;
             teamUpdateViewModel.AvailableCharacters = availableCharacters;
             return View(teamUpdateViewModel);
         }
@@ -227,7 +239,7 @@ namespace MarvelApi_Mvc.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> UpdateTeam(TeamUpdateViewModel teamUpdateViewModel)
+        public async Task<ActionResult> UpdateTeam(UpdateTeamViewModel teamUpdateViewModel)
         {
             try
             {

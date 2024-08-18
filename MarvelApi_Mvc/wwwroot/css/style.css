@@ -2650,6 +2650,15 @@ CHARACTER ADMIN DASHBOARD
 		transform: rotate(1deg);
 	}
 
+.character-form-container-header h2 {
+	font-size: 30px;
+	font-family: cb;
+	text-transform: uppercase;
+	transform: rotate(1deg);
+	text-align: center;
+	margin: 2rem 0;
+}
+
 .character-form-container-box{
 	display: flex;
 	flex-direction: column;
@@ -2750,7 +2759,6 @@ CHARACTER ADMIN DASHBOARD
 	}
 
 #imagePreview {
-	display: none;
 	max-width: 100%;
 	height: auto;
 	border: 2px solid black;
@@ -2909,6 +2917,13 @@ CHARACTER ADMIN DASHBOARD
 	padding: 8px 0;
 }
 
+.teams-container-grid {
+	display: grid;
+	grid-template-columns: .5fr .5fr 2fr 1fr;
+	align-items: center;
+	padding: 8px 0;
+}
+
 .item-container-buttons{
 	display: flex;
 	gap: 10px;
@@ -2994,12 +3009,20 @@ CHARACTER ADMIN DASHBOARD
 		grid-template-columns: 1fr 2fr 1fr;
 	}
 
+	.teams-container-grid {
+		grid-template-columns: 1fr 2fr 1fr;
+	}
+
 	.item-container-items h3 {
 		max-width: 150px;
 	}
 
 	.main-container {
 		padding: 2rem;
+	}
+
+	.filter-container{
+		flex-direction: column;
 	}
 }
 
