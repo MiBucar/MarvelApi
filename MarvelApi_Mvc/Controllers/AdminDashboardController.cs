@@ -6,6 +6,7 @@ using MarvelApi_Mvc.Models.ViewModels.Team;
 using MarvelApi_Mvc.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MarvelApi_Mvc.Controllers
 {
@@ -27,8 +28,15 @@ namespace MarvelApi_Mvc.Controllers
             return View();
         }
 
-        public async Task<ActionResult> IndexDashboardCharacters()
+        public async Task<ActionResult> IndexDashboardCharacters(string searchQuery)
         {
+            CharactersManagementViewModel charactersManagementViewModel = new CharactersManagementViewModel();
+            var apiResponse = await _characterService.SearchAsync<ApiResponse>(searchQuery);
+            if (apiResponse != null && apiResponse.IsSuccess)
+            {
+                charactersManagementViewModel.Characters = JsonConvert.DeserializeObject<IEnumerable<CharacterDTO>>(Convert.ToString(apiResponse.Result));
+                return View(charactersManagementViewModel);
+            }
             return View();
         }
 
