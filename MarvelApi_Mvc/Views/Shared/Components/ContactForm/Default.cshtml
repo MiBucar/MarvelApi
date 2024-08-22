@@ -1,0 +1,63 @@
+﻿@using MarvelApi_Mvc.Models.DTOs.UserDTOs
+@model MailDTO
+
+<div class="modal fade" id="contact-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Contact Me</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Home" asp-action="Contact" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" asp-for=Name placeholder="Your Name">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" class="form-control" asp-for=Email placeholder="Your Email">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" asp-for=Subject placeholder="Subject">
+                                </div>
+                                <div class="col-lg-12">
+                                    <textarea class="form-control" asp-for=Comment placeholder="Write Your Comment Here..." rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="contact-item">
+                                <p>I'd love to hear from you! Whether you have questions, feedback, or just want to say hello, feel free to reach out.</p>
+                                <div class="row">
+                                    <div class="col-6 col-lg-6 contact-info">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <h3>Country:</h3>
+                                        <p>Croatia</p>
+                                    </div>
+                                    <div class="col-6 col-lg-6 contact-info mb-0">
+                                        <i class="fa-solid fa-envelope"></i>
+                                        <h3>Email:</h3>
+                                        <p>mislavbucar@gmail.com</p>
+                                    </div>
+                                    <div class="col-6 col-lg-6 contact-info mb-0">
+                                        <i class="fa-solid fa-wifi"></i>
+                                        <h3>Connect:</h3>
+                                        <div class="social">
+                                            <a href="https://www.linkedin.com/in/mislav-bu%C4%8Dar-19740323b/"><i class="fa-brands fa-linkedin"></i></a>
+                                            <a href="https://github.com/MiBucar?tab=repositories"><i class="fa-brands fa-github"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="button-primary">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
