@@ -159,6 +159,18 @@
 		img_two.css('transform', 'translate3d(' + cvalueX + 'px,' + cvalueY + 'px, 0)');
 	});
 
+	var layer2 = $('.about-container');
+
+	layer2.mousemove(function (e) {
+		var ivalueX = (e.pageX * -1 / 30);
+		var ivalueY = (e.pageY * -1 / 30);
+		var cvalueX = (e.pageX * -1 / 40);
+		var cvalueY = (e.pageY * -1 / 60);
+		img_one.css('transform', 'translate3d(' + ivalueX + 'px,' + ivalueY + 'px, 0)rotate(6deg)');
+		banner_icon.css('transform', 'translate3d(' + ivalueX + 'px,' + ivalueY + 'px, 0)rotate(20deg)');
+		img_two.css('transform', 'translate3d(' + cvalueX + 'px,' + cvalueY + 'px, 0)');
+	});
+
 	// venobox player js
 	new VenoBox({
 		selector: ".button-circular, .veno-img",

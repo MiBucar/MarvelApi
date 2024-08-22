@@ -13,6 +13,7 @@ builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<ISelectListItemGetters, SelectListItemGetters>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<IMailReceiverService, MailReceiverService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<AuthorizationHandler>();

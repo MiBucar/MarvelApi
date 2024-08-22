@@ -8,6 +8,11 @@
       typing 2s steps(40, end),
       blink-caret .75s step-end infinite;
   }
+
+.typing-text-faster {
+    animation: typing 1s steps(40, end),
+        blink-caret .75s step-end infinite;
+}
   
   @keyframes typing {
     from { width: 0 }
