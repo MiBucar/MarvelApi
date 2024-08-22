@@ -18,101 +18,36 @@
     <link rel="stylesheet" href="~/css/animation.css" />
 </head>
 
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-            <div class="container">
-                <a asp-controller="Home" asp-action="Index" class="navbar-brand">MarvelApi<span>.</span></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mt-0 mb-lg-0">
-                        <li class="nav-item">
-                            <a asp-controller="Character" asp-action="IndexCharacters" class="nav-link">Characters</a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-controller="Team" asp-action="IndexTeams" class="nav-link">Teams</a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-controller="AdminDashboard" asp-action="IndexAdminDashboard" class="nav-link">Admin Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-controller="Home" asp-action="About" class="nav-link">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#contact-modal">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <a asp-controller="User" asp-action="Logout" class="nav-link">Logout</a>
-                            }
-                            else
-                            {
-                                <a asp-controller="User" asp-action="Login" class="nav-link">Login</a>
-                            }
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>    
-    @await Component.InvokeAsync("ContactForm");
-    @RenderBody()
-
-    <!-- FOOTER AREA START -->
-    <footer id="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 footer-logo">
-                    <a href="index.html">MarvelApi<span>.</span></a>
-                    <img src="/images/footer-icon.png" alt="bat-img">
-                </div>
-                <div class="col-lg-2 col-md-4 footer-menu">
-                    <h3>Quick Link</h3>
-                    <a href="#">Home Page</a>
-                    <a href="#">About</a>
-                    <a href="#">Contact Us</a>
-                </div>
-                <div class="col-lg-2 col-md-4 footer-menu">
-                    <h3>Pages</h3>
-                    <a href="#">Characters</a>
-                    <a href="#">Teams</a>
-                </div>
-                <div class="col-lg-2 col-md-4 footer-menu">
-                    <h3>Action Link</h3>
-                    <a href="#">Contact Us</a>
-                    <a href="#">Payments</a>
-                    <a href="#">Comic Books</a>
-                    <a href="#">Community</a>
-                </div>
-                <div class="col-lg-3 footer-action">
-                    <h3>Social Media</h3>
-                    <div class="footer-social">
-                        <a href="#"><i class="fa-brands fa-github"></i></a>
-                        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                    </div>
-                </div>
+<body>    
+    <div id="preloader">
+        <div id="loading-center">
+            <div id="loading-center-absolute">
+                <div class="object" id="object_one"></div>
+                <div class="object" id="object_two"></div>
+                <div class="object" id="object_three"></div>
+                <div class="object" id="object_four"></div>
             </div>
         </div>
-        </section>
+    </div>
 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/js/jquery-3.6.3.min.js"></script>
-        <script src="~/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/slick.min.js"></script>
-        <script src="~/js/venobox.min.js"></script>
-        <script src="~/js/counter.js"></script>
-        <script src="~/js/waypoints.min.js"></script>
-        <script src="~/js/custom.js"></script>
-        <script src="~/js/modalsubmission.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-        <script src="https://kit.fontawesome.com/3b4a9fa9a2.js" crossorigin="anonymous"></script>        
-        @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("NavBar")
+    @await Component.InvokeAsync("ContactForm")
+    @RenderBody()
+    @await Component.InvokeAsync("Footer")
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/jquery-3.6.3.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
+    <script src="~/js/venobox.min.js"></script>
+    <script src="~/js/counter.js"></script>
+    <script src="~/js/waypoints.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="~/js/modalsubmission.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="https://kit.fontawesome.com/3b4a9fa9a2.js" crossorigin="anonymous"></script>        
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

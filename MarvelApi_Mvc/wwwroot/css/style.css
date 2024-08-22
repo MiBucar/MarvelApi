@@ -3322,3 +3322,8 @@ ABOUT
 		align-items: flex-end !important;
 	}
 }
+
+.footer-copyright {
+	color: #a7a7a7;
+	font-family: cm;
+}
