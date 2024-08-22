@@ -1,0 +1,41 @@
+﻿<header>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a asp-controller="Home" asp-action="Index" class="navbar-brand">MarvelApi<span>.</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mt-0 mb-lg-0">
+                    <li class="nav-item">
+                        <a asp-controller="Character" asp-action="IndexCharacters" class="nav-link">Characters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Team" asp-action="IndexTeams" class="nav-link">Teams</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="AdminDashboard" asp-action="IndexAdminDashboard" class="nav-link">Admin Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="About" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#contact-modal">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-controller="User" asp-action="Logout" class="nav-link">Logout</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="User" asp-action="Login" class="nav-link">Login</a>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>  

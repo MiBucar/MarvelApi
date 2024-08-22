@@ -1,0 +1,29 @@
+﻿<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 footer-logo">
+                <a href="index.html">MarvelApi<span>.</span></a>
+                <img src="/images/footer-icon.png" alt="bat-img">
+            </div>
+            <div class="col-lg-2 col-md-4 footer-menu">
+                <h3>Quick Links</h3>
+                <a asp-controller="Home" asp-action="Index">Home Page</a>
+                <a asp-controller="Home" asp-action="About">About</a>
+            </div>
+            <div class="col-lg-2 col-md-4 footer-menu">
+                <h3>Pages</h3>
+                <a asp-controller="Character" asp-action="IndexCharacters">Characters</a>
+                <a asp-controller="Team" asp-action="IndexTeams">Teams</a>
+                <a asp-controller="AdminDashboard" asp-action="IndexAdminDashboard">Admin Dashboard</a>
+            </div>
+            <div class="col-lg-3 footer-action">
+                <h3>Social Media</h3>
+                <div class="footer-social">
+                    <a href="https://github.com/MiBucar?tab=repositories"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/mislav-bu%C4%8Dar-19740323b/"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+            <p class="footer-copyright">&copy; <span id="year"></span> Mislav Bučar | MarvelApi. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
