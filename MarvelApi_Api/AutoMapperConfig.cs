@@ -10,6 +10,7 @@ namespace MarvelApi_Api
     {
         public AutoMapperConfig()
         {
+            #region Character
             CreateMap<CharacterCreateDTO, Character>().ReverseMap();
             CreateMap<CharacterUpdateDTO, Character>().ReverseMap();
 
@@ -18,11 +19,11 @@ namespace MarvelApi_Api
             .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ConvertToByteArray(src.Image)))
             .ForMember(dest => dest.ImageType, opt => opt.MapFrom(src => src.Image.ContentType));
 
-			CreateMap<CharacterCreateDTO, Character>()
-			.ForMember(dest => dest.Image, opt => opt.MapFrom(src => ConvertToByteArray(src.Image)))
-			.ForMember(dest => dest.ImageType, opt => opt.MapFrom(src => src.Image.ContentType));
+            CreateMap<CharacterCreateDTO, Character>()
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ConvertToByteArray(src.Image)))
+            .ForMember(dest => dest.ImageType, opt => opt.MapFrom(src => src.Image.ContentType));
 
-			CreateMap<Character, CharacterDTO>()
+            CreateMap<Character, CharacterDTO>()
             .ForMember(dest => dest.EnemyIds, opt => opt.MapFrom(src => src.CharacterRelationships
                 .Where(cr => cr.IsEnemy)
                 .Select(cr => cr.RelatedCharacterId)))
@@ -31,15 +32,23 @@ namespace MarvelApi_Api
                 .Select(cr => cr.RelatedCharacterId)))
             .ForMember(dest => dest.Team, opt => opt.MapFrom(src => src.Team.Name))
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => $"https://localhost:7228/api/character/GetImage/{src.Id}"));
+            #endregion
 
-                CreateMap<Team, TeamDTO>()
-                .ForMember(dest => dest.MembersIds, opt => opt.MapFrom(src => src.Members.Select(x => x.Id)));
+            #region Team
+            CreateMap<Team, TeamDTO>()
+            .ForMember(dest => dest.MembersIds, opt => opt.MapFrom(src => src.Members.Select(x => x.Id)))
+            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => $"https://localhost:7228/api/team/GetImage/{src.Id}"));
 
-                CreateMap<TeamCreateDTO, Team>()
-                .ForMember(dest => dest.Members, opt => opt.Ignore());
+            CreateMap<TeamCreateDTO, Team>()
+            .ForMember(dest => dest.Members, opt => opt.Ignore())
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ConvertToByteArray(src.ImageForm)))
+            .ForMember(dest => dest.ImageType, opt => opt.MapFrom(src => src.ImageForm.ContentType));
 
-                CreateMap<TeamUpdateDTO, Team>()
-                .ForMember(dest => dest.Members, opt => opt.Ignore());
+            CreateMap<TeamUpdateDTO, Team>()
+            .ForMember(dest => dest.Members, opt => opt.Ignore())
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => ConvertToByteArray(src.ImageForm)))
+            .ForMember(dest => dest.ImageType, opt => opt.MapFrom(src => src.ImageForm.ContentType));
+            #endregion            
         }
 
 		private byte[] ConvertToByteArray(IFormFile formFile)

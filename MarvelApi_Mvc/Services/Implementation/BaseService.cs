@@ -51,13 +51,7 @@ namespace MarvelApi_Mvc.Services.Implementation
                         break;
                 }
 
-                //if (request.ApiData != null)
-                //{
-                //    var json = JsonConvert.SerializeObject(request.ApiData);
-                //    requestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
-                //}
-
-                if (request.ApiData != null && requestMessage.Method != HttpMethod.Get)
+                if (request.ApiData != null && (requestMessage.Method != HttpMethod.Get && requestMessage.Method != HttpMethod.Delete))
                 {
                     var content = new MultipartFormDataContent();
 

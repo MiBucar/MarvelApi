@@ -42,12 +42,12 @@
                         <h3>Image</h3>
                     </div>
                     <div class="character-form-container-box">
-                        <label asp-for="TeamCreateDTO.ImageFile">Upload Image</label>
-                        <input type="file" class="search-input lower-skew" asp-for="TeamCreateDTO.ImageFile" accept="image/*" onchange="previewImage(event)" />
-                        <span asp-validation-for="TeamCreateDTO.ImageFile" class="custom-text-danger"></span>
+                        <label asp-for="TeamCreateDTO.ImageForm">Upload Image</label>
+                        <input type="file" class="search-input lower-skew" asp-for="TeamCreateDTO.ImageForm" accept="image/*" onchange="previewImage(event)" />
+                        <span asp-validation-for="TeamCreateDTO.ImageForm" class="custom-text-danger"></span>
                     </div>
                     <div class="character-form-container-box">
-                        <img id="imagePreview" src="#" style="display:none" alt="Image Preview" />
+                        <img id="imagePreview" style="display:none" src="#" alt="Image Preview" />
                     </div>
                 </div>
                 <div class="character-form-subcontainer">

@@ -29,6 +29,11 @@ namespace MarvelApi_Api.ActionFilters.Character
 
             if (!context.ModelState.IsValid)
             {
+                foreach (var error in context.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    _logger.LogError("ModelState error: {ErrorMessage}", error.ErrorMessage);
+                }
+
                 context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.BadRequest, "Information entered was not valid.");
                 return;
             }

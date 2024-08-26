@@ -7,7 +7,7 @@ namespace MarvelApi_Api.Models.DTOs.Team
         [Required]
         public string Name { get; set; }
         public string? Description { get; set; }
-        public byte[] Image { get; set; }
+        public IFormFile ImageForm { get; set; }
         public List<int> MemberIds { get; set; } = new List<int>();
     }
 }

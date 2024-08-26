@@ -20,7 +20,7 @@ namespace MarvelApi_Mvc.Services.Implementation
             {
                 ApiData = teamCreateDTO,
                 ApiType = ApiType.POST,
-                ApiUrl = _marvelUrl + "/api/Team"
+                ApiUrl = _marvelUrl + "/api/Team/"
             };
             return await SendAsync<T>(apiRequest);
         }
