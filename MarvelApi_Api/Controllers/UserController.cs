@@ -22,7 +22,7 @@ namespace MarvelApi_Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestDTO loginRequestDTO)
+        public async Task<IActionResult> LoginAsync([FromForm] LoginRequestDTO loginRequestDTO)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace MarvelApi_Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] RegistrationRequestDTO registrationRequestDTO)
+        public async Task<IActionResult> RegisterAsync([FromForm] RegistrationRequestDTO registrationRequestDTO)
         {
             try
             {

@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -49,15 +51,56 @@ namespace MarvelApi_Mvc.Services.Implementation
                         break;
                 }
 
-                if (request.ApiData != null)
+                if (request.ApiData != null && (requestMessage.Method != HttpMethod.Get && requestMessage.Method != HttpMethod.Delete))
                 {
-                    var json = JsonConvert.SerializeObject(request.ApiData);
-                    requestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                    var content = new MultipartFormDataContent();
+
+                    var properties = request.ApiData.GetType().GetProperties();
+                    foreach (var prop in properties)
+                    {
+                        var propValue = prop.GetValue(request.ApiData);
+                        if (propValue is IFormFile file)
+                        {
+                            var streamContent = new StreamContent(file.OpenReadStream());
+                            streamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                            {
+                                Name = prop.Name,
+                                FileName = file.FileName
+                            };
+                            streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+
+                            content.Add(streamContent);
+                        }
+                        else if (propValue is IEnumerable<int> collection2)
+                        {
+                            int index = 0;
+                            foreach (var item in collection2)
+                            {
+                                content.Add(new StringContent(item.ToString()), $"{prop.Name}[{index}]");
+                                index++;
+                            }
+                        }
+                        else if (propValue is IEnumerable<object> collection && !(propValue is string))
+                        {
+                            int index = 0;
+                            foreach (var item in collection)
+                            {
+                                content.Add(new StringContent(item?.ToString() ?? string.Empty), $"{prop.Name}[{index}]");
+                                index++;
+                            }
+                        }
+                        else
+                        {
+                            content.Add(new StringContent(propValue?.ToString() ?? string.Empty), prop.Name);
+                        }
+                    }
+
+                    requestMessage.Content = content;
                 }
 
                 HttpResponseMessage responseMessage = await httpClient.SendAsync(requestMessage);
-                var content = await responseMessage.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<T>(content);
+                var contentString = await responseMessage.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<T>(contentString);
             }
             catch (Exception ex)
             {

@@ -66,6 +66,25 @@ namespace MarvelApi_Api.Controllers
             }
         }
 
+        [HttpGet("GetImage/{id:int}")]
+        public async Task<IActionResult> GetImage(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetImage));
+
+                var team = await _teamRepository.GetAsync(x => x.Id == id);
+                if (team == null && team.Image == null)
+                    return NotFound();
+
+                return File(team.Image, team.ImageType);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
         [HttpGet("{query}")]
         public async Task<IActionResult> Search(string query)
         {
@@ -109,7 +128,7 @@ namespace MarvelApi_Api.Controllers
         [HttpPost]
         [ServiceFilter(typeof(ValidateTeamCreateAndUpdate))]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateTeam([FromBody] TeamCreateDTO teamCreateDTO)
+        public async Task<IActionResult> CreateTeam([FromForm] TeamCreateDTO teamCreateDTO)
         {
             try
             {
@@ -134,7 +153,7 @@ namespace MarvelApi_Api.Controllers
         [HttpPut("{id:int}")]
         [ServiceFilter(typeof(ValidateTeamCreateAndUpdate))]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> UpdateTeam(int id, [FromBody] TeamUpdateDTO teamUpdateDTO)
+		public async Task<IActionResult> UpdateTeam(int id, [FromForm] TeamUpdateDTO teamUpdateDTO)
         {
             try
             {

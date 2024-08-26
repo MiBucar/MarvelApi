@@ -10,7 +10,7 @@ namespace MarvelApi_Api.Models.DTOs.CharacterDTOS
         [Required]
         public string Name { get; set; }
         public bool IsVillain { get; set; }
-        public byte[]? Image { get; set; }
+        public string ImageUrl { get; set; }
         [Required]
         public string Backstory { get; set; }
         [Required]

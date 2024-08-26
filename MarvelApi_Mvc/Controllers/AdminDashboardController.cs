@@ -6,6 +6,7 @@ using MarvelApi_Mvc.Models.ViewModels.Character;
 using MarvelApi_Mvc.Models.ViewModels.Team;
 using MarvelApi_Mvc.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
@@ -55,7 +56,7 @@ namespace MarvelApi_Mvc.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult> CreateCharacter()
         {
             var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
@@ -77,15 +78,6 @@ namespace MarvelApi_Mvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (characterCreateViewModel.CharacterCreateDTO.ImageFile != null)
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await characterCreateViewModel.CharacterCreateDTO.ImageFile.CopyToAsync(memoryStream);
-                            characterCreateViewModel.CharacterCreateDTO.Image = memoryStream.ToArray();
-                        }
-                    }
-
                     var response = await _characterService.CreateAsync<ApiResponse>(characterCreateViewModel.CharacterCreateDTO);
                     if (response != null && response.IsSuccess)
                     {
@@ -109,12 +101,13 @@ namespace MarvelApi_Mvc.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult> UpdateCharacter(int id)
         {
             var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
             var availableTeams = await _selectListItemGetters.GetAvailableTeamsAsync();
             var characterDTO = await _selectListItemGetters.GetCharacterAsync(id);
+
             var characterUpdateDTO = _autoMapper.Map<CharacterUpdateDTO>(characterDTO);
 
             CharacterUpdateViewModel characterUpdateVM = new CharacterUpdateViewModel();
@@ -133,14 +126,14 @@ namespace MarvelApi_Mvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (characterUpdateViewModel.CharacterUpdateDTO.ImageFile != null)
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await characterUpdateViewModel.CharacterUpdateDTO.ImageFile.CopyToAsync(memoryStream);
-                            characterUpdateViewModel.CharacterUpdateDTO.Image = memoryStream.ToArray();
-                        }
-                    }
+                    //if (characterUpdateViewModel.CharacterUpdateDTO.ImageFile != null)
+                    //{
+                    //    using (var memoryStream = new MemoryStream())
+                    //    {
+                    //        await characterUpdateViewModel.CharacterUpdateDTO.ImageFile.CopyToAsync(memoryStream);
+                    //        characterUpdateViewModel.CharacterUpdateDTO.Image = memoryStream.ToArray();
+                    //    }
+                    //}
 
                     var response = await _characterService.UpdateAsync<ApiResponse>(characterUpdateViewModel.CharacterUpdateDTO);
                     if (response != null && response.IsSuccess)
@@ -172,7 +165,7 @@ namespace MarvelApi_Mvc.Controllers
             return RedirectToAction(nameof(IndexDashboardCharacters));
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult> CreateTeam()
         {
             var availableCharacters = await _selectListItemGetters.GetAvailableCharactersAsync();
@@ -193,15 +186,6 @@ namespace MarvelApi_Mvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (teamCreateViewModel.TeamCreateDTO.ImageFile != null)
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await teamCreateViewModel.TeamCreateDTO.ImageFile.CopyToAsync(memoryStream);
-                            teamCreateViewModel.TeamCreateDTO.Image = memoryStream.ToArray();
-                        }
-                    }
-
                     var response = await _teamService.CreateAsync<ApiResponse>(teamCreateViewModel.TeamCreateDTO);
                     if (response != null && response.IsSuccess)
                     {
@@ -238,20 +222,11 @@ namespace MarvelApi_Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult> UpdateTeam(UpdateTeamViewModel teamUpdateViewModel)
         {
             try
             {
-                if (teamUpdateViewModel.TeamUpdateDTO.ImageFile != null)
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await teamUpdateViewModel.TeamUpdateDTO.ImageFile.CopyToAsync(memoryStream);
-                        teamUpdateViewModel.TeamUpdateDTO.Image = memoryStream.ToArray();
-                    }
-                }
-
                 var response = await _teamService.UpdateAsync<ApiResponse>(teamUpdateViewModel.TeamUpdateDTO);
                 if (response != null && response.IsSuccess)
                 {

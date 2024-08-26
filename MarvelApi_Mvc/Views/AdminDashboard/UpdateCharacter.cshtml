@@ -7,6 +7,8 @@
         <form asp-controller="AdminDashboard" asp-action="UpdateCharacter" method="post"
               enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="custom-text-danger"></div>
+            <input type="hidden" asp-for="CharacterUpdateDTO.Id" />
+            <input type="hidden" asp-for="CharacterUpdateDTO.ImageUrl" />
             <div class="character-form-container">
                 <div class="character-form-subcontainer">
                     <div class="character-form-container-header">
@@ -140,12 +142,12 @@
                         <h3>Image</h3>
                     </div>
                     <div class="character-form-container-box">
-                        <label asp-for="CharacterUpdateDTO.ImageFile">Upload Image</label>
-                        <input type="file" class="search-input lower-skew" asp-for="CharacterUpdateDTO.ImageFile" accept="image/*" onchange="previewImage(event)" />
-                        <span asp-validation-for="CharacterUpdateDTO.ImageFile" class="custom-text-danger"></span>
+                        <label asp-for="CharacterUpdateDTO.Image">Upload Image</label>
+                        <input type="file" class="search-input lower-skew" asp-for="CharacterUpdateDTO.Image" accept="image/*" onchange="previewImage(event)" />
+                        <span asp-validation-for="CharacterUpdateDTO.Image" class="custom-text-danger"></span>
                     </div>
                     <div class="character-form-container-box">
-                        <img id="imagePreview" src="@(Model.CharacterUpdateDTO.Image != null ? $"data:image/png;base64,{Convert.ToBase64String(Model.CharacterUpdateDTO.Image)}" : "#")" alt="Image Preview" />
+                        <img id="imagePreview" src="@Model.CharacterUpdateDTO.ImageUrl" alt="Image Preview" />
                     </div>
                 </div>
                 <div class="character-form-subcontainer">

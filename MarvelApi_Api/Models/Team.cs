@@ -11,7 +11,8 @@ namespace MarvelApi_Api.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public byte[] Image { get; set; }
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+		public string ImageType { get; set; }
+		public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public DateTime DateUpdated { get; set; }
         public ICollection<Character> Members { get; set; } = new List<Character>();
     }

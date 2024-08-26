@@ -12,6 +12,7 @@ namespace MarvelApi_Api.Models
         public string Name { get; set; }
         public bool IsVillain { get; set; }
         public byte[]? Image { get; set; }
+        public string ImageType { get; set; }
         public string Backstory { get; set; }
         public string Appearance { get; set; }
         public int FirstAppearanceYear { get; set; }

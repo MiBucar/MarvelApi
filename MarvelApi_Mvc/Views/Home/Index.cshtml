@@ -141,7 +141,7 @@
 							<div class="popular-item @(i % 2 != 0 ? "right" : "") @(i == 3 ? "mb-0" : "")">
 								<p>@character.FirstAppearanceYear</p>
 								<div class="col-lg-10 @(i % 2 == 0 ? "ms-auto" : "me-auto")">
-									<img src="data:image/png;base64,@Convert.ToBase64String(character.Image)" alt="comic-book"
+									<img src="@character.ImageUrl" alt="comic-book"
 										 class="img-fluid">
 									<a asp-controller="Character" asp-action="IndexCharacter" asp-route-id="@character.Id">@character.Name</a>
 								</div>
@@ -181,9 +181,9 @@
 						var team = Model.TeamDTOs[i];
 						<div class="col-lg-4 col-md-8 mobile-m-auto">
 							<div class="comic-item @(i % 2 != 0 ? "active" : "")">
-								<img src="data:image/png;base64,@Convert.ToBase64String(team.Image)" alt="comic"
+								<img src="@team.ImageUrl" alt="comic"
 								class="img-fluid">
-								<a class="veno-img" data-gall="comic1" href="data:image/png;base64,@Convert.ToBase64String(team.Image)"><i class="fa-solid fa-plus"></i></a>
+								<a class="veno-img" data-gall="comic1" href="@team.ImageUrl"><i class="fa-solid fa-plus"></i></a>
 								<div class="comic-item-details">
 									<div class="row">
 										<div class="col-8 col-lg-8">
