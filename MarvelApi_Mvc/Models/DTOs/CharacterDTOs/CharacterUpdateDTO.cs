@@ -12,7 +12,6 @@ namespace MarvelApi_Mvc.Models.DTOs.CharacterDTOs
         public bool IsVillain { get; set; }
         [Required]
         public IFormFile ImageFile { get; set; }
-        public byte[]? Image { get; set; }
         [Required]
         public string Backstory { get; set; }
         [Required]

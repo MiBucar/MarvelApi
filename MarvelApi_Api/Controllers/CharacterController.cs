@@ -132,10 +132,29 @@ namespace MarvelApi_Api.Controllers
 			}
 		}
 
-        [HttpPost]
+		[HttpGet("GetImage/{id:int}")]
+		public async Task<IActionResult> GetImage(int id)
+		{
+			try
+			{
+				_logger.LogInformation("Accessing {endpoint} endpoint", nameof(GetImage));
+
+				var character = await _characterRepository.GetAsync(x => x.Id == id);
+                if (character == null && character.Image == null)
+                    return NotFound();
+
+				return File(character.Image, character.ImageType);
+			}
+			catch (Exception ex)
+			{
+				return HandleException(ex);
+			}
+		}
+
+		[HttpPost]
         [ServiceFilter(typeof(ValidateCharacterCreateAndUpdateAttribute))]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> CreateCharacter([FromBody] CharacterCreateDTO character)
+		public async Task<IActionResult> CreateCharacter([FromForm] CharacterCreateDTO character)
         {
             try
             {
@@ -231,7 +250,7 @@ namespace MarvelApi_Api.Controllers
         [ServiceFilter(typeof(ValidateCharacterExistsAttribute))]
         [ServiceFilter(typeof(ValidateCharacterCreateAndUpdateAttribute))]
 		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> UpdateCharacter(int id, [FromBody] CharacterUpdateDTO character)
+		public async Task<IActionResult> UpdateCharacter(int id, [FromForm] CharacterUpdateDTO character)
         {
             try
             {

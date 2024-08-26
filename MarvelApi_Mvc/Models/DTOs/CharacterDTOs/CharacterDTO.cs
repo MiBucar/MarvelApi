@@ -9,8 +9,8 @@ namespace MarvelApi_Mvc.Models.DTOs.CharacterDTOs
         [Required]
         public string Name { get; set; }
         public bool IsVillain { get; set; }
-        public byte[]? Image { get; set; }
-        [Required]
+		public string ImageUrl { get; set; }
+		[Required]
         public string Backstory { get; set; }
         [Required]
         public string Appearance { get; set; }

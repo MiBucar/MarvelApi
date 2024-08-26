@@ -144,9 +144,9 @@
                         <input type="file" class="search-input lower-skew" asp-for="CharacterUpdateDTO.ImageFile" accept="image/*" onchange="previewImage(event)" />
                         <span asp-validation-for="CharacterUpdateDTO.ImageFile" class="custom-text-danger"></span>
                     </div>
-                    <div class="character-form-container-box">
+                    @* <div class="character-form-container-box">
                         <img id="imagePreview" src="@(Model.CharacterUpdateDTO.Image != null ? $"data:image/png;base64,{Convert.ToBase64String(Model.CharacterUpdateDTO.Image)}" : "#")" alt="Image Preview" />
-                    </div>
+                    </div> *@
                 </div>
                 <div class="character-form-subcontainer">
                     <div class="button-container-box col-span-2">

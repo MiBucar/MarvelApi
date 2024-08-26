@@ -77,15 +77,6 @@ namespace MarvelApi_Mvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (characterCreateViewModel.CharacterCreateDTO.ImageFile != null)
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await characterCreateViewModel.CharacterCreateDTO.ImageFile.CopyToAsync(memoryStream);
-                            characterCreateViewModel.CharacterCreateDTO.Image = memoryStream.ToArray();
-                        }
-                    }
-
                     var response = await _characterService.CreateAsync<ApiResponse>(characterCreateViewModel.CharacterCreateDTO);
                     if (response != null && response.IsSuccess)
                     {
@@ -133,14 +124,14 @@ namespace MarvelApi_Mvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (characterUpdateViewModel.CharacterUpdateDTO.ImageFile != null)
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await characterUpdateViewModel.CharacterUpdateDTO.ImageFile.CopyToAsync(memoryStream);
-                            characterUpdateViewModel.CharacterUpdateDTO.Image = memoryStream.ToArray();
-                        }
-                    }
+                    //if (characterUpdateViewModel.CharacterUpdateDTO.ImageFile != null)
+                    //{
+                    //    using (var memoryStream = new MemoryStream())
+                    //    {
+                    //        await characterUpdateViewModel.CharacterUpdateDTO.ImageFile.CopyToAsync(memoryStream);
+                    //        characterUpdateViewModel.CharacterUpdateDTO.Image = memoryStream.ToArray();
+                    //    }
+                    //}
 
                     var response = await _characterService.UpdateAsync<ApiResponse>(characterUpdateViewModel.CharacterUpdateDTO);
                     if (response != null && response.IsSuccess)

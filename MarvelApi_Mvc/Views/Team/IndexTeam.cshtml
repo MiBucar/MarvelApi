@@ -43,7 +43,7 @@
                         var character = Model.Members[i];
                         <div class="team-member-container">
                             <div class="team-comic-item">
-                                <img src="data:image/png;base64,@Convert.ToBase64String(character.Image)" alt="comic"
+                                <img src="@character.ImageUrl" alt="comic"
                                      class="img-fluid">
                                 <div class="team-comic-item-details">
                                     <div class="row">

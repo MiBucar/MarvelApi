@@ -12,7 +12,7 @@
 			<div class="row details-pos">
 				<div class="main-info-section">
 					<div class="col-lg-5 comic-detail-img">
-						<img src="data:image/png;base64,@Convert.ToBase64String(Model.Character.Image)" alt="comic-img" class="img-fluid">
+						<img src="@Model.Character.ImageUrl" alt="comic-img" class="img-fluid">
 					</div>
 					<div class="col-lg-6 character-container">
 						<h3 class="character-header">@Model.Character.Name</h3>

@@ -26,6 +26,7 @@ namespace MarvelApi_Api.ActionFilters.Character
         {
             _logger.LogInformation("Entering {FilterName}", nameof(ValidateCharacterCreateAndUpdateAttribute));
 
+
             if (!context.ModelState.IsValid)
             {
                 context.Result = _responseHelper.CreateErrorResponse(HttpStatusCode.BadRequest, "Information entered was not valid.");
