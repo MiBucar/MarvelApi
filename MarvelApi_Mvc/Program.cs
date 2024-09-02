@@ -63,9 +63,39 @@ app.MapControllerRoute(
 			defaults: new { controller = "Character", action = "IndexCharacters" });
 
 app.MapControllerRoute(
+			name: "character",
+			pattern: "Characters/Character",
+			defaults: new { controller = "Character", action = "IndexCharacter" });
+
+app.MapControllerRoute(
 			name: "teams",
 			pattern: "Teams",
 			defaults: new { controller = "Team", action = "IndexTeams" });
+
+app.MapControllerRoute(
+			name: "team",
+			pattern: "Teams/Team",
+			defaults: new { controller = "Team", action = "IndexTeam" });
+
+app.MapControllerRoute(
+			name: "adminCharacters",
+			pattern: "AdminDashboard/Characters",
+			defaults: new { controller = "AdminDashboard", action = "IndexDashboardCharacters" });
+
+app.MapControllerRoute(
+			name: "adminTeams",
+			pattern: "AdminDashboard/Teams",
+			defaults: new { controller = "AdminDashboard", action = "IndexDashboardTeams" });
+
+app.MapControllerRoute(
+            name: "adminDashboard",
+            pattern: "AdminDashboard",
+            defaults: new { controller = "AdminDashboard", action = "IndexAdminDashboard" });
+
+app.MapControllerRoute(
+            name: "accessDenied",
+            pattern: "AccessDenied",
+            defaults: new { controller = "User", action = "AccessDenied" });
 
 app.MapControllerRoute(
     name: "default",
