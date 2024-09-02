@@ -3327,3 +3327,21 @@ ABOUT
 	color: #a7a7a7;
 	font-family: cm;
 }
+
+.access-denied-container {
+	height: 50vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+.access-denied-container h1 {
+	font-family: cb;
+	text-transform: uppercase;
+}
+
+	.access-denied-container h3 {
+		font-family: cm;
+	}

@@ -95,5 +95,10 @@ namespace MarvelApi_Mvc.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Login", "User");
         }
+
+        public async Task<IActionResult> AccessDenied()
+        {
+            return View();
+        }
     }
 }

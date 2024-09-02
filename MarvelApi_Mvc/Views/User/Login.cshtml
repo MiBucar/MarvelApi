@@ -11,7 +11,6 @@
     </div>
     <div class="login-form-container">
         <form asp-action="Login" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger login-form"></div>
             <div class="login-form">
                 <div class="input-form">
                     <div class="search-group">
@@ -30,7 +29,8 @@
                     <div class="input-form-span">
                         <span asp-validation-for="Password" class="text-danger-login"></span>
                     </div>
-                </div>                
+                </div>          
+                <div asp-validation-summary="ModelOnly" class="text-danger-login login-form"></div>
                 <div class="form-group">
                     <input type="submit" value="Submit" class="login-button" />
                 </div>
